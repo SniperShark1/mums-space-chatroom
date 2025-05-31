@@ -306,13 +306,16 @@ export default function MumsSpaceChat() {
           className="flex-1 overflow-y-auto px-6 py-4 space-y-4" 
           style={{ marginBottom: `${inputAreaHeight}px` }}
         >
-          {messages.length === 0 ? (
+          {!messages || messages.length === 0 ? (
             <div className="text-center text-pink-500 py-8">
               <Heart size={48} className="mx-auto mb-4 text-pink-300" />
               <p className="text-lg">Start a conversation with other mums!</p>
+              <p className="text-sm text-pink-400 mt-2">Room: {activeRoom?.name}</p>
             </div>
           ) : (
-            messages.map((message) => (
+            messages
+              .filter(message => !blockedUsers.includes(message.user?.username || ''))
+              .map((message) => (
               <div key={message.id} className="flex space-x-3">
                 <div className="w-12 h-12 bg-pink-300 rounded-full flex items-center justify-center text-pink-700 font-medium flex-shrink-0">
                   {message.user?.initials || 'M'}
