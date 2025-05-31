@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Search, Send, Heart, HelpCircle } from "lucide-react";
+import { Search, Send, Heart, HelpCircle, MoreHorizontal, Volume2, UserX, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import type { ChatRoom, MessageWithUser, User } from "@shared/schema";
 
 export default function MumsSpaceChat() {
@@ -20,22 +21,24 @@ export default function MumsSpaceChat() {
     queryKey: ['/api/chat/rooms'],
   });
 
-  const { data: messages = [] } = useQuery<MessageWithUser[]>({
+  const { data: messages = [], refetch: refetchMessages } = useQuery<MessageWithUser[]>({
     queryKey: ['/api/chat/rooms', activeRoomId, 'messages'],
     enabled: !!activeRoomId,
   });
 
   const sendMessage = useMutation({
     mutationFn: async (content: string) => {
-      return apiRequest('POST', `/api/chat/rooms/${activeRoomId}/messages`, {
+      const response = await apiRequest('POST', `/api/chat/rooms/${activeRoomId}/messages`, {
         content,
         userId: 1
       });
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ 
         queryKey: ['/api/chat/rooms', activeRoomId, 'messages'] 
       });
+      refetchMessages();
       setNewMessage("");
     },
     onError: () => {
@@ -54,19 +57,27 @@ export default function MumsSpaceChat() {
 
   const activeRoom = rooms.find(room => room.id.toString() === activeRoomId);
 
-  // Mock online users based on the design
-  const onlineUsers = [
-    { name: "Emma", initials: "E" },
-    { name: "Sarah", initials: "S" },
-    { name: "Jessica", initials: "J" },
-    { name: "Megan", initials: "M" },
-    { name: "Victoria", initials: "V" },
-    { name: "Sophia", initials: "S" }
+  // Filter users by active room's age group
+  const allUsers = [
+    { name: "Emma", initials: "E", ageGroup: "mums-to-be" },
+    { name: "Olivia", initials: "O", ageGroup: "mums-to-be" },
+    { name: "Sarah", initials: "S", ageGroup: "0-1" },
+    { name: "Jessica", initials: "J", ageGroup: "0-1" },
+    { name: "Rachel", initials: "R", ageGroup: "0-1" },
+    { name: "Megan", initials: "M", ageGroup: "2-5" },
+    { name: "Victoria", initials: "V", ageGroup: "2-5" },
+    { name: "Sophia", initials: "S", ageGroup: "2-5" }
   ];
 
-  const filteredUsers = onlineUsers.filter(user => 
+  const roomUsers = allUsers.filter(user => 
+    user.ageGroup === activeRoom?.ageGroup &&
     user.name.toLowerCase().includes(searchUsers.toLowerCase())
   );
+
+  // Update messages when room changes
+  useEffect(() => {
+    refetchMessages();
+  }, [activeRoomId, refetchMessages]);
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-pink-100 to-pink-200 font-serif">
@@ -96,7 +107,7 @@ export default function MumsSpaceChat() {
         {/* Online Count and Filter */}
         <div className="p-4 space-y-3">
           <div className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-center font-medium">
-            {filteredUsers.length} mums online
+            {roomUsers.length} mums online
           </div>
           
           <Select defaultValue="all">
@@ -114,12 +125,43 @@ export default function MumsSpaceChat() {
 
         {/* Users List */}
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
-          {filteredUsers.map((user, index) => (
-            <div key={index} className="flex items-center space-x-3 p-2 hover:bg-pink-100/50 rounded-lg cursor-pointer transition-colors">
-              <div className="w-10 h-10 bg-pink-300 rounded-full flex items-center justify-center text-pink-700 font-medium">
-                {user.initials}
+          {roomUsers.map((user, index) => (
+            <div key={index} className="flex items-center justify-between p-2 hover:bg-pink-100/50 rounded-lg transition-colors group">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-pink-300 rounded-full flex items-center justify-center text-pink-700 font-medium">
+                  {user.initials}
+                </div>
+                <span className="text-pink-800 font-medium">{user.name}</span>
               </div>
-              <span className="text-pink-800 font-medium">{user.name}</span>
+              
+              {/* User Options Popup */}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="opacity-0 group-hover:opacity-100 transition-opacity p-1 h-auto"
+                  >
+                    <MoreHorizontal size={16} className="text-pink-600" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-48 p-2" side="right">
+                  <div className="space-y-1">
+                    <Button variant="ghost" size="sm" className="w-full justify-start text-pink-700 hover:bg-pink-50">
+                      <Volume2 size={16} className="mr-2" />
+                      Mute
+                    </Button>
+                    <Button variant="ghost" size="sm" className="w-full justify-start text-pink-700 hover:bg-pink-50">
+                      <UserX size={16} className="mr-2" />
+                      Block
+                    </Button>
+                    <Button variant="ghost" size="sm" className="w-full justify-start text-pink-700 hover:bg-pink-50">
+                      <MessageSquare size={16} className="mr-2" />
+                      Private Chat
+                    </Button>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
           ))}
         </div>
