@@ -48,13 +48,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       const message = await storage.createMessage(messageData);
-      
-      // Broadcast the new message to all clients in the room
-      broadcastToRoom(roomId.toString(), {
-        type: 'new_message',
-        message
-      });
-      
       res.json(message);
     } catch (error) {
       if (error instanceof Error) {
