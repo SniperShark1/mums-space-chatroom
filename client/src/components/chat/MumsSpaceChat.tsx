@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import AIHelpModal from "./AIHelpModal";
 import type { ChatRoom, MessageWithUser, User } from "@shared/schema";
 
 export default function MumsSpaceChat() {
@@ -16,6 +17,7 @@ export default function MumsSpaceChat() {
   const [mutedUsers, setMutedUsers] = useState<string[]>([]);
   const [blockedUsers, setBlockedUsers] = useState<string[]>([]);
   const [privateChatUser, setPrivateChatUser] = useState<string | null>(null);
+  const [isAIHelpOpen, setIsAIHelpOpen] = useState(false);
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -121,10 +123,7 @@ export default function MumsSpaceChat() {
   };
 
   const handleAIHelp = () => {
-    toast({
-      title: "AI Help",
-      description: "AI assistant is ready to help with parenting questions and guidance.",
-    });
+    setIsAIHelpOpen(true);
   };
 
   const handleRoomChange = (roomId: string) => {

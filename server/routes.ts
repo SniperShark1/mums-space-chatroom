@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertChatMessageSchema, insertUserSchema } from "@shared/schema";
+import { getParentingHelp } from "./ai";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
@@ -70,6 +71,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } else {
         res.status(500).json({ error: "Failed to create user" });
       }
+    }
+  });
+
+  // AI Help endpoint
+  app.post("/api/ai/help", async (req, res) => {
+    try {
+      const { question } = req.body;
+      
+      if (!question || typeof question !== 'string') {
+        return res.status(400).json({ error: "Question is required" });
+      }
+
+      const response = await getParentingHelp(question);
+      res.json({ response });
+    } catch (error) {
+      console.error("AI Help error:", error);
+      res.status(500).json({ error: "Unable to get AI response" });
     }
   });
 
