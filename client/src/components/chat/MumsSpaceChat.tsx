@@ -30,7 +30,7 @@ export default function MumsSpaceChat() {
   });
 
   const { data: messages = [], refetch: refetchMessages } = useQuery<MessageWithUser[]>({
-    queryKey: ['/api/chat/rooms', activeRoomId, 'messages'],
+    queryKey: [`/api/chat/rooms/${activeRoomId}/messages`],
     enabled: !!activeRoomId,
   });
 
@@ -44,7 +44,7 @@ export default function MumsSpaceChat() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ 
-        queryKey: ['/api/chat/rooms', activeRoomId, 'messages'] 
+        queryKey: [`/api/chat/rooms/${activeRoomId}/messages`] 
       });
       refetchMessages();
       setNewMessage("");
