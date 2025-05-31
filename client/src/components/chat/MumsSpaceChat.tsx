@@ -318,6 +318,12 @@ export default function MumsSpaceChat() {
         </div>
         </div>
       </div>
+
+      {/* AI Help Modal */}
+      <AIHelpModal 
+        isOpen={isAIHelpOpen} 
+        onClose={() => setIsAIHelpOpen(false)} 
+      />
     </div>
   );
 }

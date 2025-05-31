@@ -31,8 +31,7 @@ export default function AIHelpModal({ isOpen, onClose }: AIHelpModalProps) {
 
   const aiHelpMutation = useMutation({
     mutationFn: async (question: string) => {
-      const response = await apiRequest("/api/ai/help", "POST", { question });
-      return response;
+      return await apiRequest("/api/ai/help", "POST", { question });
     },
     onSuccess: (data) => {
       setMessages(prev => [...prev, {
