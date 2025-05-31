@@ -2,63 +2,9 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertChatMessageSchema, insertUserSchema } from "@shared/schema";
-import { WebSocketServer } from "ws";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
-  
-  // Set up WebSocket server for real-time messaging
-  const wss = new WebSocketServer({ server: httpServer });
-  
-  // Store active WebSocket connections by room
-  const roomConnections = new Map<string, Set<any>>();
-  
-  wss.on('connection', (ws, req) => {
-    let currentRoom: string | null = null;
-    
-    ws.on('message', (data) => {
-      try {
-        const message = JSON.parse(data.toString());
-        
-        if (message.type === 'join_room') {
-          // Leave previous room
-          if (currentRoom && roomConnections.has(currentRoom)) {
-            roomConnections.get(currentRoom)?.delete(ws);
-          }
-          
-          // Join new room
-          currentRoom = message.roomId;
-          if (currentRoom && !roomConnections.has(currentRoom)) {
-            roomConnections.set(currentRoom, new Set());
-          }
-          if (currentRoom) {
-            roomConnections.get(currentRoom)?.add(ws);
-          }
-        }
-      } catch (error) {
-        console.error('WebSocket message error:', error);
-      }
-    });
-    
-    ws.on('close', () => {
-      if (currentRoom && roomConnections.has(currentRoom)) {
-        roomConnections.get(currentRoom)?.delete(ws);
-      }
-    });
-  });
-  
-  // Broadcast message to all clients in a room
-  function broadcastToRoom(roomId: string, data: any) {
-    const connections = roomConnections.get(roomId);
-    if (connections) {
-      const messageStr = JSON.stringify(data);
-      connections.forEach(ws => {
-        if (ws.readyState === 1) { // WebSocket.OPEN
-          ws.send(messageStr);
-        }
-      });
-    }
-  }
 
   // Get chat rooms
   app.get("/api/chat/rooms", async (req, res) => {

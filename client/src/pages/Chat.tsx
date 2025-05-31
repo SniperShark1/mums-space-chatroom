@@ -1,5 +1,5 @@
-import SimpleChatRoom from "@/components/chat/SimpleChatRoom";
+import MumsSpaceChat from "@/components/chat/MumsSpaceChat";
 
 export default function Chat() {
-  return <SimpleChatRoom />;
+  return <MumsSpaceChat />;
 }

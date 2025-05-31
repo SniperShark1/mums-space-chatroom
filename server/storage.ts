@@ -42,6 +42,11 @@ export class MemStorage implements IStorage {
   private initializeDefaultRooms() {
     const rooms = [
       {
+        name: "Mums-to-Be",
+        ageGroup: "mums-to-be",
+        description: "Connect with other expectant mothers. Share your pregnancy journey, ask questions, and prepare for motherhood together."
+      },
+      {
         name: "0-1 Years",
         ageGroup: "0-1",
         description: "Connect with other parents navigating the early months. Share experiences, ask questions, and find support."
@@ -68,32 +73,60 @@ export class MemStorage implements IStorage {
   private initializeDemoUsers() {
     const demoUsers = [
       {
-        username: "Sarah M.",
+        username: "Emma",
         password: "demo123",
-        ageGroup: "0-1",
-        initials: "SM",
-        avatarColor: "blue"
+        ageGroup: "mums-to-be",
+        initials: "E",
+        avatarColor: "pink"
       },
       {
-        username: "Emily R.",
+        username: "Sarah",
+        password: "demo123",
+        ageGroup: "0-1",
+        initials: "S",
+        avatarColor: "pink"
+      },
+      {
+        username: "Jessica",
         password: "demo123", 
         ageGroup: "0-1",
-        initials: "ER",
-        avatarColor: "green"
+        initials: "J",
+        avatarColor: "pink"
       },
       {
-        username: "Jessica L.",
+        username: "Megan",
         password: "demo123",
         ageGroup: "2-5", 
-        initials: "JL",
-        avatarColor: "purple"
+        initials: "M",
+        avatarColor: "pink"
       },
       {
-        username: "Amanda K.",
+        username: "Victoria",
         password: "demo123",
         ageGroup: "2-5",
-        initials: "AK", 
-        avatarColor: "orange"
+        initials: "V", 
+        avatarColor: "pink"
+      },
+      {
+        username: "Olivia",
+        password: "demo123",
+        ageGroup: "mums-to-be",
+        initials: "O",
+        avatarColor: "pink"
+      },
+      {
+        username: "Rachel",
+        password: "demo123",
+        ageGroup: "0-1",
+        initials: "R",
+        avatarColor: "pink"
+      },
+      {
+        username: "Sophia",
+        password: "demo123",
+        ageGroup: "2-5",
+        initials: "S",
+        avatarColor: "pink"
       }
     ];
 
@@ -109,40 +142,38 @@ export class MemStorage implements IStorage {
 
   private initializeDemoMessages() {
     const demoMessages = [
+      // Mums-to-Be messages (roomId: 1)
       {
-        content: "Hi everyone! Just joined and excited to connect with other parents.",
-        userId: 2,
-        roomId: 1
-      },
-      {
-        content: "Welcome! This is such a supportive community. How old is your little one?",
+        content: "Shared stories and challenges.",
         userId: 1,
         roomId: 1
       },
       {
-        content: "Thank you! She's 8 months old. Still figuring out sleep schedules 😅",
-        userId: 2,
+        content: "Real-time chat with others in same stage.",
+        userId: 6,
         roomId: 1
       },
+      // 0-1 Years messages (roomId: 2)
       {
-        content: "Oh the sleep struggles are so real! It does get easier, I promise.",
-        userId: 1,
-        roomId: 1
-      },
-      {
-        content: "Hey parents! Anyone dealing with picky eating lately?",
-        userId: 3,
+        content: "Invite other mums to private chat",
+        userId: 7,
         roomId: 2
       },
       {
-        content: "Yes! My 3-year-old suddenly decided vegetables are poison. Any tips?",
+        content: "Sleep training has been such a journey! Anyone else going through this?",
+        userId: 2,
+        roomId: 2
+      },
+      // 2-5 Years messages (roomId: 3)
+      {
+        content: "Invite to private chat",
         userId: 4,
-        roomId: 2
+        roomId: 3
       },
       {
-        content: "Try making faces with the food or involving them in cooking! Sometimes that helps.",
-        userId: 3,
-        roomId: 2
+        content: "Potty training tips needed! My 3-year-old is being so stubborn.",
+        userId: 8,
+        roomId: 3
       }
     ];
 
