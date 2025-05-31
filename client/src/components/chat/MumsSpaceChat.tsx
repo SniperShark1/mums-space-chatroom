@@ -134,10 +134,19 @@ export default function MumsSpaceChat() {
   };
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-pink-100 to-pink-200 font-serif">
-      {/* Left Sidebar - Online Users */}
-      <div className="w-80 bg-pink-50/90 backdrop-blur-sm border-r border-pink-200 flex flex-col">
-        {/* Header with Logo */}
+    <div className="h-screen bg-gradient-to-br from-pink-100 to-pink-200 font-serif flex flex-col">
+      {/* Top Bar */}
+      <div className="w-full py-4 px-6" style={{ backgroundColor: '#fcb3c4' }}>
+        <h1 className="text-center text-white font-bold text-2xl font-serif">
+          Mum's Space Chatroom
+        </h1>
+      </div>
+
+      {/* Main Content Area */}
+      <div className="flex flex-1">
+        {/* Left Sidebar - Online Users */}
+        <div className="w-80 flex flex-col" style={{ backgroundColor: '#fed1dc' }}>
+          {/* Header with Logo */}
         <div className="p-6 border-b border-pink-200">
           <div className="flex items-center space-x-3 mb-4">
             <div className="w-12 h-12 bg-pink-300 rounded-full flex items-center justify-center">
@@ -160,7 +169,7 @@ export default function MumsSpaceChat() {
 
         {/* Online Count and Filter */}
         <div className="p-4 space-y-3">
-          <div className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-center font-medium">
+          <div className="text-blue-800 px-4 py-2 rounded-full text-center font-medium" style={{ backgroundColor: '#d5d8ed' }}>
             {roomUsers.length} mums online
           </div>
           
@@ -305,6 +314,7 @@ export default function MumsSpaceChat() {
           <div className="text-center mt-4">
             <span className="text-pink-500 text-sm">Are we missing anything?</span>
           </div>
+        </div>
         </div>
       </div>
     </div>
