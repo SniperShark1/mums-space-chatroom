@@ -13,6 +13,9 @@ export default function MumsSpaceChat() {
   const [activeRoomId, setActiveRoomId] = useState("1");
   const [newMessage, setNewMessage] = useState("");
   const [searchUsers, setSearchUsers] = useState("");
+  const [mutedUsers, setMutedUsers] = useState<string[]>([]);
+  const [blockedUsers, setBlockedUsers] = useState<string[]>([]);
+  const [privateChatUser, setPrivateChatUser] = useState<string | null>(null);
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -57,7 +60,7 @@ export default function MumsSpaceChat() {
 
   const activeRoom = rooms.find(room => room.id.toString() === activeRoomId);
 
-  // Filter users by active room's age group
+  // All users data
   const allUsers = [
     { name: "Emma", initials: "E", ageGroup: "mums-to-be" },
     { name: "Olivia", initials: "O", ageGroup: "mums-to-be" },
@@ -69,15 +72,66 @@ export default function MumsSpaceChat() {
     { name: "Sophia", initials: "S", ageGroup: "2-5" }
   ];
 
-  const roomUsers = allUsers.filter(user => 
-    user.ageGroup === activeRoom?.ageGroup &&
-    user.name.toLowerCase().includes(searchUsers.toLowerCase())
-  );
+  // Filter users for display (separate from room logic)
+  const roomUsers = allUsers.filter(user => {
+    const matchesRoom = user.ageGroup === activeRoom?.ageGroup;
+    const matchesSearch = user.name.toLowerCase().includes(searchUsers.toLowerCase());
+    const notBlocked = !blockedUsers.includes(user.name);
+    return matchesRoom && matchesSearch && notBlocked;
+  });
 
-  // Update messages when room changes
+  // Update messages when room changes (independent of user blocking state)
   useEffect(() => {
-    refetchMessages();
+    if (activeRoomId) {
+      refetchMessages();
+    }
   }, [activeRoomId, refetchMessages]);
+
+  // Handler functions for user interactions
+  const handleMuteUser = (userName: string) => {
+    setMutedUsers(prev => 
+      prev.includes(userName) 
+        ? prev.filter(u => u !== userName)
+        : [...prev, userName]
+    );
+    toast({
+      title: mutedUsers.includes(userName) ? "User unmuted" : "User muted",
+      description: `${userName} has been ${mutedUsers.includes(userName) ? 'unmuted' : 'muted'}`,
+    });
+  };
+
+  const handleBlockUser = (userName: string) => {
+    setBlockedUsers(prev => 
+      prev.includes(userName) 
+        ? prev.filter(u => u !== userName)
+        : [...prev, userName]
+    );
+    toast({
+      title: blockedUsers.includes(userName) ? "User unblocked" : "User blocked",
+      description: `${userName} has been ${blockedUsers.includes(userName) ? 'unblocked' : 'blocked'}`,
+    });
+  };
+
+  const handlePrivateChat = (userName: string) => {
+    setPrivateChatUser(userName);
+    toast({
+      title: "Private chat initiated",
+      description: `Starting private conversation with ${userName}`,
+    });
+  };
+
+  const handleAIHelp = () => {
+    toast({
+      title: "AI Help",
+      description: "AI assistant is ready to help with parenting questions and guidance.",
+    });
+  };
+
+  const handleRoomChange = (roomId: string) => {
+    setActiveRoomId(roomId);
+    // Clear any room-specific states when switching
+    setSearchUsers("");
+  };
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-pink-100 to-pink-200 font-serif">
@@ -147,15 +201,30 @@ export default function MumsSpaceChat() {
                 </PopoverTrigger>
                 <PopoverContent className="w-48 p-2" side="right">
                   <div className="space-y-1">
-                    <Button variant="ghost" size="sm" className="w-full justify-start text-pink-700 hover:bg-pink-50">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-pink-700 hover:bg-pink-50"
+                      onClick={() => handleMuteUser(user.name)}
+                    >
                       <Volume2 size={16} className="mr-2" />
-                      Mute
+                      {mutedUsers.includes(user.name) ? 'Unmute' : 'Mute'}
                     </Button>
-                    <Button variant="ghost" size="sm" className="w-full justify-start text-pink-700 hover:bg-pink-50">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-pink-700 hover:bg-pink-50"
+                      onClick={() => handleBlockUser(user.name)}
+                    >
                       <UserX size={16} className="mr-2" />
-                      Block
+                      {blockedUsers.includes(user.name) ? 'Unblock' : 'Block'}
                     </Button>
-                    <Button variant="ghost" size="sm" className="w-full justify-start text-pink-700 hover:bg-pink-50">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-pink-700 hover:bg-pink-50"
+                      onClick={() => handlePrivateChat(user.name)}
+                    >
                       <MessageSquare size={16} className="mr-2" />
                       Private Chat
                     </Button>
@@ -173,7 +242,10 @@ export default function MumsSpaceChat() {
         <div className="bg-pink-50/90 backdrop-blur-sm border-b border-pink-200 p-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-pink-800">AI Chatroom</h2>
-            <Button className="bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-full px-6">
+            <Button 
+              className="bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-full px-6"
+              onClick={handleAIHelp}
+            >
               <HelpCircle size={16} className="mr-2" />
               AI Help
             </Button>
