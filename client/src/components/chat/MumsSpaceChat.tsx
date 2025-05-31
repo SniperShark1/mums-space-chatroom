@@ -237,7 +237,7 @@ export default function MumsSpaceChat() {
       </div>
 
       {/* Right Chat Area */}
-      <div className="flex-1 flex flex-col" style={{ backgroundColor: '#f7e6eb' }}>
+      <div className="flex-1 flex flex-col border-l-2 border-white" style={{ backgroundColor: '#f7e6eb' }}>
         {/* Top Header with AI Help */}
         <div className="bg-pink-50/90 backdrop-blur-sm border-b border-pink-200 p-4">
           <div className="flex items-center justify-between">
@@ -286,19 +286,24 @@ export default function MumsSpaceChat() {
         {/* Message Input */}
         <div className="p-6 border-t border-pink-200" style={{ backgroundColor: '#fed1dc' }}>
           <div className="flex space-x-3">
-            <Input
+            <input
+              type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type a message..."
               onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
               disabled={sendMessage.isPending}
-              className="flex-1 rounded-full px-6 py-3 text-gray-800 placeholder-gray-500 text-lg border-2"
-              style={{ backgroundColor: '#d5d8ed', borderColor: '#fed1dc' }}
+              className="flex-1 rounded-full px-6 py-3 text-lg border-2 border-white outline-none"
+              style={{ 
+                backgroundColor: '#d5d8ed', 
+                color: '#000000',
+                fontSize: '18px'
+              }}
             />
             <Button 
               onClick={handleSend}
               disabled={!newMessage.trim() || sendMessage.isPending}
-              className="bg-pink-300 hover:bg-pink-400 text-pink-800 rounded-full px-6 py-3"
+              className="bg-pink-300 hover:bg-pink-400 text-pink-800 rounded-full px-6 py-3 border-2 border-white"
             >
               <Send size={20} />
             </Button>
