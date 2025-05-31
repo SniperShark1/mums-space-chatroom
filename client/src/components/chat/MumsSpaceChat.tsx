@@ -251,22 +251,7 @@ export default function MumsSpaceChat() {
             </Button>
           </div>
 
-          {/* Age Group Tabs */}
-          <div className="flex space-x-2 mt-4">
-            {rooms.map((room) => (
-              <button
-                key={room.id}
-                onClick={() => handleRoomChange(room.id.toString())}
-                className={`px-6 py-2 rounded-full font-medium transition-all ${
-                  activeRoomId === room.id.toString()
-                    ? 'bg-pink-200 text-pink-800 shadow-sm'
-                    : 'bg-pink-100/50 text-pink-600 hover:bg-pink-150'
-                }`}
-              >
-                {room.name}
-              </button>
-            ))}
-          </div>
+
         </div>
 
         {/* Messages Area */}
