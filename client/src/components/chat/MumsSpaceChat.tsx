@@ -20,6 +20,7 @@ export default function MumsSpaceChat() {
   const [isAIHelpOpen, setIsAIHelpOpen] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(320);
   const [textSize, setTextSize] = useState("16");
+  const [inputAreaHeight, setInputAreaHeight] = useState(120);
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -128,9 +129,9 @@ export default function MumsSpaceChat() {
     setIsAIHelpOpen(true);
   };
 
+  // Room change handler
   const handleRoomChange = (roomId: string) => {
     setActiveRoomId(roomId);
-    // Clear any room-specific states when switching
     setSearchUsers("");
   };
 
@@ -179,16 +180,17 @@ export default function MumsSpaceChat() {
             {roomUsers.length} mums online
           </div>
           
-          {/* Filter Dropdown */}
-          <Select defaultValue="all">
+          {/* Room Filter Dropdown */}
+          <Select value={activeRoomId} onValueChange={handleRoomChange}>
             <SelectTrigger className="bg-pink-100 border-pink-200 rounded-full text-pink-800">
-              <SelectValue placeholder="Show All" />
+              <SelectValue placeholder="Select Room" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Show All</SelectItem>
-              <SelectItem value="mums-to-be">Mums-to-Be</SelectItem>
-              <SelectItem value="0-1">0-1 Years</SelectItem>
-              <SelectItem value="2-5">2-5 Years</SelectItem>
+              {rooms.map((room) => (
+                <SelectItem key={room.id} value={room.id.toString()}>
+                  {room.name}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -300,7 +302,10 @@ export default function MumsSpaceChat() {
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+        <div 
+          className="flex-1 overflow-y-auto px-6 py-4 space-y-4" 
+          style={{ marginBottom: `${inputAreaHeight}px` }}
+        >
           {messages.length === 0 ? (
             <div className="text-center text-pink-500 py-8">
               <Heart size={48} className="mx-auto mb-4 text-pink-300" />
@@ -330,9 +335,37 @@ export default function MumsSpaceChat() {
           )}
         </div>
 
-        {/* Message Input */}
-        <div className="p-6 border-t border-pink-200" style={{ backgroundColor: '#fed1dc' }}>
-          <div className="flex space-x-3">
+        {/* Resizable Message Input */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 border-t border-pink-200" 
+          style={{ 
+            backgroundColor: '#fed1dc',
+            height: `${inputAreaHeight}px`
+          }}
+        >
+          {/* Resize Handle */}
+          <div 
+            className="absolute top-0 left-0 right-0 h-1 bg-pink-300 cursor-row-resize hover:bg-pink-400"
+            onMouseDown={(e) => {
+              const startY = e.clientY;
+              const startHeight = inputAreaHeight;
+              
+              const handleMouseMove = (e: MouseEvent) => {
+                const newHeight = Math.max(80, Math.min(300, startHeight - (e.clientY - startY)));
+                setInputAreaHeight(newHeight);
+              };
+              
+              const handleMouseUp = () => {
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', handleMouseUp);
+              };
+              
+              document.addEventListener('mousemove', handleMouseMove);
+              document.addEventListener('mouseup', handleMouseUp);
+            }}
+          />
+          
+          <div className="flex items-center space-x-3 p-6">
             <input
               type="text"
               value={newMessage}
@@ -342,7 +375,7 @@ export default function MumsSpaceChat() {
               disabled={sendMessage.isPending}
               className="flex-1 rounded-full px-6 py-3 border-2 border-white outline-none focus:ring-2 focus:ring-pink-300"
               style={{ 
-                backgroundColor: '#d5d8ed', 
+                backgroundColor: '#d5d8ed',
                 color: '#000000',
                 fontSize: '18px',
                 fontWeight: '500'
@@ -355,10 +388,6 @@ export default function MumsSpaceChat() {
             >
               <Send size={20} />
             </Button>
-          </div>
-          
-          <div className="text-center mt-4">
-            <span className="text-pink-600 text-sm">Are we missing anything?</span>
           </div>
         </div>
         </div>
