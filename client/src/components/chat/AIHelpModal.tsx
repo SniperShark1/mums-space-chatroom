@@ -85,12 +85,21 @@ export default function AIHelpModal({ isOpen, onClose }: AIHelpModalProps) {
 
   const handleSuggestedPrompt = (prompt: string) => {
     setQuestion(prompt);
+    // Automatically send the suggested prompt
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      content: prompt,
+      isUser: true,
+      timestamp: new Date()
+    };
+    setMessages(prev => [...prev, userMessage]);
+    aiHelpMutation.mutate(prompt);
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl h-[600px] flex flex-col">
-        <DialogHeader>
+      <DialogContent className="max-w-2xl h-[600px] flex flex-col p-0">
+        <DialogHeader className="p-6 pb-4">
           <DialogTitle className="flex items-center space-x-2 text-pink-800">
             <Bot className="w-6 h-6" />
             <span>AI Parenting Assistant</span>
@@ -101,7 +110,7 @@ export default function AIHelpModal({ isOpen, onClose }: AIHelpModalProps) {
         </DialogHeader>
 
         {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto space-y-4 p-4 bg-pink-50/30 rounded-lg">
+        <div className="flex-1 overflow-y-auto space-y-4 p-4 bg-pink-50/30 rounded-lg mx-6">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -147,7 +156,7 @@ export default function AIHelpModal({ isOpen, onClose }: AIHelpModalProps) {
 
         {/* Suggested Prompts */}
         {messages.length === 1 && (
-          <div className="space-y-2">
+          <div className="space-y-2 p-4">
             <p className="text-sm text-gray-600 font-medium">Suggested questions:</p>
             <div className="grid grid-cols-2 gap-2">
               {suggestedPrompts.map((prompt) => (
@@ -165,23 +174,27 @@ export default function AIHelpModal({ isOpen, onClose }: AIHelpModalProps) {
           </div>
         )}
 
-        {/* Input Area */}
-        <div className="flex space-x-2 pt-4 border-t">
-          <Input
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            placeholder="Ask me anything..."
-            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-            disabled={aiHelpMutation.isPending}
-            className="flex-1"
-          />
-          <Button 
-            onClick={handleSend}
-            disabled={!question.trim() || aiHelpMutation.isPending}
-            className="bg-pink-500 hover:bg-pink-600 text-white"
-          >
-            <Send size={16} />
-          </Button>
+        {/* Input Area - Always at bottom */}
+        <div className="p-6 border-t bg-white">
+          <div className="flex space-x-2">
+            <input
+              type="text"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              placeholder="Ask me anything..."
+              onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
+              disabled={aiHelpMutation.isPending}
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+              style={{ fontSize: '14px' }}
+            />
+            <Button 
+              onClick={handleSend}
+              disabled={!question.trim() || aiHelpMutation.isPending}
+              className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2"
+            >
+              <Send size={16} />
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
