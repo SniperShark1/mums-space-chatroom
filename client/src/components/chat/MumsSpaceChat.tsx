@@ -256,7 +256,7 @@ export default function MumsSpaceChat() {
             {rooms.map((room) => (
               <button
                 key={room.id}
-                onClick={() => setActiveRoomId(room.id.toString())}
+                onClick={() => handleRoomChange(room.id.toString())}
                 className={`px-6 py-2 rounded-full font-medium transition-all ${
                   activeRoomId === room.id.toString()
                     ? 'bg-pink-200 text-pink-800 shadow-sm'
