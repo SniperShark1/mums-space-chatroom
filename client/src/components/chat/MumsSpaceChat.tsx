@@ -135,7 +135,7 @@ export default function MumsSpaceChat() {
   return (
     <div className="h-screen bg-gradient-to-br from-pink-100 to-pink-200 font-serif flex flex-col">
       {/* Top Bar */}
-      <div className="w-full py-4 px-6" style={{ backgroundColor: '#fcb3c4' }}>
+      <div className="w-full py-4 px-6 border-b-2 border-white" style={{ backgroundColor: '#fcb3c4' }}>
         <h1 className="text-center text-white font-bold text-2xl font-serif">
           Mum's Space Chatroom
         </h1>
@@ -146,7 +146,7 @@ export default function MumsSpaceChat() {
         {/* Left Sidebar - Online Users */}
         <div className="w-80 flex flex-col" style={{ backgroundColor: '#fed1dc' }}>
           {/* Header with Logo */}
-        <div className="p-6 border-b border-pink-200">
+        <div className="p-6 border-b-2 border-white">
           <div className="flex items-center space-x-3 mb-4">
             <div className="w-12 h-12 bg-pink-300 rounded-full flex items-center justify-center">
               <Heart className="text-pink-600" size={24} />
@@ -155,7 +155,7 @@ export default function MumsSpaceChat() {
           </div>
           
           {/* Search Users */}
-          <div className="relative">
+          <div className="relative mb-3">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-400" size={16} />
             <Input
               value={searchUsers}
@@ -164,25 +164,25 @@ export default function MumsSpaceChat() {
               className="pl-10 bg-white/80 border-pink-200 rounded-full text-pink-800 placeholder-pink-400"
             />
           </div>
-        </div>
 
-        {/* Online Count and Filter */}
-        <div className="p-4 space-y-3">
-          <div className="text-blue-800 px-4 py-2 rounded-full text-center font-medium" style={{ backgroundColor: '#d5d8ed' }}>
-            {roomUsers.length} mums online
+          {/* Online Count and Filter - Same Row */}
+          <div className="flex items-center space-x-3 pb-3 border-b-2 border-white">
+            <div className="text-blue-800 px-4 py-2 rounded-full text-center font-medium" style={{ backgroundColor: '#d5d8ed' }}>
+              {roomUsers.length} mums online
+            </div>
+            
+            <Select defaultValue="all">
+              <SelectTrigger className="bg-pink-100 border-pink-200 rounded-full text-pink-800 w-32">
+                <SelectValue placeholder="Show All" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Show All</SelectItem>
+                <SelectItem value="mums-to-be">Mums-to-Be</SelectItem>
+                <SelectItem value="0-1">0-1 Years</SelectItem>
+                <SelectItem value="2-5">2-5 Years</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          
-          <Select defaultValue="all">
-            <SelectTrigger className="bg-pink-100 border-pink-200 rounded-full text-pink-800">
-              <SelectValue placeholder="Show All" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Show All</SelectItem>
-              <SelectItem value="mums-to-be">Mums-to-Be</SelectItem>
-              <SelectItem value="0-1">0-1 Years</SelectItem>
-              <SelectItem value="2-5">2-5 Years</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
 
         {/* Users List */}
@@ -300,8 +300,8 @@ export default function MumsSpaceChat() {
               placeholder="Type a message..."
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
               disabled={sendMessage.isPending}
-              className="flex-1 border-blue-200 rounded-full px-6 py-3 text-blue-800 placeholder-blue-500 text-lg"
-              style={{ backgroundColor: '#d5d8ed' }}
+              className="flex-1 rounded-full px-6 py-3 text-blue-800 placeholder-blue-500 text-lg"
+              style={{ backgroundColor: '#d5d8ed', borderColor: '#fed1dc', borderWidth: '2px' }}
             />
             <Button 
               onClick={handleSend}

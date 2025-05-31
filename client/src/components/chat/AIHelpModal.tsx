@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send, Bot, User } from "lucide-react";
@@ -31,7 +31,15 @@ export default function AIHelpModal({ isOpen, onClose }: AIHelpModalProps) {
 
   const aiHelpMutation = useMutation({
     mutationFn: async (question: string) => {
-      return await apiRequest("/api/ai/help", "POST", { question });
+      const response = await fetch("/api/ai/help", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question })
+      });
+      if (!response.ok) {
+        throw new Error("Failed to get AI response");
+      }
+      return await response.json();
     },
     onSuccess: (data) => {
       setMessages(prev => [...prev, {
@@ -87,6 +95,9 @@ export default function AIHelpModal({ isOpen, onClose }: AIHelpModalProps) {
             <Bot className="w-6 h-6" />
             <span>AI Parenting Assistant</span>
           </DialogTitle>
+          <DialogDescription>
+            Get helpful parenting advice and support from our AI assistant.
+          </DialogDescription>
         </DialogHeader>
 
         {/* Chat Messages */}
