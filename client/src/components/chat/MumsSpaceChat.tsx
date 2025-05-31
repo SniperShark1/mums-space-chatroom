@@ -145,17 +145,10 @@ export default function MumsSpaceChat() {
       <div className="flex flex-1">
         {/* Left Sidebar - Online Users */}
         <div className="w-80 flex flex-col" style={{ backgroundColor: '#fed1dc' }}>
-          {/* Header with Logo */}
-        <div className="p-6 border-b-2 border-white">
-          <div className="flex items-center space-x-3 mb-4">
-            <div className="w-12 h-12 bg-pink-300 rounded-full flex items-center justify-center">
-              <Heart className="text-pink-600" size={24} />
-            </div>
-            <h1 className="text-2xl font-bold text-pink-800">Mum's Space</h1>
-          </div>
-          
+          {/* Search and Controls */}
+        <div className="p-4 space-y-3 border-b-2 border-white">
           {/* Search Users */}
-          <div className="relative mb-3">
+          <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-400" size={16} />
             <Input
               value={searchUsers}
@@ -165,24 +158,23 @@ export default function MumsSpaceChat() {
             />
           </div>
 
-          {/* Online Count and Filter - Same Row */}
-          <div className="flex items-center space-x-3 pb-3 border-b-2 border-white">
-            <div className="text-blue-800 px-4 py-2 rounded-full text-center font-medium" style={{ backgroundColor: '#d5d8ed' }}>
-              {roomUsers.length} mums online
-            </div>
-            
-            <Select defaultValue="all">
-              <SelectTrigger className="bg-pink-100 border-pink-200 rounded-full text-pink-800 w-32">
-                <SelectValue placeholder="Show All" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Show All</SelectItem>
-                <SelectItem value="mums-to-be">Mums-to-Be</SelectItem>
-                <SelectItem value="0-1">0-1 Years</SelectItem>
-                <SelectItem value="2-5">2-5 Years</SelectItem>
-              </SelectContent>
-            </Select>
+          {/* Online Count */}
+          <div className="text-blue-800 px-4 py-2 rounded-full text-center font-medium" style={{ backgroundColor: '#d5d8ed' }}>
+            {roomUsers.length} mums online
           </div>
+          
+          {/* Filter Dropdown */}
+          <Select defaultValue="all">
+            <SelectTrigger className="bg-pink-100 border-pink-200 rounded-full text-pink-800">
+              <SelectValue placeholder="Show All" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Show All</SelectItem>
+              <SelectItem value="mums-to-be">Mums-to-Be</SelectItem>
+              <SelectItem value="0-1">0-1 Years</SelectItem>
+              <SelectItem value="2-5">2-5 Years</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Users List */}
@@ -292,16 +284,16 @@ export default function MumsSpaceChat() {
         </div>
 
         {/* Message Input */}
-        <div className="p-6 bg-pink-50/90 backdrop-blur-sm border-t border-pink-200">
+        <div className="p-6 border-t border-pink-200" style={{ backgroundColor: '#fed1dc' }}>
           <div className="flex space-x-3">
             <Input
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type a message..."
-              onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+              onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
               disabled={sendMessage.isPending}
-              className="flex-1 rounded-full px-6 py-3 text-blue-800 placeholder-blue-500 text-lg"
-              style={{ backgroundColor: '#d5d8ed', borderColor: '#fed1dc', borderWidth: '2px' }}
+              className="flex-1 rounded-full px-6 py-3 text-gray-800 placeholder-gray-500 text-lg border-2"
+              style={{ backgroundColor: '#d5d8ed', borderColor: '#fed1dc' }}
             />
             <Button 
               onClick={handleSend}
@@ -313,7 +305,7 @@ export default function MumsSpaceChat() {
           </div>
           
           <div className="text-center mt-4">
-            <span className="text-pink-500 text-sm">Are we missing anything?</span>
+            <span className="text-pink-600 text-sm">Are we missing anything?</span>
           </div>
         </div>
         </div>
