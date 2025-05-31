@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, Bot, User } from "lucide-react";
+import { Send, Bot, User, X } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 
 interface AIHelpModalProps {
@@ -99,12 +99,22 @@ export default function AIHelpModal({ isOpen, onClose }: AIHelpModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl h-[600px] flex flex-col p-0">
-        <DialogHeader className="p-6 pb-4">
-          <DialogTitle className="flex items-center space-x-2 text-pink-800">
-            <Bot className="w-6 h-6" />
-            <span>AI Parenting Assistant</span>
-          </DialogTitle>
-          <DialogDescription>
+        <DialogHeader className="p-6 pb-4 border-b">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Bot className="w-6 h-6 text-pink-800" />
+              <DialogTitle className="text-pink-800">AI Parenting Assistant</DialogTitle>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onClose}
+              className="h-8 w-8 p-0 hover:bg-gray-100"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+          <DialogDescription className="mt-2">
             Get helpful parenting advice and support from our AI assistant.
           </DialogDescription>
         </DialogHeader>
@@ -154,7 +164,7 @@ export default function AIHelpModal({ isOpen, onClose }: AIHelpModalProps) {
           )}
         </div>
 
-        {/* Suggested Prompts */}
+        {/* Suggested Prompts - Only show initially */}
         {messages.length === 1 && (
           <div className="space-y-2 p-4">
             <p className="text-sm text-gray-600 font-medium">Suggested questions:</p>
