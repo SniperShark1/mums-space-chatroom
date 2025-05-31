@@ -246,13 +246,14 @@ export default function MumsSpaceChat() {
       </div>
 
       {/* Right Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col" style={{ backgroundColor: '#f7e6eb' }}>
         {/* Top Header with AI Help */}
         <div className="bg-pink-50/90 backdrop-blur-sm border-b border-pink-200 p-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-pink-800">AI Chatroom</h2>
             <Button 
-              className="bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-full px-6"
+              className="hover:bg-blue-200 text-blue-800 rounded-full px-6"
+              style={{ backgroundColor: '#d5d8ed' }}
               onClick={handleAIHelp}
             >
               <HelpCircle size={16} className="mr-2" />
@@ -300,7 +301,8 @@ export default function MumsSpaceChat() {
               placeholder="Type a message..."
               onKeyPress={(e) => e.key === 'Enter' && handleSend()}
               disabled={sendMessage.isPending}
-              className="flex-1 bg-blue-100/80 border-blue-200 rounded-full px-6 py-3 text-blue-800 placeholder-blue-500 text-lg"
+              className="flex-1 border-blue-200 rounded-full px-6 py-3 text-blue-800 placeholder-blue-500 text-lg"
+              style={{ backgroundColor: '#d5d8ed' }}
             />
             <Button 
               onClick={handleSend}
