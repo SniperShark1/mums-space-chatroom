@@ -159,7 +159,7 @@ export default function MumsSpaceChat() {
           </div>
 
           {/* Online Count */}
-          <div className="text-blue-800 px-4 py-2 rounded-full text-center font-medium" style={{ backgroundColor: '#d5d8ed' }}>
+          <div className="text-blue-800 px-3 py-1 rounded-full text-center font-medium text-sm" style={{ backgroundColor: '#d5d8ed' }}>
             {roomUsers.length} mums online
           </div>
           
@@ -237,26 +237,28 @@ export default function MumsSpaceChat() {
       </div>
 
       {/* Right Chat Area */}
-      <div className="flex-1 flex flex-col border-l-2 border-white" style={{ backgroundColor: '#f7e6eb' }}>
-        {/* Top Header with AI Help */}
-        <div className="bg-pink-50/90 backdrop-blur-sm border-b border-pink-200 p-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-pink-800">AI Chatroom</h2>
-            <Button 
-              className="hover:bg-blue-200 text-blue-800 rounded-full px-6"
-              style={{ backgroundColor: '#d5d8ed' }}
-              onClick={handleAIHelp}
-            >
-              <HelpCircle size={16} className="mr-2" />
-              AI Help
-            </Button>
-          </div>
+      <div className="flex-1 flex flex-col border-l-2 border-white relative" style={{ backgroundColor: '#f7e6eb' }}>
+        {/* AI Help Button - Top Right Corner */}
+        <div className="absolute top-4 right-4 z-10">
+          <Button 
+            className="hover:bg-blue-200 text-blue-800 rounded-full px-4 py-2 text-sm"
+            style={{ backgroundColor: '#d5d8ed' }}
+            onClick={handleAIHelp}
+          >
+            <HelpCircle size={14} className="mr-1" />
+            AI Help
+          </Button>
+        </div>
 
-
+        {/* Room Title */}
+        <div className="pt-16 px-6 pb-4">
+          <h2 className="text-2xl font-bold text-pink-800 text-center">
+            {activeRoom?.name || 'Chat Room'}
+          </h2>
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4">
+        <div className="flex-1 overflow-y-auto px-6 space-y-4">
           {messages.length === 0 ? (
             <div className="text-center text-pink-500 py-8">
               <Heart size={48} className="mx-auto mb-4 text-pink-300" />
