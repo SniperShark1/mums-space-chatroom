@@ -18,6 +18,8 @@ export default function MumsSpaceChat() {
   const [blockedUsers, setBlockedUsers] = useState<string[]>([]);
   const [privateChatUser, setPrivateChatUser] = useState<string | null>(null);
   const [isAIHelpOpen, setIsAIHelpOpen] = useState(false);
+  const [sidebarWidth, setSidebarWidth] = useState(320);
+  const [textSize, setTextSize] = useState("16");
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -135,16 +137,30 @@ export default function MumsSpaceChat() {
   return (
     <div className="h-screen bg-gradient-to-br from-pink-100 to-pink-200 font-serif flex flex-col">
       {/* Top Bar */}
-      <div className="w-full py-4 px-6 border-b-2 border-white" style={{ backgroundColor: '#fcb3c4' }}>
+      <div className="w-full py-4 px-6 border-b-2 border-white flex items-center justify-between" style={{ backgroundColor: '#fcb3c4' }}>
+        <div className="flex-1"></div>
         <h1 className="text-center text-white font-bold text-2xl font-serif">
           Mum's Space Chatroom
         </h1>
+        <div className="flex-1 flex justify-end">
+          <Button 
+            className="hover:bg-blue-200 text-blue-800 rounded-full px-4 py-2 text-sm"
+            style={{ backgroundColor: '#d5d8ed' }}
+            onClick={handleAIHelp}
+          >
+            <HelpCircle size={14} className="mr-1" />
+            AI Help
+          </Button>
+        </div>
       </div>
 
       {/* Main Content Area */}
       <div className="flex flex-1">
-        {/* Left Sidebar - Online Users */}
-        <div className="w-80 flex flex-col" style={{ backgroundColor: '#fed1dc' }}>
+        {/* Left Sidebar - Online Users - Resizable */}
+        <div 
+          className="flex flex-col border-r-2 border-white relative" 
+          style={{ backgroundColor: '#fed1dc', width: `${sidebarWidth}px` }}
+        >
           {/* Search and Controls */}
         <div className="p-4 space-y-3 border-b-2 border-white">
           {/* Search Users */}
@@ -234,31 +250,57 @@ export default function MumsSpaceChat() {
             </div>
           ))}
         </div>
+
+        {/* Resize Handle */}
+        <div 
+          className="absolute right-0 top-0 h-full w-1 bg-white cursor-col-resize hover:bg-gray-300"
+          onMouseDown={(e) => {
+            const startX = e.clientX;
+            const startWidth = sidebarWidth;
+            
+            const handleMouseMove = (e: MouseEvent) => {
+              const newWidth = Math.max(200, Math.min(500, startWidth + (e.clientX - startX)));
+              setSidebarWidth(newWidth);
+            };
+            
+            const handleMouseUp = () => {
+              document.removeEventListener('mousemove', handleMouseMove);
+              document.removeEventListener('mouseup', handleMouseUp);
+            };
+            
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+          }}
+        />
       </div>
 
       {/* Right Chat Area */}
-      <div className="flex-1 flex flex-col border-l-2 border-white relative" style={{ backgroundColor: '#f7e6eb' }}>
-        {/* AI Help Button - Top Right Corner */}
-        <div className="absolute top-4 right-4 z-10">
-          <Button 
-            className="hover:bg-blue-200 text-blue-800 rounded-full px-4 py-2 text-sm"
-            style={{ backgroundColor: '#d5d8ed' }}
-            onClick={handleAIHelp}
-          >
-            <HelpCircle size={14} className="mr-1" />
-            AI Help
-          </Button>
-        </div>
-
-        {/* Room Title */}
-        <div className="pt-16 px-6 pb-4">
-          <h2 className="text-2xl font-bold text-pink-800 text-center">
+      <div className="flex-1 flex flex-col" style={{ backgroundColor: '#f7e6eb' }}>
+        {/* Room Title Bar with Text Size */}
+        <div className="bg-pink-200 p-2 border-b border-white flex items-center justify-between">
+          <h2 className="text-lg font-bold text-pink-800">
             {activeRoom?.name || 'Chat Room'}
           </h2>
+          <div className="flex items-center space-x-2">
+            <span className="text-sm text-pink-700">Text Size:</span>
+            <Select value={textSize} onValueChange={setTextSize}>
+              <SelectTrigger className="w-16 h-8 text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="12">12</SelectItem>
+                <SelectItem value="14">14</SelectItem>
+                <SelectItem value="16">16</SelectItem>
+                <SelectItem value="18">18</SelectItem>
+                <SelectItem value="20">20</SelectItem>
+                <SelectItem value="22">22</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto px-6 space-y-4">
+        <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
           {messages.length === 0 ? (
             <div className="text-center text-pink-500 py-8">
               <Heart size={48} className="mx-auto mb-4 text-pink-300" />
@@ -276,7 +318,10 @@ export default function MumsSpaceChat() {
                       {message.user?.username || 'Mum'}
                     </span>
                   </div>
-                  <div className="text-pink-700 leading-relaxed">
+                  <div 
+                    className="text-pink-700 leading-relaxed"
+                    style={{ fontSize: `${textSize}px` }}
+                  >
                     {message.content}
                   </div>
                 </div>
@@ -295,11 +340,12 @@ export default function MumsSpaceChat() {
               placeholder="Type a message..."
               onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
               disabled={sendMessage.isPending}
-              className="flex-1 rounded-full px-6 py-3 text-lg border-2 border-white outline-none"
+              className="flex-1 rounded-full px-6 py-3 border-2 border-white outline-none focus:ring-2 focus:ring-pink-300"
               style={{ 
                 backgroundColor: '#d5d8ed', 
                 color: '#000000',
-                fontSize: '18px'
+                fontSize: '18px',
+                fontWeight: '500'
               }}
             />
             <Button 
