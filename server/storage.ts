@@ -33,8 +33,10 @@ export class MemStorage implements IStorage {
     this.currentRoomId = 1;
     this.currentMessageId = 1;
 
-    // Initialize default chat rooms
+    // Initialize default chat rooms and demo data
     this.initializeDefaultRooms();
+    this.initializeDemoUsers();
+    this.initializeDemoMessages();
   }
 
   private initializeDefaultRooms() {
@@ -63,6 +65,97 @@ export class MemStorage implements IStorage {
     });
   }
 
+  private initializeDemoUsers() {
+    const demoUsers = [
+      {
+        username: "Sarah M.",
+        password: "demo123",
+        ageGroup: "0-1",
+        initials: "SM",
+        avatarColor: "blue"
+      },
+      {
+        username: "Emily R.",
+        password: "demo123", 
+        ageGroup: "0-1",
+        initials: "ER",
+        avatarColor: "green"
+      },
+      {
+        username: "Jessica L.",
+        password: "demo123",
+        ageGroup: "2-5", 
+        initials: "JL",
+        avatarColor: "purple"
+      },
+      {
+        username: "Amanda K.",
+        password: "demo123",
+        ageGroup: "2-5",
+        initials: "AK", 
+        avatarColor: "orange"
+      }
+    ];
+
+    demoUsers.forEach(userData => {
+      const user: User = {
+        id: this.currentUserId++,
+        ...userData,
+        createdAt: new Date()
+      };
+      this.users.set(user.id, user);
+    });
+  }
+
+  private initializeDemoMessages() {
+    const demoMessages = [
+      {
+        content: "Hi everyone! Just joined and excited to connect with other parents.",
+        userId: 2,
+        roomId: 1
+      },
+      {
+        content: "Welcome! This is such a supportive community. How old is your little one?",
+        userId: 1,
+        roomId: 1
+      },
+      {
+        content: "Thank you! She's 8 months old. Still figuring out sleep schedules 😅",
+        userId: 2,
+        roomId: 1
+      },
+      {
+        content: "Oh the sleep struggles are so real! It does get easier, I promise.",
+        userId: 1,
+        roomId: 1
+      },
+      {
+        content: "Hey parents! Anyone dealing with picky eating lately?",
+        userId: 3,
+        roomId: 2
+      },
+      {
+        content: "Yes! My 3-year-old suddenly decided vegetables are poison. Any tips?",
+        userId: 4,
+        roomId: 2
+      },
+      {
+        content: "Try making faces with the food or involving them in cooking! Sometimes that helps.",
+        userId: 3,
+        roomId: 2
+      }
+    ];
+
+    demoMessages.forEach(messageData => {
+      const message: ChatMessage = {
+        id: this.currentMessageId++,
+        ...messageData,
+        createdAt: new Date(Date.now() - Math.random() * 3600000) // Random time within last hour
+      };
+      this.chatMessages.set(message.id, message);
+    });
+  }
+
   async getUser(id: number): Promise<User | undefined> {
     return this.users.get(id);
   }
@@ -76,7 +169,8 @@ export class MemStorage implements IStorage {
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.currentUserId++;
     const user: User = { 
-      ...insertUser, 
+      ...insertUser,
+      avatarColor: insertUser.avatarColor || "blue",
       id,
       createdAt: new Date()
     };
@@ -102,6 +196,7 @@ export class MemStorage implements IStorage {
     const id = this.currentRoomId++;
     const room: ChatRoom = {
       ...insertRoom,
+      description: insertRoom.description || null,
       id,
       createdAt: new Date()
     };

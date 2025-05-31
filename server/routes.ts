@@ -28,10 +28,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           
           // Join new room
           currentRoom = message.roomId;
-          if (!roomConnections.has(currentRoom)) {
+          if (currentRoom && !roomConnections.has(currentRoom)) {
             roomConnections.set(currentRoom, new Set());
           }
-          roomConnections.get(currentRoom)?.add(ws);
+          if (currentRoom) {
+            roomConnections.get(currentRoom)?.add(ws);
+          }
         }
       } catch (error) {
         console.error('WebSocket message error:', error);

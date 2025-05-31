@@ -29,12 +29,12 @@ export default function ChatRoom() {
   const queryClient = useQueryClient();
 
   // Fetch chat rooms
-  const { data: rooms = [], isLoading: roomsLoading } = useQuery({
+  const { data: rooms = [], isLoading: roomsLoading } = useQuery<ChatRoom[]>({
     queryKey: ['/api/chat/rooms'],
   });
 
   // Fetch messages for active room
-  const { data: roomMessages = [], isLoading: messagesLoading } = useQuery({
+  const { data: roomMessages = [], isLoading: messagesLoading } = useQuery<MessageWithUser[]>({
     queryKey: ['/api/chat/rooms', activeRoomId, 'messages'],
     enabled: !!activeRoomId,
   });
@@ -77,7 +77,7 @@ export default function ChatRoom() {
       unsubscribeConnection();
       unsubscribeMessages();
     };
-  }, [activeRoomId]);
+  }, []);
 
   // Join room when active room changes
   useEffect(() => {
@@ -88,8 +88,10 @@ export default function ChatRoom() {
 
   // Update messages when room messages change
   useEffect(() => {
-    setMessages(roomMessages);
-  }, [roomMessages]);
+    if (roomMessages && Array.isArray(roomMessages)) {
+      setMessages(roomMessages);
+    }
+  }, [roomMessages, activeRoomId]);
 
   const handleRoomChange = (roomId: string) => {
     setActiveRoomId(roomId);

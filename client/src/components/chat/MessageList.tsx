@@ -50,6 +50,11 @@ export default function MessageList({ messages, currentUserId, currentRoom }: Me
           messages.map((message) => {
             const isCurrentUser = message.userId === currentUserId;
             
+            // Safety check for message.user
+            if (!message.user) {
+              return null;
+            }
+            
             return (
               <div
                 key={message.id}
