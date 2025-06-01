@@ -1,0 +1,89 @@
+Perfect — here’s a ready-to-use Replit prompt you can paste into your ChatRoom.tsx or similar file.
+
+This adds:
+
+    The chat UI
+
+    The in-memory-only message handling (not saved anywhere)
+
+    A clear privacy message at the bottom
+
+✅ REPLIT PROMPT — No Data Saved, User Can Copy/Paste
+
+// ChatRoom.tsx (React version)
+
+import React, { useState } from 'react';
+
+export default function ChatRoom() {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
+
+  const handleSend = () => {
+    if (input.trim() === '') return;
+
+    const newMessage = { text: input, sender: 'You' };
+    setMessages([...messages, newMessage]);
+    setInput('');
+  };
+
+  return (
+    <div style={{ maxWidth: '600px', margin: '0 auto', padding: 20, fontFamily: 'Arial' }}>
+      <h2>Mum’s Space Chatroom</h2>
+
+      <div style={{
+        height: '300px',
+        overflowY: 'auto',
+        border: '1px solid #ccc',
+        padding: 10,
+        borderRadius: 6,
+        marginBottom: 10,
+        background: '#fdfdfd'
+      }}>
+        {messages.map((msg, index) => (
+          <div key={index} style={{ marginBottom: 8 }}>
+            <strong>{msg.sender}:</strong> {msg.text}
+          </div>
+        ))}
+      </div>
+
+      <input
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Type your message..."
+        style={{ width: '75%', padding: 8 }}
+      />
+      <button onClick={handleSend} style={{ padding: '8px 12px', marginLeft: 8 }}>
+        Send
+      </button>
+
+      <p style={{
+        marginTop: 20,
+        fontSize: '0.9em',
+        color: '#555',
+        fontStyle: 'italic',
+        borderTop: '1px solid #eee',
+        paddingTop: 10
+      }}>
+        🔒 Messages are not saved for your privacy. If you want to keep something, feel free to copy and paste it into your own notes.
+      </p>
+    </div>
+  );
+}
+
+🧠 Summary:
+
+    💬 Messages are only in memory (useState)
+
+    🔐 Nothing saved to Supabase or files
+
+    ✂️ Users are told they can copy/paste anything important
+
+    ✅ Clean, safe, supportive for mums
+
+Let me know if you want this upgraded with:
+
+    AI replies
+
+    Age-group filters
+
+    Custom avatar bubbles

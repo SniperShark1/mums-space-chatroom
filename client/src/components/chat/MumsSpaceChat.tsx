@@ -368,7 +368,7 @@ export default function MumsSpaceChat() {
             }}
           />
           
-          <div className="flex items-center space-x-3 p-6">
+          <div className="flex items-center space-x-3 px-6 pt-6 pb-3">
             <input
               type="text"
               value={newMessage}
@@ -392,6 +392,10 @@ export default function MumsSpaceChat() {
               <Send size={20} />
             </Button>
           </div>
+          
+          <p className="text-xs text-pink-700/80 italic px-6 pb-6 border-t border-pink-300/30 pt-2">
+            🔒 Messages are not saved permanently. If you'd like to keep something, feel free to copy and paste it into your own notes.
+          </p>
         </div>
         </div>
       </div>
