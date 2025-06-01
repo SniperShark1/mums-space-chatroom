@@ -62,9 +62,41 @@ export default function MumsSpaceChat() {
     }
   });
 
+  // Emoji replacements for common abbreviations
+  const replaceWithEmojis = (text: string) => {
+    const emojiMap: Record<string, string> = {
+      'lol': 'lol 😂',
+      'brb': 'brb 🏃‍♀️',
+      'omg': 'omg 😱',
+      'thanks': 'thanks 🙏',
+      'thank you': 'thank you 🙏',
+      'love': 'love ❤️',
+      'congrats': 'congrats 🎉',
+      'congratulations': 'congratulations 🎉',
+      'hugs': 'hugs 🤗',
+      'good luck': 'good luck 🍀',
+      'sleepy': 'sleepy 😴',
+      'tired': 'tired 😴',
+      'crying': 'crying 😭',
+      'happy': 'happy 😊',
+      'sad': 'sad 😢',
+      'excited': 'excited 🎉',
+      'worried': 'worried 😰',
+      'stressed': 'stressed 😰'
+    };
+
+    let result = text;
+    Object.entries(emojiMap).forEach(([word, replacement]) => {
+      const regex = new RegExp(`\\b${word}\\b`, 'gi');
+      result = result.replace(regex, replacement);
+    });
+    return result;
+  };
+
   const handleSend = () => {
     if (newMessage.trim()) {
-      sendMessage.mutate(newMessage);
+      const messageWithEmojis = replaceWithEmojis(newMessage);
+      sendMessage.mutate(messageWithEmojis);
       // Keep focus on input field after sending
       setTimeout(() => {
         inputRef.current?.focus();
