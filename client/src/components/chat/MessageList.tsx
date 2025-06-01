@@ -106,7 +106,7 @@ export default function MessageList({ messages, currentUserId, currentRoom }: Me
                       ? 'bg-primary text-white rounded-tr-md' 
                       : 'bg-gray-100 text-text-primary rounded-tl-md'
                   }`}>
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    <p className="text-sm whitespace-pre-wrap break-words overflow-wrap-anywhere">{message.content}</p>
                   </div>
                 </div>
                 

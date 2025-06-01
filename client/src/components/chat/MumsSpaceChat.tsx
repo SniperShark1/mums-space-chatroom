@@ -21,7 +21,7 @@ export default function MumsSpaceChat() {
   const [sidebarWidth, setSidebarWidth] = useState(320);
   const [textSize, setTextSize] = useState("16");
   const [inputAreaHeight, setInputAreaHeight] = useState(120);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
