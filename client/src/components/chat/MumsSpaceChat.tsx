@@ -23,6 +23,8 @@ export default function MumsSpaceChat() {
   const [inputAreaHeight, setInputAreaHeight] = useState(120);
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -178,14 +180,28 @@ export default function MumsSpaceChat() {
     setIsAIHelpOpen(true);
   };
 
-  // Auto-scroll to bottom when new messages arrive
+  // Check if user is at bottom of chat
+  const checkIfAtBottom = () => {
+    if (!messagesContainerRef.current) return true;
+    const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
+    return scrollTop + clientHeight >= scrollHeight - 50; // 50px threshold
+  };
+
+  // Auto-scroll to bottom when new messages arrive (only if user is at bottom)
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (shouldAutoScroll) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // Handle scroll events to determine if we should auto-scroll
+  const handleScroll = () => {
+    setShouldAutoScroll(checkIfAtBottom());
   };
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, shouldAutoScroll]);
 
   // Room change handler
   const handleRoomChange = (roomId: string) => {
@@ -361,7 +377,13 @@ export default function MumsSpaceChat() {
 
         {/* Messages Area */}
         <div 
+          ref={messagesContainerRef}
           className="flex-1 overflow-y-auto px-6 py-4 space-y-4"
+          onScroll={handleScroll}
+          style={{ 
+            paddingBottom: `${inputAreaHeight + 20}px`,
+            height: `calc(100vh - 120px)`
+          }}
         >
           {!messages || messages.length === 0 ? (
             <div className="text-center text-pink-500 py-8">
