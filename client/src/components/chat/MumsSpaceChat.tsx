@@ -77,12 +77,19 @@ export default function MumsSpaceChat() {
       'good luck': '🍀',
       'sleepy': '😴',
       'tired': '😴',
+      'angry': '😠',
+      'mad': '😡',
+      'frustrated': '😤',
       'crying': '😭',
       'happy': '😊',
       'sad': '😢',
       'excited': '🎉',
       'worried': '😰',
-      'stressed': '😰'
+      'stressed': '😰',
+      'exhausted': '😵',
+      'confused': '😕',
+      'shocked': '😲',
+      'annoyed': '😒'
     };
 
     let result = text;
