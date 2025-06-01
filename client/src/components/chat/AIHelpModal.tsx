@@ -100,19 +100,9 @@ export default function AIHelpModal({ isOpen, onClose }: AIHelpModalProps) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl h-[600px] flex flex-col p-0">
         <DialogHeader className="p-6 pb-4 border-b">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Bot className="w-6 h-6 text-pink-800" />
-              <DialogTitle className="text-pink-800">AI Parenting Assistant</DialogTitle>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClose}
-              className="h-8 w-8 p-0 hover:bg-gray-100"
-            >
-              <X className="h-4 w-4" />
-            </Button>
+          <div className="flex items-center space-x-2">
+            <Bot className="w-6 h-6 text-pink-800" />
+            <DialogTitle className="text-pink-800">AI Parenting Assistant</DialogTitle>
           </div>
           <DialogDescription className="mt-2">
             Get helpful parenting advice and support from our AI assistant.
