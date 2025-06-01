@@ -363,8 +363,8 @@ export default function MumsSpaceChat() {
         <div 
           className="flex-1 overflow-y-auto px-6 py-4 space-y-4" 
           style={{ 
-            marginBottom: `${inputAreaHeight}px`,
-            maxHeight: `calc(100vh - 200px - ${inputAreaHeight}px)`
+            height: `calc(100vh - 120px - ${inputAreaHeight}px)`,
+            minHeight: '200px'
           }}
         >
           {!messages || messages.length === 0 ? (
