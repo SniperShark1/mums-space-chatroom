@@ -65,30 +65,30 @@ export default function MumsSpaceChat() {
   // Emoji replacements for common abbreviations
   const replaceWithEmojis = (text: string) => {
     const emojiMap: Record<string, string> = {
-      'lol': 'lol 😂',
-      'brb': 'brb 🏃‍♀️',
-      'omg': 'omg 😱',
-      'thanks': 'thanks 🙏',
-      'thank you': 'thank you 🙏',
-      'love': 'love ❤️',
-      'congrats': 'congrats 🎉',
-      'congratulations': 'congratulations 🎉',
-      'hugs': 'hugs 🤗',
-      'good luck': 'good luck 🍀',
-      'sleepy': 'sleepy 😴',
-      'tired': 'tired 😴',
-      'crying': 'crying 😭',
-      'happy': 'happy 😊',
-      'sad': 'sad 😢',
-      'excited': 'excited 🎉',
-      'worried': 'worried 😰',
-      'stressed': 'stressed 😰'
+      'lol': '😂',
+      'brb': '🏃‍♀️',
+      'omg': '😱',
+      'thanks': '🙏',
+      'thank you': '🙏',
+      'love': '❤️',
+      'congrats': '🎉',
+      'congratulations': '🎉',
+      'hugs': '🤗',
+      'good luck': '🍀',
+      'sleepy': '😴',
+      'tired': '😴',
+      'crying': '😭',
+      'happy': '😊',
+      'sad': '😢',
+      'excited': '🎉',
+      'worried': '😰',
+      'stressed': '😰'
     };
 
     let result = text;
-    Object.entries(emojiMap).forEach(([word, replacement]) => {
+    Object.entries(emojiMap).forEach(([word, emoji]) => {
       const regex = new RegExp(`\\b${word}\\b`, 'gi');
-      result = result.replace(regex, replacement);
+      result = result.replace(regex, emoji);
     });
     return result;
   };
