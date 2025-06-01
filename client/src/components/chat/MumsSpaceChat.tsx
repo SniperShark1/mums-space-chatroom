@@ -49,6 +49,10 @@ export default function MumsSpaceChat() {
       });
       refetchMessages();
       setNewMessage("");
+      // Keep focus on input after clearing message
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 50);
     },
     onError: () => {
       toast({
