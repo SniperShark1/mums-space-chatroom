@@ -449,15 +449,16 @@ export default function MumsSpaceChat() {
           />
           
           <div className="flex items-center space-x-3 px-6 pt-6 pb-3">
-            <input
+            <textarea
               ref={inputRef}
-              type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type a message..."
               onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
               disabled={sendMessage.isPending}
-              className="flex-1 rounded-full px-6 py-3 border-2 border-white outline-none focus:ring-2 focus:ring-pink-300"
+              rows={1}
+              wrap="soft"
+              className="flex-1 rounded-full px-6 py-3 border-2 border-white outline-none focus:ring-2 focus:ring-pink-300 resize-none overflow-x-hidden"
               style={{ 
                 backgroundColor: '#d5d8ed',
                 color: '#000000',
