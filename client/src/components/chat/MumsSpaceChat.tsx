@@ -380,6 +380,9 @@ export default function MumsSpaceChat() {
           ref={messagesContainerRef}
           className="flex-1 overflow-y-auto px-6 py-4 space-y-4"
           onScroll={handleScroll}
+          style={{ 
+            paddingBottom: `${inputAreaHeight + 20}px`
+          }}
         >
           {!messages || messages.length === 0 ? (
             <div className="text-center text-pink-500 py-8">
