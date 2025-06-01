@@ -22,6 +22,7 @@ export default function MumsSpaceChat() {
   const [textSize, setTextSize] = useState("16");
   const [inputAreaHeight, setInputAreaHeight] = useState(120);
   const inputRef = useRef<HTMLInputElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -176,6 +177,15 @@ export default function MumsSpaceChat() {
   const handleAIHelp = () => {
     setIsAIHelpOpen(true);
   };
+
+  // Auto-scroll to bottom when new messages arrive
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   // Room change handler
   const handleRoomChange = (roomId: string) => {
@@ -352,7 +362,10 @@ export default function MumsSpaceChat() {
         {/* Messages Area */}
         <div 
           className="flex-1 overflow-y-auto px-6 py-4 space-y-4" 
-          style={{ marginBottom: `${inputAreaHeight}px` }}
+          style={{ 
+            marginBottom: `${inputAreaHeight}px`,
+            maxHeight: `calc(100vh - 200px - ${inputAreaHeight}px)`
+          }}
         >
           {!messages || messages.length === 0 ? (
             <div className="text-center text-pink-500 py-8">
@@ -384,6 +397,8 @@ export default function MumsSpaceChat() {
               </div>
             ))
           )}
+          {/* Invisible element to scroll to */}
+          <div ref={messagesEndRef} />
         </div>
 
         {/* Resizable Message Input */}
