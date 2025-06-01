@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Search, Send, Heart, HelpCircle, MoreHorizontal, Volume2, UserX, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -21,6 +21,7 @@ export default function MumsSpaceChat() {
   const [sidebarWidth, setSidebarWidth] = useState(320);
   const [textSize, setTextSize] = useState("16");
   const [inputAreaHeight, setInputAreaHeight] = useState(120);
+  const inputRef = useRef<HTMLInputElement>(null);
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -60,6 +61,10 @@ export default function MumsSpaceChat() {
   const handleSend = () => {
     if (newMessage.trim()) {
       sendMessage.mutate(newMessage);
+      // Keep focus on input field after sending
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
     }
   };
 
@@ -370,6 +375,7 @@ export default function MumsSpaceChat() {
           
           <div className="flex items-center space-x-3 px-6 pt-6 pb-3">
             <input
+              ref={inputRef}
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
