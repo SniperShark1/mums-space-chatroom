@@ -503,17 +503,18 @@ export default function MumsSpaceChat() {
                     </div>
                   </div>
                   
-                  <p className="text-xs text-pink-600 text-center italic mt-3">
-                    Just type the word and it becomes an emoji! 💕
-                  </p>
+                  <div className="text-xs text-pink-600 text-center mt-3 space-y-2">
+                    <p className="italic">Just type the word and it becomes an emoji! 💕</p>
+                    <p className="border-t border-pink-200 pt-2 text-pink-700">
+                      🔒 Messages are not saved permanently. Feel free to copy and paste the conversation before closing the window.
+                    </p>
+                  </div>
                 </div>
               </PopoverContent>
             </Popover>
           </div>
           
-          <p className="text-xs text-pink-700/80 italic px-6 pb-6 border-t border-pink-300/30 pt-2">
-            🔒 Messages are not saved permanently. If you'd like to keep something, feel free to copy and paste it into your own notes.
-          </p>
+
         </div>
         </div>
       </div>
