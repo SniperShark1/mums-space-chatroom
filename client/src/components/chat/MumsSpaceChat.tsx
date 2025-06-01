@@ -335,7 +335,7 @@ export default function MumsSpaceChat() {
       </div>
 
       {/* Right Chat Area */}
-      <div className="flex-1 flex flex-col relative" style={{ backgroundColor: '#f7e6eb' }}>
+      <div className="flex-1 flex flex-col relative h-full" style={{ backgroundColor: '#f7e6eb' }}>
         {/* Room Title Bar with Text Size */}
         <div className="bg-pink-200 p-2 border-b border-white flex items-center justify-between">
           <h2 className="text-lg font-bold text-pink-800">
@@ -361,11 +361,7 @@ export default function MumsSpaceChat() {
 
         {/* Messages Area */}
         <div 
-          className="flex-1 overflow-y-auto px-6 py-4 space-y-4" 
-          style={{ 
-            height: `calc(100vh - 120px - ${inputAreaHeight}px)`,
-            minHeight: '200px'
-          }}
+          className="flex-1 overflow-y-auto px-6 py-4 space-y-4"
         >
           {!messages || messages.length === 0 ? (
             <div className="text-center text-pink-500 py-8">
