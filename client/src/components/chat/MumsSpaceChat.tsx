@@ -405,8 +405,13 @@ export default function MumsSpaceChat() {
                     </span>
                   </div>
                   <div 
-                    className="text-pink-700 leading-relaxed"
-                    style={{ fontSize: `${textSize}px` }}
+                    className="text-pink-700 leading-relaxed break-words"
+                    style={{ 
+                      fontSize: `${textSize}px`,
+                      wordWrap: 'break-word',
+                      overflowWrap: 'break-word',
+                      wordBreak: 'break-word'
+                    }}
                   >
                     {message.content}
                   </div>
