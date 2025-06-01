@@ -351,7 +351,7 @@ export default function MumsSpaceChat() {
       </div>
 
       {/* Right Chat Area */}
-      <div className="flex-1 flex flex-col relative h-full" style={{ backgroundColor: '#f7e6eb' }}>
+      <div className="flex-1 flex flex-col relative h-screen overflow-hidden" style={{ backgroundColor: '#f7e6eb' }}>
         {/* Room Title Bar with Text Size */}
         <div className="bg-pink-200 p-2 border-b border-white flex items-center justify-between">
           <h2 className="text-lg font-bold text-pink-800">
