@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Search, Send, Heart, HelpCircle, MoreHorizontal, Volume2, UserX, MessageSquare } from "lucide-react";
+import { Search, Send, Heart, HelpCircle, MoreHorizontal, Volume2, UserX, MessageSquare, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
@@ -440,6 +440,60 @@ export default function MumsSpaceChat() {
             >
               <Send size={20} />
             </Button>
+          </div>
+          
+          {/* Emoji Info Button */}
+          <div className="flex justify-center px-6 pb-3">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="w-6 h-6 rounded-full bg-pink-200 hover:bg-pink-300 text-pink-700 p-0"
+                >
+                  <Info size={12} />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 p-4 bg-pink-50 border-2 border-pink-200 rounded-lg shadow-lg">
+                <div className="space-y-3">
+                  <h4 className="font-bold text-pink-800 text-center text-sm">✨ Auto Emoji Magic ✨</h4>
+                  <p className="text-xs text-pink-700 text-center">Type these words and they'll turn into emojis!</p>
+                  
+                  <div className="grid grid-cols-2 gap-1 text-xs">
+                    <div className="space-y-1">
+                      <div><span className="text-pink-600">lol</span> → 😂</div>
+                      <div><span className="text-pink-600">brb</span> → 🏃‍♀️</div>
+                      <div><span className="text-pink-600">omg</span> → 😱</div>
+                      <div><span className="text-pink-600">thanks</span> → 🙏</div>
+                      <div><span className="text-pink-600">love</span> → ❤️</div>
+                      <div><span className="text-pink-600">hugs</span> → 🤗</div>
+                      <div><span className="text-pink-600">happy</span> → 😊</div>
+                      <div><span className="text-pink-600">sad</span> → 😢</div>
+                      <div><span className="text-pink-600">crying</span> → 😭</div>
+                      <div><span className="text-pink-600">excited</span> → 🎉</div>
+                      <div><span className="text-pink-600">congrats</span> → 🎉</div>
+                    </div>
+                    <div className="space-y-1">
+                      <div><span className="text-pink-600">tired</span> → 😴</div>
+                      <div><span className="text-pink-600">sleepy</span> → 😴</div>
+                      <div><span className="text-pink-600">angry</span> → 😠</div>
+                      <div><span className="text-pink-600">mad</span> → 😡</div>
+                      <div><span className="text-pink-600">frustrated</span> → 😤</div>
+                      <div><span className="text-pink-600">worried</span> → 😰</div>
+                      <div><span className="text-pink-600">stressed</span> → 😰</div>
+                      <div><span className="text-pink-600">exhausted</span> → 😵</div>
+                      <div><span className="text-pink-600">confused</span> → 😕</div>
+                      <div><span className="text-pink-600">shocked</span> → 😲</div>
+                      <div><span className="text-pink-600">annoyed</span> → 😒</div>
+                    </div>
+                  </div>
+                  
+                  <p className="text-xs text-pink-600 text-center italic mt-3">
+                    Just type the word and it becomes an emoji! 💕
+                  </p>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
           
           <p className="text-xs text-pink-700/80 italic px-6 pb-6 border-t border-pink-300/30 pt-2">
