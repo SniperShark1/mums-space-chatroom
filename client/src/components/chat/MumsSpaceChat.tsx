@@ -73,7 +73,7 @@ export default function MumsSpaceChat() {
       'omg': '😱',
       'thanks': '🙏',
       'thank you': '🙏',
-      'love': '❤️',
+      'love': '🔥CUSTOM_LOVE_EMOJI🔥',
       'congrats': '🎉',
       'congratulations': '🎉',
       'hugs': '🤗',
@@ -101,6 +101,30 @@ export default function MumsSpaceChat() {
       result = result.replace(regex, emoji);
     });
     return result;
+  };
+
+  // Render message content with custom emojis
+  const renderMessageContent = (content: string) => {
+    if (content.includes('🔥CUSTOM_LOVE_EMOJI🔥')) {
+      const parts = content.split('🔥CUSTOM_LOVE_EMOJI🔥');
+      return (
+        <>
+          {parts.map((part, index) => (
+            <React.Fragment key={index}>
+              {part}
+              {index < parts.length - 1 && (
+                <img 
+                  src="/src/assets/Love.png" 
+                  alt="❤️" 
+                  className="inline-block w-6 h-6 mx-1 align-middle" 
+                />
+              )}
+            </React.Fragment>
+          ))}
+        </>
+      );
+    }
+    return content;
   };
 
   const handleSend = () => {
