@@ -168,29 +168,42 @@ export default function CreateGroupModal({ isOpen, onClose, currentUserId }: Cre
                 <p className="text-gray-500 text-sm text-center py-4">No other users available</p>
               ) : (
                 availableUsers.map((user) => (
-                  <div key={user.id} className={`flex items-center space-x-3 p-2 rounded transition-colors ${
-                    selectedUsers.includes(user.id) 
-                      ? 'bg-pink-100 border border-pink-300' 
-                      : 'hover:bg-pink-50'
-                  }`}>
+                  <div 
+                    key={user.id} 
+                    className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 cursor-pointer ${
+                      selectedUsers.includes(user.id) 
+                        ? 'bg-pink-100 border-2 border-pink-400 shadow-sm' 
+                        : 'hover:bg-pink-50 border-2 border-transparent'
+                    }`}
+                    onClick={() => handleUserToggle(user.id)}
+                  >
                     <Checkbox
                       id={`user-${user.id}`}
                       checked={selectedUsers.includes(user.id)}
                       onCheckedChange={() => handleUserToggle(user.id)}
                       disabled={!selectedUsers.includes(user.id) && selectedUsers.length >= 5}
+                      className="pointer-events-none"
                     />
-                    <label 
-                      htmlFor={`user-${user.id}`}
-                      className="flex-1 flex items-center gap-2 cursor-pointer"
-                    >
-                      <div className="w-8 h-8 rounded-full bg-pink-200 flex items-center justify-center text-sm font-medium text-pink-800">
+                    <div className="flex-1 flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
+                        selectedUsers.includes(user.id)
+                          ? 'bg-pink-300 text-pink-800'
+                          : 'bg-pink-200 text-pink-700'
+                      }`}>
                         {user.initials}
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-gray-900">{user.username}</p>
+                        <p className={`text-sm font-medium transition-colors ${
+                          selectedUsers.includes(user.id) ? 'text-pink-900' : 'text-gray-900'
+                        }`}>
+                          {user.username}
+                        </p>
                         <p className="text-xs text-gray-500">{user.ageGroup}</p>
                       </div>
-                    </label>
+                    </div>
+                    {selectedUsers.includes(user.id) && (
+                      <div className="text-pink-600 font-bold">✓</div>
+                    )}
                   </div>
                 ))
               )}
