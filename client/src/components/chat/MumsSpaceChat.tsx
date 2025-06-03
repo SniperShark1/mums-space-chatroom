@@ -26,6 +26,11 @@ import CongratsEmojiPath from "@assets/congrats_transparent.png";
 import ConfusedEmojiPath from "@assets/Confused_transparent.png";
 import AngryEmojiPath from "@assets/Angry_transparent.png";
 import CryingEmojiPath from "@assets/Crying_transparent.png";
+import TiredEmojiPath from "@assets/Tired.png";
+import WorriedEmojiPath from "@assets/worried.png";
+import StressedEmojiPath from "@assets/Stressed.png";
+import ShockedEmojiPath from "@assets/Shocked.png";
+import AnnoyedNewEmojiPath from "@assets/Annoyed.png";
 
 export default function MumsSpaceChat() {
   const [activeRoomId, setActiveRoomId] = useState("1");
@@ -97,7 +102,7 @@ export default function MumsSpaceChat() {
       'clap': '👏',
       'good luck': '🍀',
       'sleepy': '😴',
-      'tired': '😴',
+      'tired': '🔥CUSTOM_TIRED_EMOJI🔥',
       'angry': '🔥CUSTOM_ANGRY_EMOJI🔥',
       'mad': '🔥CUSTOM_MAD_EMOJI🔥',
       'frustrated': '🔥CUSTOM_FRUSTRATED_EMOJI🔥',
@@ -105,11 +110,11 @@ export default function MumsSpaceChat() {
       'happy': '😊',
       'sad': '😢',
       'excited': '🔥CUSTOM_EXCITED_EMOJI🔥',
-      'worried': '😰',
-      'stressed': '😰',
+      'worried': '🔥CUSTOM_WORRIED_EMOJI🔥',
+      'stressed': '🔥CUSTOM_STRESSED_EMOJI🔥',
       'exhausted': '🔥CUSTOM_EXHAUSTED_EMOJI🔥',
       'confused': '🔥CUSTOM_CONFUSED_EMOJI🔥',
-      'shocked': '😲',
+      'shocked': '🔥CUSTOM_SHOCKED_EMOJI🔥',
       'annoyed': '🔥CUSTOM_ANNOYED_EMOJI🔥'
     };
 
@@ -462,6 +467,86 @@ export default function MumsSpaceChat() {
         </span>
       );
     }
+
+    if (content.includes('🔥CUSTOM_TIRED_EMOJI🔥')) {
+      const parts = content.split('🔥CUSTOM_TIRED_EMOJI🔥');
+      return (
+        <span>
+          {parts.map((part, index) => (
+            <span key={index}>
+              {part}
+              {index < parts.length - 1 && (
+                <img 
+                  src={TiredEmojiPath} 
+                  alt="😴" 
+                  className="inline-block w-10 h-10 mx-1 align-middle" 
+                />
+              )}
+            </span>
+          ))}
+        </span>
+      );
+    }
+
+    if (content.includes('🔥CUSTOM_WORRIED_EMOJI🔥')) {
+      const parts = content.split('🔥CUSTOM_WORRIED_EMOJI🔥');
+      return (
+        <span>
+          {parts.map((part, index) => (
+            <span key={index}>
+              {part}
+              {index < parts.length - 1 && (
+                <img 
+                  src={WorriedEmojiPath} 
+                  alt="😰" 
+                  className="inline-block w-10 h-10 mx-1 align-middle" 
+                />
+              )}
+            </span>
+          ))}
+        </span>
+      );
+    }
+
+    if (content.includes('🔥CUSTOM_STRESSED_EMOJI🔥')) {
+      const parts = content.split('🔥CUSTOM_STRESSED_EMOJI🔥');
+      return (
+        <span>
+          {parts.map((part, index) => (
+            <span key={index}>
+              {part}
+              {index < parts.length - 1 && (
+                <img 
+                  src={StressedEmojiPath} 
+                  alt="😰" 
+                  className="inline-block w-10 h-10 mx-1 align-middle" 
+                />
+              )}
+            </span>
+          ))}
+        </span>
+      );
+    }
+
+    if (content.includes('🔥CUSTOM_SHOCKED_EMOJI🔥')) {
+      const parts = content.split('🔥CUSTOM_SHOCKED_EMOJI🔥');
+      return (
+        <span>
+          {parts.map((part, index) => (
+            <span key={index}>
+              {part}
+              {index < parts.length - 1 && (
+                <img 
+                  src={ShockedEmojiPath} 
+                  alt="😲" 
+                  className="inline-block w-10 h-10 mx-1 align-middle" 
+                />
+              )}
+            </span>
+          ))}
+        </span>
+      );
+    }
     
     return content;
   };
@@ -521,6 +606,15 @@ export default function MumsSpaceChat() {
       }
       if (messageWithEmojis.includes('😭')) {
         messageWithEmojis = messageWithEmojis.replace(/😭/g, '🔥CUSTOM_CRYING_EMOJI🔥');
+      }
+      if (messageWithEmojis.includes('😴')) {
+        messageWithEmojis = messageWithEmojis.replace(/😴/g, '🔥CUSTOM_TIRED_EMOJI🔥');
+      }
+      if (messageWithEmojis.includes('😰')) {
+        messageWithEmojis = messageWithEmojis.replace(/😰/g, '🔥CUSTOM_WORRIED_EMOJI🔥');
+      }
+      if (messageWithEmojis.includes('😲')) {
+        messageWithEmojis = messageWithEmojis.replace(/😲/g, '🔥CUSTOM_SHOCKED_EMOJI🔥');
       }
       
       sendMessage.mutate(messageWithEmojis);
@@ -929,16 +1023,16 @@ export default function MumsSpaceChat() {
                       <div><span className="text-pink-600">congrats</span> → <img src={CongratsEmojiPath} alt="🎉" className="inline-block w-4 h-4 align-middle" /></div>
                     </div>
                     <div className="space-y-1">
-                      <div><span className="text-pink-600">tired</span> → 😴</div>
+                      <div><span className="text-pink-600">tired</span> → <img src={TiredEmojiPath} alt="😴" className="inline-block w-4 h-4 align-middle" /></div>
                       <div><span className="text-pink-600">sleepy</span> → 😴</div>
                       <div><span className="text-pink-600">angry</span> → <img src={AngryEmojiPath} alt="😠" className="inline-block w-4 h-4 align-middle" /></div>
                       <div><span className="text-pink-600">mad</span> → <img src={MadEmojiPath} alt="😡" className="inline-block w-4 h-4 align-middle" /></div>
                       <div><span className="text-pink-600">frustrated</span> → <img src={FrustratedEmojiPath} alt="😤" className="inline-block w-4 h-4 align-middle" /></div>
-                      <div><span className="text-pink-600">worried</span> → 😰</div>
-                      <div><span className="text-pink-600">stressed</span> → 😰</div>
+                      <div><span className="text-pink-600">worried</span> → <img src={WorriedEmojiPath} alt="😰" className="inline-block w-4 h-4 align-middle" /></div>
+                      <div><span className="text-pink-600">stressed</span> → <img src={StressedEmojiPath} alt="😰" className="inline-block w-4 h-4 align-middle" /></div>
                       <div><span className="text-pink-600">exhausted</span> → <img src={ExhaustedEmojiPath} alt="😵" className="inline-block w-4 h-4 align-middle" /></div>
                       <div><span className="text-pink-600">confused</span> → <img src={ConfusedEmojiPath} alt="😕" className="inline-block w-4 h-4 align-middle" /></div>
-                      <div><span className="text-pink-600">shocked</span> → 😲</div>
+                      <div><span className="text-pink-600">shocked</span> → <img src={ShockedEmojiPath} alt="😲" className="inline-block w-4 h-4 align-middle" /></div>
                       <div><span className="text-pink-600">annoyed</span> → <img src={AnnoyedEmojiPath} alt="😒" className="inline-block w-4 h-4 align-middle" /></div>
                     </div>
                   </div>
