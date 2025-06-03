@@ -444,10 +444,10 @@ export default function MumsSpaceChat() {
       </div>
 
       {/* Feature Guide Modal */}
-      {showGuide && (
+      {isGuideOpen && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-          onClick={() => setShowGuide(false)}
+          onClick={() => setIsGuideOpen(false)}
         >
           <div 
             className="bg-white rounded-lg max-w-4xl max-h-[90vh] overflow-y-auto" 
@@ -458,7 +458,7 @@ export default function MumsSpaceChat() {
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-bold text-pink-800 text-lg">How to Use Mum's Space Chat</h3>
                 <Button 
-                  onClick={() => setShowGuide(false)}
+                  onClick={() => setIsGuideOpen(false)}
                   variant="ghost" 
                   size="sm"
                   className="text-pink-700 hover:bg-pink-200 border-2 border-white"
