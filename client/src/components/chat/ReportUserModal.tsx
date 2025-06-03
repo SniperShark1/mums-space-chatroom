@@ -16,18 +16,13 @@ interface ReportUserModalProps {
 export default function ReportUserModal({ isOpen, onClose, reportedUsername, reporterId }: ReportUserModalProps) {
   const [reason, setReason] = useState("");
   const [description, setDescription] = useState("");
+  const maxDescriptionLength = 500;
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const submitReport = useMutation({
     mutationFn: async (reportData: any) => {
-      return apiRequest("/api/reports", {
-        method: "POST",
-        body: JSON.stringify(reportData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      return apiRequest("/api/reports", "POST", reportData);
     },
     onSuccess: () => {
       toast({
@@ -98,13 +93,28 @@ export default function ReportUserModal({ isOpen, onClose, reportedUsername, rep
             <label className="block text-sm font-medium text-pink-700 mb-2">
               Additional Details (Optional)
             </label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Please provide more details about the issue..."
-              className="w-full p-3 border border-pink-200 rounded-lg focus:border-pink-400 focus:outline-none resize-none"
-              rows={3}
-            />
+            <div className="relative">
+              <textarea
+                value={description}
+                onChange={(e) => {
+                  if (e.target.value.length <= maxDescriptionLength) {
+                    setDescription(e.target.value);
+                  }
+                }}
+                placeholder="Please provide more details about the issue..."
+                className="w-full p-3 border border-pink-200 rounded-lg focus:border-pink-400 focus:outline-none resize-none"
+                rows={3}
+                maxLength={maxDescriptionLength}
+              />
+              <div className="flex justify-between items-center mt-1">
+                <div className="text-xs text-gray-500">
+                  Be specific about what happened
+                </div>
+                <div className={`text-xs ${description.length > maxDescriptionLength * 0.9 ? 'text-red-500' : 'text-gray-500'}`}>
+                  {description.length}/{maxDescriptionLength}
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="flex gap-3 pt-2">

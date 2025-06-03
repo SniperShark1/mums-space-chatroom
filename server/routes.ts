@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertChatMessageSchema, insertUserSchema, insertChatRoomSchema, insertGroupMembershipSchema } from "@shared/schema";
+import { insertChatMessageSchema, insertUserSchema, insertChatRoomSchema, insertGroupMembershipSchema, insertUserReportSchema } from "@shared/schema";
 import { getParentingHelp } from "./ai";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -191,6 +191,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(members);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch group members" });
+    }
+  });
+
+  // Submit user report
+  app.post("/api/reports", async (req, res) => {
+    try {
+      const { reporterId, reportedUsername, reason, description } = req.body;
+      
+      // Find the reported user by username
+      const allUsers = await storage.getAllUsers();
+      const reportedUser = allUsers.find(user => user.username === reportedUsername);
+      
+      if (!reportedUser) {
+        return res.status(404).json({ error: "Reported user not found" });
+      }
+
+      const reportData = insertUserReportSchema.parse({
+        reporterId,
+        reportedUserId: reportedUser.id,
+        reason,
+        description,
+        status: "pending"
+      });
+
+      const report = await storage.createUserReport(reportData);
+      res.json(report);
+    } catch (error) {
+      console.error("Report submission error:", error);
+      res.status(500).json({ error: "Failed to submit report" });
+    }
+  });
+
+  // Get all reports (for admin/moderator use)
+  app.get("/api/reports", async (req, res) => {
+    try {
+      const reports = await storage.getUserReports();
+      res.json(reports);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch reports" });
     }
   });
 
