@@ -29,7 +29,7 @@ import CryingEmojiPath from "@assets/Crying_transparent.png";
 import TiredEmojiPath from "@assets/Tired.png?v=2";
 import WorriedEmojiPath from "@assets/worried.png?v=2";
 import StressedEmojiPath from "@assets/Stressed.png?v=2";
-import ShockedEmojiPath from "@assets/Shocked.png";
+import ShockedEmojiPath from "@assets/Shocked.png?v=2";
 import AnnoyedNewEmojiPath from "@assets/Annoyed.png";
 import AnnoyedAltEmojiPath from "@assets/Annoyed .png";
 import SleepyEmojiPath from "@assets/sleepy.png";
