@@ -60,10 +60,10 @@ export class MemStorage implements IStorage {
         description: "Connect with expecting mothers"
       },
       {
-        name: "0-1 Years",
-        ageGroup: "0-1",
+        name: "0-2 Years",
+        ageGroup: "0-2",
         isPrivateGroup: false,
-        description: "New mums with babies"
+        description: "New mums with babies and toddlers"
       },
       {
         name: "2-5 Years",

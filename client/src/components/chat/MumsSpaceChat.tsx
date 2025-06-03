@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Search, Send, Heart, HelpCircle, MoreHorizontal, Volume2, UserX, MessageSquare, Info, Users } from "lucide-react";
+import { Search, Send, Heart, HelpCircle, MoreHorizontal, Volume2, UserX, MessageSquare, Info, Users, MessageCircle, Baby } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
@@ -391,6 +391,54 @@ export default function MumsSpaceChat() {
           >
             <HelpCircle size={14} className="mr-1" />
             AI Help
+          </Button>
+        </div>
+      </div>
+
+      {/* Room Tabs */}
+      <div className="w-full px-6 py-2" style={{ backgroundColor: '#fcb3c4' }}>
+        <div className="flex items-center justify-between">
+          <div className="flex space-x-2 overflow-x-auto">
+            {rooms.map((room) => {
+              const isActive = activeRoomId === room.id.toString();
+              const isPrivateGroup = room.isPrivateGroup;
+              
+              return (
+                <button
+                  key={room.id}
+                  onClick={() => handleRoomChange(room.id.toString())}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap flex items-center gap-2 ${
+                    isActive 
+                      ? 'bg-white bg-opacity-30 text-white shadow-md' 
+                      : 'bg-white bg-opacity-10 text-white hover:bg-opacity-20'
+                  }`}
+                >
+                  {isPrivateGroup ? (
+                    <Users className="w-4 h-4" />
+                  ) : room.ageGroup === 'mums-to-be' ? (
+                    <Heart className="w-4 h-4" />
+                  ) : room.ageGroup === '0-1' ? (
+                    <Baby className="w-4 h-4" />
+                  ) : (
+                    <MessageCircle className="w-4 h-4" />
+                  )}
+                  {room.name}
+                  {isPrivateGroup && (
+                    <span className="text-xs bg-white bg-opacity-30 px-2 py-1 rounded-full">
+                      Private
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+          <Button 
+            onClick={() => setIsCreateGroupOpen(true)}
+            className="bg-white bg-opacity-20 hover:bg-opacity-30 text-white text-sm px-3 py-1"
+            size="sm"
+          >
+            <Users className="w-4 h-4 mr-1" />
+            Create Group
           </Button>
         </div>
       </div>
