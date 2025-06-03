@@ -414,7 +414,7 @@ export default function MumsSpaceChat() {
               <button
                 key={room.id}
                 onClick={() => handleRoomChange(room.id.toString())}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap flex items-center gap-2 ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap flex items-center gap-2 border-4 border-white ${
                   isActive 
                     ? 'bg-white bg-opacity-30 text-white shadow-md' 
                     : 'bg-white bg-opacity-10 text-white hover:bg-opacity-20'
@@ -570,7 +570,7 @@ export default function MumsSpaceChat() {
           </div>
 
           {/* Online Count */}
-          <div className="text-blue-800 px-3 py-1 rounded-full text-center font-medium text-sm" style={{ backgroundColor: '#d5d8ed' }}>
+          <div className="text-blue-800 px-3 py-1 rounded-full text-center font-medium text-sm border-4 border-white" style={{ backgroundColor: '#d5d8ed' }}>
             {roomUsers.length} mums online
           </div>
 
