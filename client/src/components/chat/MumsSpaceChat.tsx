@@ -128,427 +128,76 @@ export default function MumsSpaceChat() {
 
   // Render message content with custom emojis
   const renderMessageContent = (content: string) => {
-    if (content.includes('🔥CUSTOM_LOVE_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_LOVE_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={LoveEmojiPath} 
-                  alt="❤️" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
+    // Define all custom emoji mappings
+    const customEmojis = {
+      '🔥CUSTOM_LOVE_EMOJI🔥': { src: LoveEmojiPath, alt: '❤️' },
+      '🔥CUSTOM_BRB_EMOJI🔥': { src: BRBEmojiPath, alt: '🏃‍♀️' },
+      '🔥CUSTOM_OMG_EMOJI🔥': { src: OMGEmojiPath, alt: '😱' },
+      '🔥CUSTOM_THANKS_EMOJI🔥': { src: ThanksEmojiPath, alt: '🙏' },
+      '🔥CUSTOM_HUGS_EMOJI🔥': { src: HugsEmojiPath, alt: '🤗' },
+      '🔥CUSTOM_SMILE_EMOJI🔥': { src: SmileEmojiPath, alt: '😊' },
+      '🔥CUSTOM_CLAP_EMOJI🔥': { src: ClapEmojiPath, alt: '👏' },
+      '🔥CUSTOM_LOL_EMOJI🔥': { src: LOLEmojiPath, alt: '😂' },
+      '🔥CUSTOM_FRUSTRATED_EMOJI🔥': { src: FrustratedEmojiPath, alt: '😤' },
+      '🔥CUSTOM_EXHAUSTED_EMOJI🔥': { src: ExhaustedEmojiPath, alt: '😵' },
+      '🔥CUSTOM_EXCITED_EMOJI🔥': { src: ExcitedEmojiPath, alt: '🎉' },
+      '🔥CUSTOM_MAD_EMOJI🔥': { src: MadEmojiPath, alt: '😡' },
+      '🔥CUSTOM_ANNOYED_EMOJI🔥': { src: AnnoyedEmojiPath, alt: '😒' },
+      '🔥CUSTOM_CONGRATS_EMOJI🔥': { src: CongratsEmojiPath, alt: '🎉' },
+      '🔥CUSTOM_CONFUSED_EMOJI🔥': { src: ConfusedEmojiPath, alt: '😕' },
+      '🔥CUSTOM_ANGRY_EMOJI🔥': { src: AngryEmojiPath, alt: '😠' },
+      '🔥CUSTOM_CRYING_EMOJI🔥': { src: CryingEmojiPath, alt: '😭' },
+      '🔥CUSTOM_TIRED_EMOJI🔥': { src: TiredEmojiPath, alt: '😴' },
+      '🔥CUSTOM_WORRIED_EMOJI🔥': { src: WorriedEmojiPath, alt: '😰' },
+      '🔥CUSTOM_STRESSED_EMOJI🔥': { src: StressedEmojiPath, alt: '😰' },
+      '🔥CUSTOM_SHOCKED_EMOJI🔥': { src: ShockedEmojiPath, alt: '😲' }
+    };
+
+    // Check if any custom emojis exist in the content
+    const hasCustomEmojis = Object.keys(customEmojis).some(placeholder => content.includes(placeholder));
     
-    if (content.includes('🔥CUSTOM_BRB_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_BRB_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={BRBEmojiPath} 
-                  alt="🏃‍♀️" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
+    if (!hasCustomEmojis) {
+      return content;
     }
+
+    // Process content to handle multiple emojis
+    let processedContent = content;
+    const elements: (string | JSX.Element)[] = [];
+    let elementIndex = 0;
+
+    // Replace each custom emoji with a unique marker and collect the emoji data
+    const emojiMarkers: { [key: string]: { src: string; alt: string } } = {};
     
-    if (content.includes('🔥CUSTOM_CLAP_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_CLAP_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={ClapEmojiPath} 
-                  alt="👏" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
+    Object.entries(customEmojis).forEach(([placeholder, emojiData]) => {
+      if (processedContent.includes(placeholder)) {
+        const marker = `__EMOJI_${elementIndex}__`;
+        emojiMarkers[marker] = emojiData;
+        processedContent = processedContent.replace(new RegExp(placeholder, 'g'), marker);
+        elementIndex++;
+      }
+    });
+
+    // Split by markers and build the final JSX
+    const parts = processedContent.split(/(__EMOJI_\d+__)/);
     
-    if (content.includes('🔥CUSTOM_HUGS_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_HUGS_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={HugsEmojiPath} 
-                  alt="🤗" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-    
-    if (content.includes('🔥CUSTOM_OMG_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_OMG_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={OMGEmojiPath} 
-                  alt="😱" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-    
-    if (content.includes('🔥CUSTOM_SMILE_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_SMILE_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={SmileEmojiPath} 
-                  alt="😊" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-    
-    if (content.includes('🔥CUSTOM_THANKS_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_THANKS_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={ThanksEmojiPath} 
-                  alt="🙏" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-
-    if (content.includes('🔥CUSTOM_LOL_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_LOL_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={LOLEmojiPath} 
-                  alt="😂" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-
-    if (content.includes('🔥CUSTOM_FRUSTRATED_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_FRUSTRATED_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={FrustratedEmojiPath} 
-                  alt="😤" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-
-    if (content.includes('🔥CUSTOM_EXHAUSTED_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_EXHAUSTED_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={ExhaustedEmojiPath} 
-                  alt="😵" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-
-    if (content.includes('🔥CUSTOM_EXCITED_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_EXCITED_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={ExcitedEmojiPath} 
-                  alt="🎉" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-
-    if (content.includes('🔥CUSTOM_MAD_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_MAD_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={MadEmojiPath} 
-                  alt="😡" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-
-    if (content.includes('🔥CUSTOM_ANNOYED_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_ANNOYED_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={AnnoyedEmojiPath} 
-                  alt="😒" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-
-    if (content.includes('🔥CUSTOM_CONGRATS_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_CONGRATS_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={CongratsEmojiPath} 
-                  alt="🎉" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-
-    if (content.includes('🔥CUSTOM_CONFUSED_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_CONFUSED_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={ConfusedEmojiPath} 
-                  alt="😕" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-
-    if (content.includes('🔥CUSTOM_ANGRY_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_ANGRY_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={AngryEmojiPath} 
-                  alt="😠" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-
-    if (content.includes('🔥CUSTOM_CRYING_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_CRYING_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={CryingEmojiPath} 
-                  alt="😭" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-
-    if (content.includes('🔥CUSTOM_TIRED_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_TIRED_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={TiredEmojiPath} 
-                  alt="😴" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-
-    if (content.includes('🔥CUSTOM_WORRIED_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_WORRIED_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={WorriedEmojiPath} 
-                  alt="😰" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-
-    if (content.includes('🔥CUSTOM_STRESSED_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_STRESSED_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={StressedEmojiPath} 
-                  alt="😰" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-
-    if (content.includes('🔥CUSTOM_SHOCKED_EMOJI🔥')) {
-      const parts = content.split('🔥CUSTOM_SHOCKED_EMOJI🔥');
-      return (
-        <span>
-          {parts.map((part, index) => (
-            <span key={index}>
-              {part}
-              {index < parts.length - 1 && (
-                <img 
-                  src={ShockedEmojiPath} 
-                  alt="😲" 
-                  className="inline-block w-10 h-10 mx-1 align-middle" 
-                />
-              )}
-            </span>
-          ))}
-        </span>
-      );
-    }
-    
-    return content;
+    return (
+      <span>
+        {parts.map((part, index) => {
+          if (part.match(/^__EMOJI_\d+__$/)) {
+            const emojiData = emojiMarkers[part];
+            return (
+              <img 
+                key={index}
+                src={emojiData.src} 
+                alt={emojiData.alt} 
+                className="inline-block w-10 h-10 mx-1 align-middle" 
+              />
+            );
+          }
+          return part ? <span key={index}>{part}</span> : null;
+        })}
+      </span>
+    );
   };
 
   const handleSend = () => {
