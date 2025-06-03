@@ -118,7 +118,7 @@ export default function MumsSpaceChat() {
                 <img 
                   src={LoveEmojiPath} 
                   alt="❤️" 
-                  className="inline-block w-8 h-8 mx-1 align-middle" 
+                  className="inline-block w-10 h-10 mx-1 align-middle" 
                 />
               )}
             </span>
@@ -138,7 +138,7 @@ export default function MumsSpaceChat() {
                 <img 
                   src={BRBEmojiPath} 
                   alt="🏃‍♀️" 
-                  className="inline-block w-8 h-8 mx-1 align-middle" 
+                  className="inline-block w-10 h-10 mx-1 align-middle" 
                 />
               )}
             </span>
