@@ -37,6 +37,16 @@ export const chatMessages = pgTable("chat_messages", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+export const userReports = pgTable("user_reports", {
+  id: serial("id").primaryKey(),
+  reporterId: integer("reporter_id").notNull().references(() => users.id),
+  reportedUserId: integer("reported_user_id").notNull().references(() => users.id),
+  reason: text("reason").notNull(),
+  description: text("description"),
+  status: text("status").notNull().default("pending"), // pending, reviewed, resolved
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   createdAt: true,
@@ -57,6 +67,11 @@ export const insertChatMessageSchema = createInsertSchema(chatMessages).omit({
   createdAt: true,
 });
 
+export const insertUserReportSchema = createInsertSchema(userReports).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertChatRoom = z.infer<typeof insertChatRoomSchema>;
@@ -65,6 +80,8 @@ export type InsertGroupMembership = z.infer<typeof insertGroupMembershipSchema>;
 export type GroupMembership = typeof groupMemberships.$inferSelect;
 export type InsertChatMessage = z.infer<typeof insertChatMessageSchema>;
 export type ChatMessage = typeof chatMessages.$inferSelect;
+export type InsertUserReport = z.infer<typeof insertUserReportSchema>;
+export type UserReport = typeof userReports.$inferSelect;
 
 export type MessageWithUser = ChatMessage & {
   user: Pick<User, 'username' | 'ageGroup' | 'initials' | 'avatarColor'>;

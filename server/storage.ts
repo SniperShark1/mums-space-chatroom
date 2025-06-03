@@ -1,4 +1,4 @@
-import { users, chatRooms, chatMessages, groupMemberships, type User, type InsertUser, type ChatRoom, type InsertChatRoom, type ChatMessage, type InsertChatMessage, type MessageWithUser, type GroupMembership, type InsertGroupMembership } from "@shared/schema";
+import { users, chatRooms, chatMessages, groupMemberships, userReports, type User, type InsertUser, type ChatRoom, type InsertChatRoom, type ChatMessage, type InsertChatMessage, type MessageWithUser, type GroupMembership, type InsertGroupMembership, type UserReport, type InsertUserReport } from "@shared/schema";
 
 export interface IStorage {
   // User operations
@@ -23,6 +23,10 @@ export interface IStorage {
   // Message operations
   getMessages(roomId: number, limit?: number): Promise<MessageWithUser[]>;
   createMessage(message: InsertChatMessage): Promise<MessageWithUser>;
+
+  // Report operations
+  createUserReport(report: InsertUserReport): Promise<UserReport>;
+  getUserReports(): Promise<UserReport[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -30,20 +34,24 @@ export class MemStorage implements IStorage {
   private chatRooms: Map<number, ChatRoom>;
   private chatMessages: Map<number, ChatMessage>;
   private groupMemberships: Map<number, GroupMembership>;
+  private userReports: Map<number, UserReport>;
   private currentUserId: number;
   private currentRoomId: number;
   private currentMessageId: number;
   private currentMembershipId: number;
+  private currentReportId: number;
 
   constructor() {
     this.users = new Map();
     this.chatRooms = new Map();
     this.chatMessages = new Map();
     this.groupMemberships = new Map();
+    this.userReports = new Map();
     this.currentUserId = 1;
     this.currentRoomId = 1;
     this.currentMessageId = 1;
     this.currentMembershipId = 1;
+    this.currentReportId = 1;
 
     // Initialize default chat rooms and demo data
     this.initializeDefaultRooms();
