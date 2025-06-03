@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import AIHelpModal from "./AIHelpModal";
 import type { ChatRoom, MessageWithUser, User } from "@shared/schema";
+import LoveEmojiPath from "@assets/Love.png";
 
 export default function MumsSpaceChat() {
   const [activeRoomId, setActiveRoomId] = useState("1");
@@ -108,20 +109,20 @@ export default function MumsSpaceChat() {
     if (content.includes('🔥CUSTOM_LOVE_EMOJI🔥')) {
       const parts = content.split('🔥CUSTOM_LOVE_EMOJI🔥');
       return (
-        <>
+        <span>
           {parts.map((part, index) => (
-            <React.Fragment key={index}>
+            <span key={index}>
               {part}
               {index < parts.length - 1 && (
                 <img 
-                  src="/src/assets/Love.png" 
+                  src={LoveEmojiPath} 
                   alt="❤️" 
                   className="inline-block w-6 h-6 mx-1 align-middle" 
                 />
               )}
-            </React.Fragment>
+            </span>
           ))}
-        </>
+        </span>
       );
     }
     return content;
@@ -437,7 +438,7 @@ export default function MumsSpaceChat() {
                       wordBreak: 'break-word'
                     }}
                   >
-                    {message.content}
+                    {renderMessageContent(message.content)}
                   </div>
                 </div>
               </div>
@@ -527,7 +528,7 @@ export default function MumsSpaceChat() {
                       <div><span className="text-pink-600">brb</span> → 🏃‍♀️</div>
                       <div><span className="text-pink-600">omg</span> → 😱</div>
                       <div><span className="text-pink-600">thanks</span> → 🙏</div>
-                      <div><span className="text-pink-600">love</span> → ❤️</div>
+                      <div><span className="text-pink-600">love</span> → <img src={LoveEmojiPath} alt="❤️" className="inline-block w-4 h-4 align-middle" /></div>
                       <div><span className="text-pink-600">hugs</span> → 🤗</div>
                       <div><span className="text-pink-600">happy</span> → 😊</div>
                       <div><span className="text-pink-600">sad</span> → 😢</div>
