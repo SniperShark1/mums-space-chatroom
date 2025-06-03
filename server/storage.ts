@@ -1,16 +1,24 @@
-import { users, chatRooms, chatMessages, type User, type InsertUser, type ChatRoom, type InsertChatRoom, type ChatMessage, type InsertChatMessage, type MessageWithUser } from "@shared/schema";
+import { users, chatRooms, chatMessages, groupMemberships, type User, type InsertUser, type ChatRoom, type InsertChatRoom, type ChatMessage, type InsertChatMessage, type MessageWithUser, type GroupMembership, type InsertGroupMembership } from "@shared/schema";
 
 export interface IStorage {
   // User operations
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  getAllUsers(): Promise<User[]>;
 
   // Chat room operations
   getChatRooms(): Promise<ChatRoom[]>;
   getChatRoom(id: number): Promise<ChatRoom | undefined>;
   getChatRoomByAgeGroup(ageGroup: string): Promise<ChatRoom | undefined>;
   createChatRoom(room: InsertChatRoom): Promise<ChatRoom>;
+  getUserRooms(userId: number): Promise<ChatRoom[]>;
+
+  // Group membership operations
+  addGroupMember(membership: InsertGroupMembership): Promise<GroupMembership>;
+  removeGroupMember(userId: number, roomId: number): Promise<void>;
+  getGroupMembers(roomId: number): Promise<User[]>;
+  getUserGroups(userId: number): Promise<ChatRoom[]>;
 
   // Message operations
   getMessages(roomId: number, limit?: number): Promise<MessageWithUser[]>;
@@ -21,17 +29,21 @@ export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private chatRooms: Map<number, ChatRoom>;
   private chatMessages: Map<number, ChatMessage>;
+  private groupMemberships: Map<number, GroupMembership>;
   private currentUserId: number;
   private currentRoomId: number;
   private currentMessageId: number;
+  private currentMembershipId: number;
 
   constructor() {
     this.users = new Map();
     this.chatRooms = new Map();
     this.chatMessages = new Map();
+    this.groupMemberships = new Map();
     this.currentUserId = 1;
     this.currentRoomId = 1;
     this.currentMessageId = 1;
+    this.currentMembershipId = 1;
 
     // Initialize default chat rooms and demo data
     this.initializeDefaultRooms();
@@ -64,6 +76,8 @@ export class MemStorage implements IStorage {
         name: room.name,
         ageGroup: room.ageGroup,
         description: room.description,
+        isPrivateGroup: false,
+        createdBy: null,
         createdAt: new Date()
       };
       this.chatRooms.set(chatRoom.id, chatRoom);

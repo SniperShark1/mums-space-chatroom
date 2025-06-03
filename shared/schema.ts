@@ -17,7 +17,16 @@ export const chatRooms = pgTable("chat_rooms", {
   name: text("name").notNull(),
   ageGroup: text("age_group").notNull(),
   description: text("description"),
+  isPrivateGroup: boolean("is_private_group").notNull().default(false),
+  createdBy: integer("created_by").references(() => users.id),
   createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const groupMemberships = pgTable("group_memberships", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  roomId: integer("room_id").notNull().references(() => chatRooms.id),
+  joinedAt: timestamp("joined_at").notNull().defaultNow(),
 });
 
 export const chatMessages = pgTable("chat_messages", {
@@ -38,6 +47,11 @@ export const insertChatRoomSchema = createInsertSchema(chatRooms).omit({
   createdAt: true,
 });
 
+export const insertGroupMembershipSchema = createInsertSchema(groupMemberships).omit({
+  id: true,
+  joinedAt: true,
+});
+
 export const insertChatMessageSchema = createInsertSchema(chatMessages).omit({
   id: true,
   createdAt: true,
@@ -47,6 +61,8 @@ export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertChatRoom = z.infer<typeof insertChatRoomSchema>;
 export type ChatRoom = typeof chatRooms.$inferSelect;
+export type InsertGroupMembership = z.infer<typeof insertGroupMembershipSchema>;
+export type GroupMembership = typeof groupMemberships.$inferSelect;
 export type InsertChatMessage = z.infer<typeof insertChatMessageSchema>;
 export type ChatMessage = typeof chatMessages.$inferSelect;
 
