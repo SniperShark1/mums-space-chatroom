@@ -180,7 +180,6 @@ export default function CreateGroupModal({ isOpen, onClose, currentUserId }: Cre
                     <Checkbox
                       id={`user-${user.id}`}
                       checked={selectedUsers.includes(user.id)}
-                      onCheckedChange={() => handleUserToggle(user.id)}
                       disabled={!selectedUsers.includes(user.id) && selectedUsers.length >= 5}
                       className="pointer-events-none"
                     />
@@ -222,7 +221,11 @@ export default function CreateGroupModal({ isOpen, onClose, currentUserId }: Cre
             <Button
               type="submit"
               disabled={createGroup.isPending || !groupName.trim() || selectedUsers.length === 0}
-              className="bg-pink-600 hover:bg-pink-700"
+              className={`transition-all duration-200 ${
+                !groupName.trim() || selectedUsers.length === 0
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-pink-600 hover:bg-pink-700 text-white shadow-lg hover:shadow-xl'
+              }`}
             >
               {createGroup.isPending ? "Creating..." : "Create Group"}
             </Button>
