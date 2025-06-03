@@ -379,21 +379,21 @@ export default function MumsSpaceChat() {
   return (
     <div className="h-screen bg-gradient-to-br from-pink-100 to-pink-200 font-serif flex flex-col overflow-hidden">
       {/* Top Bar */}
-      <div className="w-full py-3 px-6 border-b-2 border-white flex items-center justify-between flex-shrink-0" style={{ backgroundColor: '#fcb3c4' }}>
-        <div className="flex-1"></div>
-        <h1 className="text-center text-white font-bold text-xl font-serif">
+      <div className="w-full py-3 px-6 md:px-6 px-3 border-b-2 border-white flex items-center justify-between flex-shrink-0" style={{ backgroundColor: '#fcb3c4' }}>
+        <div className="flex-1 md:block hidden"></div>
+        <h1 className="text-center text-white font-bold text-xl md:text-xl text-lg font-serif">
           Mum's Space Chatroom
         </h1>
-        <div className="flex-1 flex justify-end gap-2">
+        <div className="flex-1 flex justify-end gap-2 md:gap-2 gap-1">
           <Button 
-            className="hover:bg-blue-200 text-blue-800 rounded-full px-3 py-2 text-xs border-4 border-white"
+            className="hover:bg-blue-200 text-blue-800 rounded-full px-3 py-2 md:px-3 px-2 text-xs md:text-xs text-xs border-4 border-white md:min-h-0 min-h-[44px]"
             style={{ backgroundColor: '#d5d8ed' }}
             onClick={() => setShowGuide(!showGuide)}
           >
             💡 Guide
           </Button>
           <Button 
-            className="hover:bg-blue-200 text-blue-800 rounded-full px-4 py-2 text-sm border-4 border-white"
+            className="hover:bg-blue-200 text-blue-800 rounded-full px-4 py-2 md:px-4 px-3 text-sm md:text-sm text-xs border-4 border-white md:min-h-0 min-h-[44px]"
             style={{ backgroundColor: '#d5d8ed' }}
             onClick={handleAIHelp}
           >
@@ -404,8 +404,8 @@ export default function MumsSpaceChat() {
       </div>
 
       {/* Room Tabs */}
-      <div className="w-full px-6 py-2" style={{ backgroundColor: '#fcb3c4' }}>
-        <div className="flex space-x-2 overflow-x-auto">
+      <div className="w-full px-6 py-2 md:px-6 px-3" style={{ backgroundColor: '#fcb3c4' }}>
+        <div className="flex space-x-2 md:space-x-2 space-x-1 overflow-x-auto">
           {rooms.map((room) => {
             const isActive = activeRoomId === room.id.toString();
             const isPrivateGroup = room.isPrivateGroup;
@@ -414,7 +414,7 @@ export default function MumsSpaceChat() {
               <button
                 key={room.id}
                 onClick={() => handleRoomChange(room.id.toString())}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap flex items-center gap-2 border-4 border-white ${
+                className={`px-4 py-2 md:px-4 px-3 md:py-2 py-3 rounded-lg text-sm md:text-sm text-xs font-medium transition-all whitespace-nowrap flex items-center gap-2 border-4 border-white md:min-h-0 min-h-[44px] ${
                   isActive 
                     ? 'bg-white bg-opacity-30 text-white shadow-md' 
                     : 'bg-white bg-opacity-10 text-white hover:bg-opacity-20'
@@ -748,7 +748,7 @@ export default function MumsSpaceChat() {
           }}
         >
           
-          <div className="flex items-center space-x-3 px-6 pt-6 pb-3">
+          <div className="flex items-center space-x-3 px-6 pt-6 pb-3 md:px-6 px-4">
             <textarea
               ref={inputRef}
               value={newMessage}
@@ -758,18 +758,19 @@ export default function MumsSpaceChat() {
               disabled={sendMessage.isPending}
               rows={1}
               wrap="soft"
-              className="flex-1 rounded-full px-6 py-3 border-2 border-white outline-none focus:ring-2 focus:ring-pink-300 resize-none overflow-x-hidden"
+              className="flex-1 rounded-full px-6 py-3 md:px-6 px-4 md:py-3 py-4 border-2 border-white outline-none focus:ring-2 focus:ring-pink-300 resize-none overflow-x-hidden md:text-lg text-base"
               style={{ 
                 backgroundColor: '#d5d8ed',
                 color: '#000000',
-                fontSize: '18px',
-                fontWeight: '500'
+                fontSize: window.innerWidth < 768 ? '16px' : '18px',
+                fontWeight: '500',
+                minHeight: window.innerWidth < 768 ? '44px' : 'auto'
               }}
             />
             <Button 
               onClick={handleSend}
               disabled={!newMessage.trim() || sendMessage.isPending}
-              className="bg-pink-300 hover:bg-pink-400 text-pink-800 rounded-full px-6 py-3 border-2 border-white"
+              className="bg-pink-300 hover:bg-pink-400 text-pink-800 rounded-full px-6 py-3 md:px-6 px-4 md:py-3 py-4 border-2 border-white md:min-h-0 min-h-[44px] md:min-w-0 min-w-[44px]"
             >
               <Send size={20} />
             </Button>
