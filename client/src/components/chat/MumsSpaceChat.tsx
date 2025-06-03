@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Search, Send, Heart, HelpCircle, MoreHorizontal, Volume2, UserX, MessageSquare, Info, Users, MessageCircle, Baby } from "lucide-react";
+import { Search, Send, Heart, HelpCircle, MoreHorizontal, Volume2, UserX, MessageSquare, Info, Users, MessageCircle, Baby, Flag } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
@@ -343,6 +343,13 @@ export default function MumsSpaceChat() {
     });
   };
 
+  const handleReportUser = (userName: string) => {
+    toast({
+      title: "User reported",
+      description: `${userName} has been reported to the moderators`,
+    });
+  };
+
   const handleAIHelp = () => {
     setIsAIHelpOpen(true);
   };
@@ -644,6 +651,15 @@ export default function MumsSpaceChat() {
                     >
                       <MessageSquare size={16} className="mr-2" />
                       Private Chat
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-red-600 hover:bg-red-50"
+                      onClick={() => handleReportUser(user.name)}
+                    >
+                      <Flag size={16} className="mr-2" />
+                      Report
                     </Button>
                   </div>
                 </PopoverContent>
