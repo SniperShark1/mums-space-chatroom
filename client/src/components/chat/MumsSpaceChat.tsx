@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import AIHelpModal from "./AIHelpModal";
 import CreateGroupModal from "./CreateGroupModal";
+import ReportUserModal from "./ReportUserModal";
 import type { ChatRoom, MessageWithUser, User } from "@shared/schema";
 import LoveEmojiPath from "@assets/Love.png";
 import BRBEmojiPath from "@assets/BRB.png";
@@ -52,6 +53,8 @@ export default function MumsSpaceChat() {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [reportedUsername, setReportedUsername] = useState("");
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -344,10 +347,8 @@ export default function MumsSpaceChat() {
   };
 
   const handleReportUser = (userName: string) => {
-    toast({
-      title: "User reported",
-      description: `${userName} has been reported to the moderators`,
-    });
+    setReportedUsername(userName);
+    setIsReportModalOpen(true);
   };
 
   const handleAIHelp = () => {
@@ -876,6 +877,14 @@ export default function MumsSpaceChat() {
         isOpen={isCreateGroupOpen} 
         onClose={() => setIsCreateGroupOpen(false)}
         currentUserId={1}
+      />
+
+      {/* Report User Modal */}
+      <ReportUserModal
+        isOpen={isReportModalOpen}
+        onClose={() => setIsReportModalOpen(false)}
+        reportedUsername={reportedUsername}
+        reporterId={1}
       />
     </div>
   );

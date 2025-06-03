@@ -374,6 +374,25 @@ export class MemStorage implements IStorage {
       }
     };
   }
+
+  async createUserReport(insertReport: InsertUserReport): Promise<UserReport> {
+    const report: UserReport = {
+      id: this.currentReportId++,
+      reporterId: insertReport.reporterId,
+      reportedUserId: insertReport.reportedUserId,
+      reason: insertReport.reason,
+      description: insertReport.description || null,
+      status: insertReport.status || "pending",
+      createdAt: new Date()
+    };
+    
+    this.userReports.set(report.id, report);
+    return report;
+  }
+
+  async getUserReports(): Promise<UserReport[]> {
+    return Array.from(this.userReports.values());
+  }
 }
 
 export const storage = new MemStorage();
