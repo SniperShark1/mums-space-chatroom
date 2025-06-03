@@ -51,7 +51,7 @@ export default function MumsSpaceChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
-  const [showGuide, setShowGuide] = useState(false);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -388,7 +388,7 @@ export default function MumsSpaceChat() {
           <Button 
             className="hover:bg-blue-200 text-blue-800 rounded-full px-3 py-2 md:px-3 px-2 text-xs md:text-xs text-xs border-4 border-white md:min-h-0 min-h-[44px]"
             style={{ backgroundColor: '#d5d8ed' }}
-            onClick={() => setShowGuide(!showGuide)}
+            onClick={() => setIsGuideOpen(!isGuideOpen)}
           >
             💡 Guide
           </Button>
