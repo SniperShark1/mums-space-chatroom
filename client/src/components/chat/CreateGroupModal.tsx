@@ -61,8 +61,7 @@ export default function CreateGroupModal({ isOpen, onClose, currentUserId }: Cre
       });
 
       // Reset form and close modal
-      setGroupName("");
-      setSelectedUsers([]);
+      handleReset();
       onClose();
 
       // Refresh chat rooms
@@ -82,6 +81,16 @@ export default function CreateGroupModal({ isOpen, onClose, currentUserId }: Cre
         ? prev.filter(id => id !== userId)
         : [...prev, userId]
     );
+  };
+
+  const handleReset = () => {
+    setGroupName("");
+    setSelectedUsers([]);
+  };
+
+  const handleClose = () => {
+    handleReset();
+    onClose();
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -121,7 +130,7 @@ export default function CreateGroupModal({ isOpen, onClose, currentUserId }: Cre
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-md max-h-[600px] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-pink-800">
@@ -157,7 +166,11 @@ export default function CreateGroupModal({ isOpen, onClose, currentUserId }: Cre
                 <p className="text-gray-500 text-sm text-center py-4">No other users available</p>
               ) : (
                 availableUsers.map((user) => (
-                  <div key={user.id} className="flex items-center space-x-3 p-2 hover:bg-pink-50 rounded">
+                  <div key={user.id} className={`flex items-center space-x-3 p-2 rounded transition-colors ${
+                    selectedUsers.includes(user.id) 
+                      ? 'bg-pink-100 border border-pink-300' 
+                      : 'hover:bg-pink-50'
+                  }`}>
                     <Checkbox
                       id={`user-${user.id}`}
                       checked={selectedUsers.includes(user.id)}
@@ -186,7 +199,7 @@ export default function CreateGroupModal({ isOpen, onClose, currentUserId }: Cre
             <Button
               type="button"
               variant="outline"
-              onClick={onClose}
+              onClick={handleClose}
               className="text-pink-600 border-pink-300 hover:bg-pink-50"
             >
               Cancel
