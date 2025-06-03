@@ -10,6 +10,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import AIHelpModal from "./AIHelpModal";
 import type { ChatRoom, MessageWithUser, User } from "@shared/schema";
 import LoveEmojiPath from "@assets/Love.png";
+import BRBEmojiPath from "@assets/BRB.png";
 
 export default function MumsSpaceChat() {
   const [activeRoomId, setActiveRoomId] = useState("1");
@@ -125,12 +126,43 @@ export default function MumsSpaceChat() {
         </span>
       );
     }
+    
+    if (content.includes('🔥CUSTOM_BRB_EMOJI🔥')) {
+      const parts = content.split('🔥CUSTOM_BRB_EMOJI🔥');
+      return (
+        <span>
+          {parts.map((part, index) => (
+            <span key={index}>
+              {part}
+              {index < parts.length - 1 && (
+                <img 
+                  src={BRBEmojiPath} 
+                  alt="🏃‍♀️" 
+                  className="inline-block w-6 h-6 mx-1 align-middle" 
+                />
+              )}
+            </span>
+          ))}
+        </span>
+      );
+    }
+    
     return content;
   };
 
   const handleSend = () => {
     if (newMessage.trim()) {
-      const messageWithEmojis = replaceWithEmojis(newMessage);
+      let messageWithEmojis = replaceWithEmojis(newMessage);
+      
+      // Convert "love" to custom emoji placeholder
+      if (messageWithEmojis.includes('❤️')) {
+        messageWithEmojis = messageWithEmojis.replace(/❤️/g, '🔥CUSTOM_LOVE_EMOJI🔥');
+      }
+      // Convert "brb" to custom emoji placeholder  
+      if (messageWithEmojis.includes('🏃‍♀️')) {
+        messageWithEmojis = messageWithEmojis.replace(/🏃‍♀️/g, '🔥CUSTOM_BRB_EMOJI🔥');
+      }
+      
       sendMessage.mutate(messageWithEmojis);
       // Keep focus on input field after sending
       setTimeout(() => {
@@ -525,7 +557,7 @@ export default function MumsSpaceChat() {
                   <div className="grid grid-cols-2 gap-1 text-xs">
                     <div className="space-y-1">
                       <div><span className="text-pink-600">lol</span> → 😂</div>
-                      <div><span className="text-pink-600">brb</span> → 🏃‍♀️</div>
+                      <div><span className="text-pink-600">brb</span> → <img src={BRBEmojiPath} alt="🏃‍♀️" className="inline-block w-4 h-4 align-middle" /></div>
                       <div><span className="text-pink-600">omg</span> → 😱</div>
                       <div><span className="text-pink-600">thanks</span> → 🙏</div>
                       <div><span className="text-pink-600">love</span> → <img src={LoveEmojiPath} alt="❤️" className="inline-block w-4 h-4 align-middle" /></div>
