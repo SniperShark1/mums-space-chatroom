@@ -33,17 +33,21 @@ export default function CreateGroupModal({ isOpen, onClose, currentUserId }: Cre
 
   const createGroup = useMutation({
     mutationFn: async (groupData: { name: string; description?: string; createdBy: number }) => {
-      return apiRequest("/api/groups", {
+      const response = await fetch("/api/groups", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(groupData),
       });
+      if (!response.ok) throw new Error("Failed to create group");
+      return response.json();
     },
     onSuccess: async (newGroup) => {
       // Add selected members to the group
       for (const userId of selectedUsers) {
         try {
-          await apiRequest(`/api/groups/${newGroup.id}/members`, {
+          await fetch(`/api/groups/${newGroup.id}/members`, {
             method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userId }),
           });
         } catch (error) {

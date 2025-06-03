@@ -43,6 +43,7 @@ export default function MumsSpaceChat() {
   const [blockedUsers, setBlockedUsers] = useState<string[]>([]);
   const [privateChatUser, setPrivateChatUser] = useState<string | null>(null);
   const [isAIHelpOpen, setIsAIHelpOpen] = useState(false);
+  const [isCreateGroupOpen, setIsCreateGroupOpen] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(320);
   const [textSize, setTextSize] = useState("16");
   const [inputAreaHeight, setInputAreaHeight] = useState(120);
@@ -432,6 +433,15 @@ export default function MumsSpaceChat() {
               ))}
             </SelectContent>
           </Select>
+
+          {/* Create Group Button */}
+          <Button
+            onClick={() => setIsCreateGroupOpen(true)}
+            className="w-full bg-pink-500 hover:bg-pink-600 text-white rounded-full flex items-center gap-2"
+          >
+            <Users size={16} />
+            Create Private Group
+          </Button>
         </div>
 
         {/* Users List */}
@@ -711,6 +721,13 @@ export default function MumsSpaceChat() {
       <AIHelpModal 
         isOpen={isAIHelpOpen} 
         onClose={() => setIsAIHelpOpen(false)} 
+      />
+
+      {/* Create Group Modal */}
+      <CreateGroupModal 
+        isOpen={isCreateGroupOpen} 
+        onClose={() => setIsCreateGroupOpen(false)}
+        currentUserId={1}
       />
     </div>
   );

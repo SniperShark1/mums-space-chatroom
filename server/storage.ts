@@ -98,47 +98,72 @@ export class MemStorage implements IStorage {
         password: "demo123",
         ageGroup: "0-1",
         initials: "S",
-        avatarColor: "pink"
+        avatarColor: "blue"
       },
       {
         username: "Jessica",
         password: "demo123", 
         ageGroup: "0-1",
         initials: "J",
-        avatarColor: "pink"
+        avatarColor: "purple"
       },
       {
         username: "Megan",
         password: "demo123",
         ageGroup: "2-5", 
         initials: "M",
-        avatarColor: "pink"
+        avatarColor: "green"
       },
       {
         username: "Victoria",
         password: "demo123",
         ageGroup: "2-5",
-        initials: "V", 
-        avatarColor: "pink"
-      },
-      {
-        username: "Olivia",
-        password: "demo123",
-        ageGroup: "mums-to-be",
-        initials: "O",
-        avatarColor: "pink"
+        initials: "V",
+        avatarColor: "orange"
       },
       {
         username: "Rachel",
         password: "demo123",
-        ageGroup: "0-1",
+        ageGroup: "mums-to-be",
         initials: "R",
-        avatarColor: "pink"
+        avatarColor: "teal"
       },
       {
-        username: "Sophia",
+        username: "Amy",
+        password: "demo123",
+        ageGroup: "0-1",
+        initials: "A",
+        avatarColor: "red"
+      },
+      {
+        username: "Sophie",
         password: "demo123",
         ageGroup: "2-5",
+        initials: "So",
+        avatarColor: "indigo"
+      },
+      {
+        username: "Claire",
+        password: "demo123",
+        ageGroup: "mums-to-be",
+        initials: "C",
+        avatarColor: "yellow"
+      },
+      {
+        username: "Lisa",
+        password: "demo123",
+        ageGroup: "0-1",
+        initials: "L", 
+        avatarColor: "cyan"
+      },
+      {
+        username: "Hannah",
+        password: "demo123",
+        ageGroup: "2-5",
+        initials: "H",
+        avatarColor: "rose"
+      }
+    ];
         initials: "S",
         avatarColor: "pink"
       }
