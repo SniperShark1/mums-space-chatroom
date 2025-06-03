@@ -31,6 +31,8 @@ import WorriedEmojiPath from "@assets/worried.png";
 import StressedEmojiPath from "@assets/Stressed.png";
 import ShockedEmojiPath from "@assets/Shocked.png";
 import AnnoyedNewEmojiPath from "@assets/Annoyed.png";
+import AnnoyedAltEmojiPath from "@assets/Annoyed .png";
+import SleepyEmojiPath from "@assets/sleepy.png";
 
 export default function MumsSpaceChat() {
   const [activeRoomId, setActiveRoomId] = useState("1");
@@ -101,7 +103,7 @@ export default function MumsSpaceChat() {
       'hugs': '🤗',
       'clap': '👏',
       'good luck': '🍀',
-      'sleepy': '😴',
+      'sleepy': '🔥CUSTOM_SLEEPY_EMOJI🔥',
       'tired': '🔥CUSTOM_TIRED_EMOJI🔥',
       'angry': '🔥CUSTOM_ANGRY_EMOJI🔥',
       'mad': '🔥CUSTOM_MAD_EMOJI🔥',
@@ -150,7 +152,8 @@ export default function MumsSpaceChat() {
       '🔥CUSTOM_TIRED_EMOJI🔥': { src: TiredEmojiPath, alt: '😴' },
       '🔥CUSTOM_WORRIED_EMOJI🔥': { src: WorriedEmojiPath, alt: '😰' },
       '🔥CUSTOM_STRESSED_EMOJI🔥': { src: StressedEmojiPath, alt: '😰' },
-      '🔥CUSTOM_SHOCKED_EMOJI🔥': { src: ShockedEmojiPath, alt: '😲' }
+      '🔥CUSTOM_SHOCKED_EMOJI🔥': { src: ShockedEmojiPath, alt: '😲' },
+      '🔥CUSTOM_SLEEPY_EMOJI🔥': { src: SleepyEmojiPath, alt: '😴' }
     };
 
     // Check if any custom emojis exist in the content
@@ -265,6 +268,7 @@ export default function MumsSpaceChat() {
       if (messageWithEmojis.includes('😲')) {
         messageWithEmojis = messageWithEmojis.replace(/😲/g, '🔥CUSTOM_SHOCKED_EMOJI🔥');
       }
+      // Note: sleepy emoji is handled by word conversion, not direct emoji replacement
       
       sendMessage.mutate(messageWithEmojis);
       // Keep focus on input field after sending
@@ -673,7 +677,7 @@ export default function MumsSpaceChat() {
                     </div>
                     <div className="space-y-1">
                       <div><span className="text-pink-600">tired</span> → <img src={TiredEmojiPath} alt="😴" className="inline-block w-4 h-4 align-middle" /></div>
-                      <div><span className="text-pink-600">sleepy</span> → 😴</div>
+                      <div><span className="text-pink-600">sleepy</span> → <img src={SleepyEmojiPath} alt="😴" className="inline-block w-4 h-4 align-middle" /></div>
                       <div><span className="text-pink-600">angry</span> → <img src={AngryEmojiPath} alt="😠" className="inline-block w-4 h-4 align-middle" /></div>
                       <div><span className="text-pink-600">mad</span> → <img src={MadEmojiPath} alt="😡" className="inline-block w-4 h-4 align-middle" /></div>
                       <div><span className="text-pink-600">frustrated</span> → <img src={FrustratedEmojiPath} alt="😤" className="inline-block w-4 h-4 align-middle" /></div>
