@@ -715,6 +715,29 @@ export default function MumsSpaceChat() {
 
         </div>
         </div>
+
+        {/* Info Bar - Chat Features Help */}
+        <div className="bg-pink-50 border-t border-pink-200 p-3">
+          <div className="flex items-center justify-between text-xs text-pink-700">
+            <div className="flex items-center gap-4">
+              <span className="flex items-center gap-1">
+                <Users size={12} />
+                <strong>Create Group:</strong> Private chat for 2-6 people
+              </span>
+              <span className="flex items-center gap-1">
+                <MessageSquare size={12} />
+                <strong>Type words:</strong> love, lol, thanks → custom emojis
+              </span>
+              <span className="flex items-center gap-1">
+                <HelpCircle size={12} />
+                <strong>AI Help:</strong> Parenting advice & support
+              </span>
+            </div>
+            <span className="text-pink-600 font-medium">
+              {rooms.length > 0 ? `${rooms.length} rooms available` : "Loading rooms..."}
+            </span>
+          </div>
+        </div>
       </div>
 
       {/* AI Help Modal */}
