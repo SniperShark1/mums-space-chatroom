@@ -377,11 +377,11 @@ export default function MumsSpaceChat() {
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-pink-100 to-pink-200 font-serif flex flex-col">
+    <div className="h-screen bg-gradient-to-br from-pink-100 to-pink-200 font-serif flex flex-col overflow-hidden">
       {/* Top Bar */}
-      <div className="w-full py-4 px-6 border-b-2 border-white flex items-center justify-between" style={{ backgroundColor: '#fcb3c4' }}>
+      <div className="w-full py-3 px-6 border-b-2 border-white flex items-center justify-between flex-shrink-0" style={{ backgroundColor: '#fcb3c4' }}>
         <div className="flex-1"></div>
-        <h1 className="text-center text-white font-bold text-2xl font-serif">
+        <h1 className="text-center text-white font-bold text-xl font-serif">
           Mum's Space Chatroom
         </h1>
         <div className="flex-1 flex justify-end gap-2">
@@ -667,9 +667,9 @@ export default function MumsSpaceChat() {
       </div>
 
       {/* Right Chat Area */}
-      <div className="flex-1 flex flex-col relative h-screen overflow-hidden bg-white">
+      <div className="flex-1 flex flex-col bg-white">
         {/* Room Title Bar with Text Size */}
-        <div className="bg-pink-200 p-2 border-b border-white flex items-center justify-between">
+        <div className="bg-pink-200 p-2 border-b border-white flex items-center justify-between flex-shrink-0">
           <h2 className="text-lg font-bold text-pink-800">
             {activeRoom?.name || 'Chat Room'}
           </h2>
@@ -697,7 +697,7 @@ export default function MumsSpaceChat() {
           className="flex-1 overflow-y-auto px-6 py-4 space-y-4"
           onScroll={handleScroll}
           style={{ 
-            marginBottom: `${inputAreaHeight}px`
+            height: 'calc(100vh - 280px)'
           }}
         >
           {!messages || messages.length === 0 ? (
@@ -739,35 +739,14 @@ export default function MumsSpaceChat() {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Resizable Message Input */}
+        {/* Fixed Message Input */}
         <div 
-          className="absolute bottom-0 left-0 right-0 border-t border-pink-200" 
+          className="border-t border-pink-200 flex-shrink-0" 
           style={{ 
             backgroundColor: '#fed1dc',
-            height: `${inputAreaHeight}px`
+            height: '120px'
           }}
         >
-          {/* Resize Handle */}
-          <div 
-            className="absolute top-0 left-0 right-0 h-1 bg-pink-300 cursor-row-resize hover:bg-pink-400"
-            onMouseDown={(e) => {
-              const startY = e.clientY;
-              const startHeight = inputAreaHeight;
-              
-              const handleMouseMove = (e: MouseEvent) => {
-                const newHeight = Math.max(80, Math.min(300, startHeight - (e.clientY - startY)));
-                setInputAreaHeight(newHeight);
-              };
-              
-              const handleMouseUp = () => {
-                document.removeEventListener('mousemove', handleMouseMove);
-                document.removeEventListener('mouseup', handleMouseUp);
-              };
-              
-              document.addEventListener('mousemove', handleMouseMove);
-              document.addEventListener('mouseup', handleMouseUp);
-            }}
-          />
           
           <div className="flex items-center space-x-3 px-6 pt-6 pb-3">
             <textarea
