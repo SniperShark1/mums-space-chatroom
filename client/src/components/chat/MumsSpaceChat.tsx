@@ -11,6 +11,11 @@ import AIHelpModal from "./AIHelpModal";
 import type { ChatRoom, MessageWithUser, User } from "@shared/schema";
 import LoveEmojiPath from "@assets/Love.png";
 import BRBEmojiPath from "@assets/BRB.png";
+import ClapEmojiPath from "@assets/Clap.png";
+import HugsEmojiPath from "@assets/Hugs.png";
+import OMGEmojiPath from "@assets/OMG.png";
+import SmileEmojiPath from "@assets/Smile.png";
+import ThanksEmojiPath from "@assets/Thanks.png";
 
 export default function MumsSpaceChat() {
   const [activeRoomId, setActiveRoomId] = useState("1");
@@ -79,6 +84,7 @@ export default function MumsSpaceChat() {
       'congrats': '🎉',
       'congratulations': '🎉',
       'hugs': '🤗',
+      'clap': '👏',
       'good luck': '🍀',
       'sleepy': '😴',
       'tired': '😴',
@@ -147,6 +153,106 @@ export default function MumsSpaceChat() {
       );
     }
     
+    if (content.includes('🔥CUSTOM_CLAP_EMOJI🔥')) {
+      const parts = content.split('🔥CUSTOM_CLAP_EMOJI🔥');
+      return (
+        <span>
+          {parts.map((part, index) => (
+            <span key={index}>
+              {part}
+              {index < parts.length - 1 && (
+                <img 
+                  src={ClapEmojiPath} 
+                  alt="👏" 
+                  className="inline-block w-10 h-10 mx-1 align-middle" 
+                />
+              )}
+            </span>
+          ))}
+        </span>
+      );
+    }
+    
+    if (content.includes('🔥CUSTOM_HUGS_EMOJI🔥')) {
+      const parts = content.split('🔥CUSTOM_HUGS_EMOJI🔥');
+      return (
+        <span>
+          {parts.map((part, index) => (
+            <span key={index}>
+              {part}
+              {index < parts.length - 1 && (
+                <img 
+                  src={HugsEmojiPath} 
+                  alt="🤗" 
+                  className="inline-block w-10 h-10 mx-1 align-middle" 
+                />
+              )}
+            </span>
+          ))}
+        </span>
+      );
+    }
+    
+    if (content.includes('🔥CUSTOM_OMG_EMOJI🔥')) {
+      const parts = content.split('🔥CUSTOM_OMG_EMOJI🔥');
+      return (
+        <span>
+          {parts.map((part, index) => (
+            <span key={index}>
+              {part}
+              {index < parts.length - 1 && (
+                <img 
+                  src={OMGEmojiPath} 
+                  alt="😱" 
+                  className="inline-block w-10 h-10 mx-1 align-middle" 
+                />
+              )}
+            </span>
+          ))}
+        </span>
+      );
+    }
+    
+    if (content.includes('🔥CUSTOM_SMILE_EMOJI🔥')) {
+      const parts = content.split('🔥CUSTOM_SMILE_EMOJI🔥');
+      return (
+        <span>
+          {parts.map((part, index) => (
+            <span key={index}>
+              {part}
+              {index < parts.length - 1 && (
+                <img 
+                  src={SmileEmojiPath} 
+                  alt="😊" 
+                  className="inline-block w-10 h-10 mx-1 align-middle" 
+                />
+              )}
+            </span>
+          ))}
+        </span>
+      );
+    }
+    
+    if (content.includes('🔥CUSTOM_THANKS_EMOJI🔥')) {
+      const parts = content.split('🔥CUSTOM_THANKS_EMOJI🔥');
+      return (
+        <span>
+          {parts.map((part, index) => (
+            <span key={index}>
+              {part}
+              {index < parts.length - 1 && (
+                <img 
+                  src={ThanksEmojiPath} 
+                  alt="🙏" 
+                  className="inline-block w-10 h-10 mx-1 align-middle" 
+                />
+              )}
+            </span>
+          ))}
+        </span>
+      );
+    }
+    
     return content;
   };
 
@@ -161,6 +267,22 @@ export default function MumsSpaceChat() {
       // Convert "brb" to custom emoji placeholder  
       if (messageWithEmojis.includes('🏃‍♀️')) {
         messageWithEmojis = messageWithEmojis.replace(/🏃‍♀️/g, '🔥CUSTOM_BRB_EMOJI🔥');
+      }
+      // Convert additional emojis to custom placeholders
+      if (messageWithEmojis.includes('👏')) {
+        messageWithEmojis = messageWithEmojis.replace(/👏/g, '🔥CUSTOM_CLAP_EMOJI🔥');
+      }
+      if (messageWithEmojis.includes('🤗')) {
+        messageWithEmojis = messageWithEmojis.replace(/🤗/g, '🔥CUSTOM_HUGS_EMOJI🔥');
+      }
+      if (messageWithEmojis.includes('😱')) {
+        messageWithEmojis = messageWithEmojis.replace(/😱/g, '🔥CUSTOM_OMG_EMOJI🔥');
+      }
+      if (messageWithEmojis.includes('😊')) {
+        messageWithEmojis = messageWithEmojis.replace(/😊/g, '🔥CUSTOM_SMILE_EMOJI🔥');
+      }
+      if (messageWithEmojis.includes('🙏')) {
+        messageWithEmojis = messageWithEmojis.replace(/🙏/g, '🔥CUSTOM_THANKS_EMOJI🔥');
       }
       
       sendMessage.mutate(messageWithEmojis);
@@ -558,11 +680,12 @@ export default function MumsSpaceChat() {
                     <div className="space-y-1">
                       <div><span className="text-pink-600">lol</span> → 😂</div>
                       <div><span className="text-pink-600">brb</span> → <img src={BRBEmojiPath} alt="🏃‍♀️" className="inline-block w-4 h-4 align-middle" /></div>
-                      <div><span className="text-pink-600">omg</span> → 😱</div>
-                      <div><span className="text-pink-600">thanks</span> → 🙏</div>
+                      <div><span className="text-pink-600">omg</span> → <img src={OMGEmojiPath} alt="😱" className="inline-block w-4 h-4 align-middle" /></div>
+                      <div><span className="text-pink-600">thanks</span> → <img src={ThanksEmojiPath} alt="🙏" className="inline-block w-4 h-4 align-middle" /></div>
                       <div><span className="text-pink-600">love</span> → <img src={LoveEmojiPath} alt="❤️" className="inline-block w-4 h-4 align-middle" /></div>
-                      <div><span className="text-pink-600">hugs</span> → 🤗</div>
-                      <div><span className="text-pink-600">happy</span> → 😊</div>
+                      <div><span className="text-pink-600">hugs</span> → <img src={HugsEmojiPath} alt="🤗" className="inline-block w-4 h-4 align-middle" /></div>
+                      <div><span className="text-pink-600">happy</span> → <img src={SmileEmojiPath} alt="😊" className="inline-block w-4 h-4 align-middle" /></div>
+                      <div><span className="text-pink-600">clap</span> → <img src={ClapEmojiPath} alt="👏" className="inline-block w-4 h-4 align-middle" /></div>
                       <div><span className="text-pink-600">sad</span> → 😢</div>
                       <div><span className="text-pink-600">crying</span> → 😭</div>
                       <div><span className="text-pink-600">excited</span> → 🎉</div>
