@@ -464,7 +464,7 @@ export default function MumsSpaceChat() {
           >
             <div className="px-6 py-4">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-bold text-pink-800 text-lg">How to Use Mum's Space Chat</h3>
+                <h3 className="font-bold text-pink-800 text-3xl">How to Use Mum's Space Chat</h3>
                 <Button 
                   onClick={() => setIsGuideOpen(false)}
                   variant="ghost" 
@@ -477,7 +477,7 @@ export default function MumsSpaceChat() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
               <div className="bg-white p-4 rounded-lg border-2 border-pink-200 shadow-sm">
-                <h4 className="font-semibold text-pink-700 mb-2 flex items-center gap-2">
+                <h4 className="font-semibold text-pink-700 mb-2 flex items-center gap-2 text-xl">
                   🎨 Custom 3D Emojis
                 </h4>
                 <p className="text-gray-700 mb-2">Type these words and they automatically become beautiful 3D emojis:</p>
@@ -696,7 +696,7 @@ export default function MumsSpaceChat() {
       <div className="flex-1 flex flex-col bg-white">
         {/* Room Title Bar with Text Size */}
         <div className="bg-pink-200 p-2 border-b border-white flex items-center justify-between flex-shrink-0">
-          <h2 className="text-lg font-bold text-pink-800">
+          <h2 className="text-3xl font-bold text-pink-800">
             {activeRoom?.name || 'Chat Room'}
           </h2>
           <div className="flex items-center space-x-2">
