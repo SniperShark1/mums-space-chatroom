@@ -242,11 +242,66 @@ export class MemStorage implements IStorage {
     const room: ChatRoom = {
       ...insertRoom,
       description: insertRoom.description || null,
+      isPrivateGroup: insertRoom.isPrivateGroup ?? false,
+      createdBy: insertRoom.createdBy ?? null,
       id,
       createdAt: new Date()
     };
     this.chatRooms.set(id, room);
     return room;
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return Array.from(this.users.values());
+  }
+
+  async getUserRooms(userId: number): Promise<ChatRoom[]> {
+    const publicRooms = Array.from(this.chatRooms.values()).filter(room => !room.isPrivateGroup);
+    const userPrivateGroups = Array.from(this.groupMemberships.values())
+      .filter(membership => membership.userId === userId)
+      .map(membership => this.chatRooms.get(membership.roomId))
+      .filter(room => room !== undefined) as ChatRoom[];
+    
+    return [...publicRooms, ...userPrivateGroups];
+  }
+
+  async addGroupMember(membership: InsertGroupMembership): Promise<GroupMembership> {
+    const id = this.currentMembershipId++;
+    const groupMembership: GroupMembership = {
+      ...membership,
+      id,
+      joinedAt: new Date()
+    };
+    this.groupMemberships.set(id, groupMembership);
+    return groupMembership;
+  }
+
+  async removeGroupMember(userId: number, roomId: number): Promise<void> {
+    const membership = Array.from(this.groupMemberships.entries()).find(
+      ([_, membership]) => membership.userId === userId && membership.roomId === roomId
+    );
+    if (membership) {
+      this.groupMemberships.delete(membership[0]);
+    }
+  }
+
+  async getGroupMembers(roomId: number): Promise<User[]> {
+    const membershipUserIds = Array.from(this.groupMemberships.values())
+      .filter(membership => membership.roomId === roomId)
+      .map(membership => membership.userId);
+    
+    return membershipUserIds
+      .map(userId => this.users.get(userId))
+      .filter(user => user !== undefined) as User[];
+  }
+
+  async getUserGroups(userId: number): Promise<ChatRoom[]> {
+    const userMemberships = Array.from(this.groupMemberships.values())
+      .filter(membership => membership.userId === userId);
+    
+    return userMemberships
+      .map(membership => this.chatRooms.get(membership.roomId))
+      .filter(room => room !== undefined && room.isPrivateGroup) as ChatRoom[];
   }
 
   async getMessages(roomId: number, limit: number = 50): Promise<MessageWithUser[]> {

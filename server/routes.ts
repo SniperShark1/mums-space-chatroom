@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertChatMessageSchema, insertUserSchema } from "@shared/schema";
+import { insertChatMessageSchema, insertUserSchema, insertChatRoomSchema, insertGroupMembershipSchema } from "@shared/schema";
 import { getParentingHelp } from "./ai";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -88,6 +88,109 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("AI Help error:", error);
       res.status(500).json({ error: "Unable to get AI response" });
+    }
+  });
+
+  // Get all users (for group creation)
+  app.get("/api/users", async (req, res) => {
+    try {
+      const users = await storage.getAllUsers();
+      res.json(users);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
+  // Get user's accessible rooms (including private groups)
+  app.get("/api/users/:userId/rooms", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      if (isNaN(userId)) {
+        return res.status(400).json({ error: "Invalid user ID" });
+      }
+      
+      const rooms = await storage.getUserRooms(userId);
+      res.json(rooms);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch user rooms" });
+    }
+  });
+
+  // Create a private group
+  app.post("/api/groups", async (req, res) => {
+    try {
+      const groupData = insertChatRoomSchema.parse({
+        ...req.body,
+        isPrivateGroup: true,
+        ageGroup: "group" // Private groups use generic age group
+      });
+
+      const group = await storage.createChatRoom(groupData);
+      
+      // Add creator as first member
+      if (groupData.createdBy) {
+        await storage.addGroupMember({
+          userId: groupData.createdBy,
+          roomId: group.id
+        });
+      }
+
+      res.json(group);
+    } catch (error) {
+      console.error("Group creation error:", error);
+      res.status(500).json({ error: "Failed to create group" });
+    }
+  });
+
+  // Add member to group
+  app.post("/api/groups/:groupId/members", async (req, res) => {
+    try {
+      const groupId = parseInt(req.params.groupId);
+      if (isNaN(groupId)) {
+        return res.status(400).json({ error: "Invalid group ID" });
+      }
+
+      const membershipData = insertGroupMembershipSchema.parse({
+        ...req.body,
+        roomId: groupId
+      });
+
+      const membership = await storage.addGroupMember(membershipData);
+      res.json(membership);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to add member to group" });
+    }
+  });
+
+  // Remove member from group
+  app.delete("/api/groups/:groupId/members/:userId", async (req, res) => {
+    try {
+      const groupId = parseInt(req.params.groupId);
+      const userId = parseInt(req.params.userId);
+      
+      if (isNaN(groupId) || isNaN(userId)) {
+        return res.status(400).json({ error: "Invalid group or user ID" });
+      }
+
+      await storage.removeGroupMember(userId, groupId);
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to remove member from group" });
+    }
+  });
+
+  // Get group members
+  app.get("/api/groups/:groupId/members", async (req, res) => {
+    try {
+      const groupId = parseInt(req.params.groupId);
+      if (isNaN(groupId)) {
+        return res.status(400).json({ error: "Invalid group ID" });
+      }
+
+      const members = await storage.getGroupMembers(groupId);
+      res.json(members);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch group members" });
     }
   });
 
