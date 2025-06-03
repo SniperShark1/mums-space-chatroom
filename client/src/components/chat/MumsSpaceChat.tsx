@@ -386,14 +386,14 @@ export default function MumsSpaceChat() {
         </h1>
         <div className="flex-1 flex justify-end gap-2">
           <Button 
-            className="hover:bg-blue-200 text-blue-800 rounded-full px-3 py-2 text-xs"
+            className="hover:bg-blue-200 text-blue-800 rounded-full px-3 py-2 text-xs border-4 border-white"
             style={{ backgroundColor: '#d5d8ed' }}
             onClick={() => setShowGuide(!showGuide)}
           >
             💡 Guide
           </Button>
           <Button 
-            className="hover:bg-blue-200 text-blue-800 rounded-full px-4 py-2 text-sm"
+            className="hover:bg-blue-200 text-blue-800 rounded-full px-4 py-2 text-sm border-4 border-white"
             style={{ backgroundColor: '#d5d8ed' }}
             onClick={handleAIHelp}
           >
@@ -405,51 +405,41 @@ export default function MumsSpaceChat() {
 
       {/* Room Tabs */}
       <div className="w-full px-6 py-2" style={{ backgroundColor: '#fcb3c4' }}>
-        <div className="flex items-center justify-between">
-          <div className="flex space-x-2 overflow-x-auto">
-            {rooms.map((room) => {
-              const isActive = activeRoomId === room.id.toString();
-              const isPrivateGroup = room.isPrivateGroup;
-              
-              return (
-                <button
-                  key={room.id}
-                  onClick={() => handleRoomChange(room.id.toString())}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap flex items-center gap-2 ${
-                    isActive 
-                      ? 'bg-white bg-opacity-30 text-white shadow-md' 
-                      : 'bg-white bg-opacity-10 text-white hover:bg-opacity-20'
-                  }`}
-                >
-                  {isPrivateGroup ? (
-                    <Users className="w-4 h-4" />
-                  ) : room.ageGroup === 'mums-to-be' ? (
-                    <Heart className="w-4 h-4" />
-                  ) : room.ageGroup === '0-2' ? (
-                    <Baby className="w-4 h-4" />
-                  ) : room.ageGroup === '2-5' ? (
-                    <Users className="w-4 h-4" />
-                  ) : (
-                    <MessageCircle className="w-4 h-4" />
-                  )}
-                  {room.name}
-                  {isPrivateGroup && (
-                    <span className="text-xs bg-white bg-opacity-30 px-2 py-1 rounded-full">
-                      Private
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-          <Button 
-            onClick={() => setIsCreateGroupOpen(true)}
-            className="bg-white bg-opacity-20 hover:bg-opacity-30 text-white text-sm px-3 py-1"
-            size="sm"
-          >
-            <Users className="w-4 h-4 mr-1" />
-            Create Group
-          </Button>
+        <div className="flex space-x-2 overflow-x-auto">
+          {rooms.map((room) => {
+            const isActive = activeRoomId === room.id.toString();
+            const isPrivateGroup = room.isPrivateGroup;
+            
+            return (
+              <button
+                key={room.id}
+                onClick={() => handleRoomChange(room.id.toString())}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap flex items-center gap-2 ${
+                  isActive 
+                    ? 'bg-white bg-opacity-30 text-white shadow-md' 
+                    : 'bg-white bg-opacity-10 text-white hover:bg-opacity-20'
+                }`}
+              >
+                {isPrivateGroup ? (
+                  <Users className="w-4 h-4" />
+                ) : room.ageGroup === 'mums-to-be' ? (
+                  <Heart className="w-4 h-4" />
+                ) : room.ageGroup === '0-2' ? (
+                  <Baby className="w-4 h-4" />
+                ) : room.ageGroup === '2-5' ? (
+                  <Users className="w-4 h-4" />
+                ) : (
+                  <MessageCircle className="w-4 h-4" />
+                )}
+                {room.name}
+                {isPrivateGroup && (
+                  <span className="text-xs bg-white bg-opacity-30 px-2 py-1 rounded-full">
+                    Private
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -583,28 +573,15 @@ export default function MumsSpaceChat() {
           <div className="text-blue-800 px-3 py-1 rounded-full text-center font-medium text-sm" style={{ backgroundColor: '#d5d8ed' }}>
             {roomUsers.length} mums online
           </div>
-          
-          {/* Room Filter Dropdown */}
-          <Select value={activeRoomId} onValueChange={handleRoomChange}>
-            <SelectTrigger className="bg-pink-100 border-pink-200 rounded-full text-pink-800">
-              <SelectValue placeholder="Select Room" />
-            </SelectTrigger>
-            <SelectContent>
-              {rooms.map((room) => (
-                <SelectItem key={room.id} value={room.id.toString()}>
-                  {room.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
 
           {/* Create Group Button */}
           <Button
             onClick={() => setIsCreateGroupOpen(true)}
-            className="w-full bg-pink-500 hover:bg-pink-600 text-white rounded-full flex items-center gap-2"
+            className="w-full hover:bg-blue-200 text-blue-800 rounded-full flex items-center gap-2 border-4 border-white"
+            style={{ backgroundColor: '#d5d8ed' }}
           >
             <Users size={16} />
-            Create Private Group
+            Create Group
           </Button>
         </div>
 
