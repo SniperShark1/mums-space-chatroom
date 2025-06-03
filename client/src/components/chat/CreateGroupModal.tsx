@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -170,20 +170,28 @@ export default function CreateGroupModal({ isOpen, onClose, currentUserId }: Cre
                 availableUsers.map((user) => (
                   <div 
                     key={user.id} 
-                    className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 cursor-pointer ${
+                    className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-200 ${
                       selectedUsers.includes(user.id) 
                         ? 'bg-pink-100 border-2 border-pink-400 shadow-sm' 
                         : 'hover:bg-pink-50 border-2 border-transparent'
                     }`}
-                    onClick={() => handleUserToggle(user.id)}
                   >
                     <Checkbox
                       id={`user-${user.id}`}
                       checked={selectedUsers.includes(user.id)}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setSelectedUsers(prev => [...prev, user.id]);
+                        } else {
+                          setSelectedUsers(prev => prev.filter(id => id !== user.id));
+                        }
+                      }}
                       disabled={!selectedUsers.includes(user.id) && selectedUsers.length >= 5}
-                      className="pointer-events-none"
                     />
-                    <div className="flex-1 flex items-center gap-3">
+                    <label 
+                      htmlFor={`user-${user.id}`}
+                      className="flex-1 flex items-center gap-3 cursor-pointer"
+                    >
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
                         selectedUsers.includes(user.id)
                           ? 'bg-pink-300 text-pink-800'
@@ -199,7 +207,7 @@ export default function CreateGroupModal({ isOpen, onClose, currentUserId }: Cre
                         </p>
                         <p className="text-xs text-gray-500">{user.ageGroup}</p>
                       </div>
-                    </div>
+                    </label>
                     {selectedUsers.includes(user.id) && (
                       <div className="text-pink-600 font-bold">✓</div>
                     )}
