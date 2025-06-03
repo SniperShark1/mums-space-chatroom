@@ -67,9 +67,11 @@ export default function CreateGroupModal({ isOpen, onClose, currentUserId }: Cre
       // Refresh chat rooms
       queryClient.invalidateQueries({ queryKey: ["/api/chat/rooms"] });
     },
-    onError: () => {
+    onError: (error) => {
+      console.error("Group creation error:", error);
       toast({
         title: "Failed to create group",
+        description: error.message || "Unknown error occurred",
         variant: "destructive",
       });
     },
