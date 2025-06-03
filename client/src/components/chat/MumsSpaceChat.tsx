@@ -51,6 +51,7 @@ export default function MumsSpaceChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
+  const [showGuide, setShowGuide] = useState(false);
   
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -383,7 +384,14 @@ export default function MumsSpaceChat() {
         <h1 className="text-center text-white font-bold text-2xl font-serif">
           Mum's Space Chatroom
         </h1>
-        <div className="flex-1 flex justify-end">
+        <div className="flex-1 flex justify-end gap-2">
+          <Button 
+            className="hover:bg-blue-200 text-blue-800 rounded-full px-3 py-2 text-xs"
+            style={{ backgroundColor: '#d5d8ed' }}
+            onClick={() => setShowGuide(!showGuide)}
+          >
+            💡 Guide
+          </Button>
           <Button 
             className="hover:bg-blue-200 text-blue-800 rounded-full px-4 py-2 text-sm"
             style={{ backgroundColor: '#d5d8ed' }}
@@ -417,8 +425,10 @@ export default function MumsSpaceChat() {
                     <Users className="w-4 h-4" />
                   ) : room.ageGroup === 'mums-to-be' ? (
                     <Heart className="w-4 h-4" />
-                  ) : room.ageGroup === '0-1' ? (
+                  ) : room.ageGroup === '0-2' ? (
                     <Baby className="w-4 h-4" />
+                  ) : room.ageGroup === '2-5' ? (
+                    <Users className="w-4 h-4" />
                   ) : (
                     <MessageCircle className="w-4 h-4" />
                   )}
@@ -442,6 +452,112 @@ export default function MumsSpaceChat() {
           </Button>
         </div>
       </div>
+
+      {/* Feature Guide Section */}
+      {showGuide && (
+        <div className="w-full border-b-2 border-white" style={{ backgroundColor: '#fed1dc' }}>
+          <div className="px-6 py-4">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-bold text-pink-800 text-lg">How to Use Mum's Space Chat</h3>
+              <Button 
+                onClick={() => setShowGuide(false)}
+                variant="ghost" 
+                size="sm"
+                className="text-pink-700 hover:bg-pink-200"
+              >
+                ✕
+              </Button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+              <div className="bg-white p-4 rounded-lg border-2 border-pink-200 shadow-sm">
+                <h4 className="font-semibold text-pink-700 mb-2 flex items-center gap-2">
+                  🎨 Custom 3D Emojis
+                </h4>
+                <p className="text-gray-700 mb-2">Type these words and they automatically become beautiful 3D emojis:</p>
+                <div className="text-xs text-pink-600 space-y-1">
+                  <div>• "lol", "crying", "excited", "love"</div>
+                  <div>• "tired", "stressed", "worried", "annoyed"</div>
+                  <div>• "hugs", "thanks", "omg", "brb"</div>
+                  <div>• Plus many more!</div>
+                </div>
+              </div>
+
+              <div className="bg-white p-4 rounded-lg border-2 border-pink-200 shadow-sm">
+                <h4 className="font-semibold text-pink-700 mb-2 flex items-center gap-2">
+                  👥 Private Group Chats
+                </h4>
+                <p className="text-gray-700 mb-2">Create intimate conversations with 2-5 other mums:</p>
+                <div className="text-xs text-pink-600 space-y-1">
+                  <div>• Click "Create Group" button</div>
+                  <div>• Enter a group name</div>
+                  <div>• Select participants</div>
+                  <div>• Start your private conversation</div>
+                </div>
+              </div>
+
+              <div className="bg-white p-4 rounded-lg border-2 border-pink-200 shadow-sm">
+                <h4 className="font-semibold text-pink-700 mb-2 flex items-center gap-2">
+                  🤖 AI Parenting Help
+                </h4>
+                <p className="text-gray-700 mb-2">Get personalized advice and support:</p>
+                <div className="text-xs text-pink-600 space-y-1">
+                  <div>• Click "AI Help" for instant guidance</div>
+                  <div>• Ask about sleep, feeding, behavior</div>
+                  <div>• Get age-appropriate suggestions</div>
+                  <div>• Available 24/7</div>
+                </div>
+              </div>
+
+              <div className="bg-white p-4 rounded-lg border-2 border-pink-200 shadow-sm">
+                <h4 className="font-semibold text-pink-700 mb-2 flex items-center gap-2">
+                  🔇 User Management
+                </h4>
+                <p className="text-gray-700 mb-2">Control your chat experience:</p>
+                <div className="text-xs text-pink-600 space-y-1">
+                  <div>• Click ⋯ next to usernames</div>
+                  <div>• Mute users temporarily</div>
+                  <div>• Block inappropriate users</div>
+                  <div>• Start private conversations</div>
+                </div>
+              </div>
+
+              <div className="bg-white p-4 rounded-lg border-2 border-pink-200 shadow-sm">
+                <h4 className="font-semibold text-pink-700 mb-2 flex items-center gap-2">
+                  📱 Age-Based Rooms
+                </h4>
+                <p className="text-gray-700 mb-2">Connect with mums at similar stages:</p>
+                <div className="text-xs text-pink-600 space-y-1">
+                  <div>• Mums-to-Be: Expecting mothers</div>
+                  <div>• 0-2 Years: Babies & toddlers</div>
+                  <div>• 2-5 Years: Preschool stage</div>
+                  <div>• Switch rooms anytime</div>
+                </div>
+              </div>
+
+              <div className="bg-white p-4 rounded-lg border-2 border-pink-200 shadow-sm">
+                <h4 className="font-semibold text-pink-700 mb-2 flex items-center gap-2">
+                  ⚙️ Customization
+                </h4>
+                <p className="text-gray-700 mb-2">Personalize your experience:</p>
+                <div className="text-xs text-pink-600 space-y-1">
+                  <div>• Adjust text size for comfort</div>
+                  <div>• Resize sidebar and input areas</div>
+                  <div>• Auto-scroll chat messages</div>
+                  <div>• Responsive design for all devices</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 p-3 bg-pink-100 rounded-lg border border-pink-300">
+              <p className="text-xs text-pink-800 text-center">
+                🔒 <strong>Privacy & Safety:</strong> Messages are not permanently saved. Block or mute users if needed. 
+                Report serious issues to our support team. Your safety and comfort are our priorities.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Content Area */}
       <div className="flex flex-1">
