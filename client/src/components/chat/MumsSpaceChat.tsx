@@ -389,7 +389,7 @@ export default function MumsSpaceChat() {
       {/* Top Bar */}
       <div className="w-full py-3 px-6 md:px-6 px-3 border-b-2 border-white flex items-center justify-between flex-shrink-0" style={{ backgroundColor: '#fcb3c4' }}>
         <div className="flex-1 md:block hidden"></div>
-        <h1 className="text-center text-white font-bold text-xl md:text-xl text-lg font-serif">
+        <h1 className="text-center text-white font-bold text-3xl md:text-3xl text-xl font-serif">
           Mum's Space Chatroom
         </h1>
         <div className="flex-1 flex justify-end gap-2 md:gap-2 gap-1">
