@@ -81,11 +81,6 @@ export default function MumsSpaceChat() {
         queryKey: [`/api/chat/rooms/${activeRoomId}/messages`] 
       });
       refetchMessages();
-      setNewMessage("");
-      // Keep focus on input after clearing message
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 50);
     },
     onError: () => {
       toast({
@@ -213,11 +208,7 @@ export default function MumsSpaceChat() {
     if (newMessage.trim()) {
       const messageWithEmojis = replaceWithEmojis(newMessage);
       
-      sendMessage.mutate({
-        roomId: parseInt(activeRoomId),
-        content: messageWithEmojis,
-        userId: 1
-      });
+      sendMessage.mutate(messageWithEmojis);
       setNewMessage("");
       // Keep focus on input field after sending
       setTimeout(() => {
