@@ -79,6 +79,11 @@ export default function MumsSpaceChat() {
         queryKey: [`/api/chat/rooms/${activeRoomId}/messages`] 
       });
       refetchMessages();
+      setNewMessage("");
+      // Keep focus on input after clearing message
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 50);
     },
     onError: () => {
       toast({
@@ -131,28 +136,28 @@ export default function MumsSpaceChat() {
   const renderMessageContent = (content: string) => {
     // Define all custom emoji mappings
     const customEmojis = {
-      '🔥CUSTOM_LOVE_EMOJI🔥': { src: LoveEmojiPath, alt: '❤️' },
-      '🔥CUSTOM_BRB_EMOJI🔥': { src: BRBEmojiPath, alt: '🏃‍♀️' },
-      '🔥CUSTOM_OMG_EMOJI🔥': { src: OMGEmojiPath, alt: '😱' },
-      '🔥CUSTOM_THANKS_EMOJI🔥': { src: ThanksEmojiPath, alt: '🙏' },
-      '🔥CUSTOM_HUGS_EMOJI🔥': { src: HugsEmojiPath, alt: '🤗' },
-      '🔥CUSTOM_SMILE_EMOJI🔥': { src: SmileEmojiPath, alt: '😊' },
-      '🔥CUSTOM_CLAP_EMOJI🔥': { src: ClapEmojiPath, alt: '👏' },
-      '🔥CUSTOM_LOL_EMOJI🔥': { src: LOLEmojiPath, alt: '😂' },
-      '🔥CUSTOM_FRUSTRATED_EMOJI🔥': { src: FrustratedEmojiPath, alt: '😤' },
-      '🔥CUSTOM_EXHAUSTED_EMOJI🔥': { src: ExhaustedEmojiPath, alt: '😵' },
-      '🔥CUSTOM_EXCITED_EMOJI🔥': { src: ExcitedEmojiPath, alt: '🎉' },
-      '🔥CUSTOM_MAD_EMOJI🔥': { src: MadEmojiPath, alt: '😡' },
-      '🔥CUSTOM_ANNOYED_EMOJI🔥': { src: AnnoyedEmojiPath, alt: '😒' },
-      '🔥CUSTOM_CONGRATS_EMOJI🔥': { src: CongratsEmojiPath, alt: '🎉' },
-      '🔥CUSTOM_CONFUSED_EMOJI🔥': { src: ConfusedEmojiPath, alt: '😕' },
-      '🔥CUSTOM_ANGRY_EMOJI🔥': { src: AngryEmojiPath, alt: '😠' },
-      '🔥CUSTOM_CRYING_EMOJI🔥': { src: CryingEmojiPath, alt: '😭' },
-      '🔥CUSTOM_TIRED_EMOJI🔥': { src: TiredEmojiPath, alt: '😴' },
-      '🔥CUSTOM_WORRIED_EMOJI🔥': { src: WorriedEmojiPath, alt: '😰' },
-      '🔥CUSTOM_STRESSED_EMOJI🔥': { src: StressedEmojiPath, alt: '😰' },
-      '🔥CUSTOM_SHOCKED_EMOJI🔥': { src: ShockedEmojiPath, alt: '😲' },
-      '🔥CUSTOM_SLEEPY_EMOJI🔥': { src: SleepyEmojiPath, alt: '😴' }
+      '🔥CUSTOM_LOVE_EMOJI🔥': { src: LoveEmojiPath, alt: 'love' },
+      '🔥CUSTOM_BRB_EMOJI🔥': { src: BRBEmojiPath, alt: 'brb' },
+      '🔥CUSTOM_OMG_EMOJI🔥': { src: OMGEmojiPath, alt: 'omg' },
+      '🔥CUSTOM_THANKS_EMOJI🔥': { src: ThanksEmojiPath, alt: 'thanks' },
+      '🔥CUSTOM_HUGS_EMOJI🔥': { src: HugsEmojiPath, alt: 'hugs' },
+      '🔥CUSTOM_SMILE_EMOJI🔥': { src: SmileEmojiPath, alt: 'smile' },
+      '🔥CUSTOM_CLAP_EMOJI🔥': { src: ClapEmojiPath, alt: 'clap' },
+      '🔥CUSTOM_LOL_EMOJI🔥': { src: LOLEmojiPath, alt: 'lol' },
+      '🔥CUSTOM_FRUSTRATED_EMOJI🔥': { src: FrustratedEmojiPath, alt: 'frustrated' },
+      '🔥CUSTOM_EXHAUSTED_EMOJI🔥': { src: ExhaustedEmojiPath, alt: 'exhausted' },
+      '🔥CUSTOM_EXCITED_EMOJI🔥': { src: ExcitedEmojiPath, alt: 'excited' },
+      '🔥CUSTOM_MAD_EMOJI🔥': { src: MadEmojiPath, alt: 'mad' },
+      '🔥CUSTOM_ANNOYED_EMOJI🔥': { src: AnnoyedEmojiPath, alt: 'annoyed' },
+      '🔥CUSTOM_CONGRATS_EMOJI🔥': { src: CongratsEmojiPath, alt: 'congrats' },
+      '🔥CUSTOM_CONFUSED_EMOJI🔥': { src: ConfusedEmojiPath, alt: 'confused' },
+      '🔥CUSTOM_ANGRY_EMOJI🔥': { src: AngryEmojiPath, alt: 'angry' },
+      '🔥CUSTOM_CRYING_EMOJI🔥': { src: CryingEmojiPath, alt: 'crying' },
+      '🔥CUSTOM_TIRED_EMOJI🔥': { src: TiredEmojiPath, alt: 'tired' },
+      '🔥CUSTOM_WORRIED_EMOJI🔥': { src: WorriedEmojiPath, alt: 'worried' },
+      '🔥CUSTOM_STRESSED_EMOJI🔥': { src: StressedEmojiPath, alt: 'stressed' },
+      '🔥CUSTOM_SHOCKED_EMOJI🔥': { src: ShockedEmojiPath, alt: 'shocked' },
+      '🔥CUSTOM_SLEEPY_EMOJI🔥': { src: SleepyEmojiPath, alt: 'sleepy' }
     };
 
     // Check if any custom emojis exist in the content
@@ -207,11 +212,6 @@ export default function MumsSpaceChat() {
       const messageWithEmojis = replaceWithEmojis(newMessage);
       
       sendMessage.mutate(messageWithEmojis);
-      setNewMessage("");
-      // Keep focus on input field after sending
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 100);
     }
   };
 
