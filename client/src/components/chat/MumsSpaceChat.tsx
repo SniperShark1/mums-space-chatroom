@@ -28,12 +28,10 @@ import CongratsEmojiPath from "@assets/congrats_transparent.png";
 import ConfusedEmojiPath from "@assets/Confused_transparent.png";
 import AngryEmojiPath from "@assets/Angry_transparent.png";
 import CryingEmojiPath from "@assets/Crying_transparent.png";
-import TiredEmojiPath from "@assets/Tired.png?v=2";
-import WorriedEmojiPath from "@assets/worried.png?v=2";
-import StressedEmojiPath from "@assets/Stressed.png?v=2";
-import ShockedEmojiPath from "@assets/Shocked.png?v=2";
-import AnnoyedNewEmojiPath from "@assets/Annoyed.png";
-import AnnoyedAltEmojiPath from "@assets/Annoyed .png";
+import TiredEmojiPath from "@assets/Tired.png";
+import WorriedEmojiPath from "@assets/worried.png";
+import StressedEmojiPath from "@assets/Stressed.png";
+import ShockedEmojiPath from "@assets/Shocked.png";
 import SleepyEmojiPath from "@assets/sleepy.png";
 
 export default function MumsSpaceChat() {
@@ -103,7 +101,7 @@ export default function MumsSpaceChat() {
       'congratulations': '🔥CUSTOM_CONGRATS_EMOJI🔥',
       'hugs': '🔥CUSTOM_HUGS_EMOJI🔥',
       'clap': '🔥CUSTOM_CLAP_EMOJI🔥',
-      'good luck': '🍀',
+
       'sleepy': '🔥CUSTOM_SLEEPY_EMOJI🔥',
       'tired': '🔥CUSTOM_TIRED_EMOJI🔥',
       'angry': '🔥CUSTOM_ANGRY_EMOJI🔥',
