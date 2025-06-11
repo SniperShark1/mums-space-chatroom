@@ -99,15 +99,15 @@ export default function MumsSpaceChat() {
   const replaceWithEmojis = (text: string) => {
     const emojiMap: Record<string, string> = {
       'lol': '🔥CUSTOM_LOL_EMOJI🔥',
-      'brb': '🏃‍♀️',
-      'omg': '😱',
-      'thanks': '🙏',
-      'thank you': '🙏',
+      'brb': '🔥CUSTOM_BRB_EMOJI🔥',
+      'omg': '🔥CUSTOM_OMG_EMOJI🔥',
+      'thanks': '🔥CUSTOM_THANKS_EMOJI🔥',
+      'thank you': '🔥CUSTOM_THANKS_EMOJI🔥',
       'love': '🔥CUSTOM_LOVE_EMOJI🔥',
       'congrats': '🔥CUSTOM_CONGRATS_EMOJI🔥',
       'congratulations': '🔥CUSTOM_CONGRATS_EMOJI🔥',
-      'hugs': '🤗',
-      'clap': '👏',
+      'hugs': '🔥CUSTOM_HUGS_EMOJI🔥',
+      'clap': '🔥CUSTOM_CLAP_EMOJI🔥',
       'good luck': '🍀',
       'sleepy': '🔥CUSTOM_SLEEPY_EMOJI🔥',
       'tired': '🔥CUSTOM_TIRED_EMOJI🔥',
@@ -115,8 +115,8 @@ export default function MumsSpaceChat() {
       'mad': '🔥CUSTOM_MAD_EMOJI🔥',
       'frustrated': '🔥CUSTOM_FRUSTRATED_EMOJI🔥',
       'crying': '🔥CUSTOM_CRYING_EMOJI🔥',
-      'happy': '😊',
-      'sad': '😢',
+      'happy': '🔥CUSTOM_SMILE_EMOJI🔥',
+      'sad': '🔥CUSTOM_CRYING_EMOJI🔥',
       'excited': '🔥CUSTOM_EXCITED_EMOJI🔥',
       'worried': '🔥CUSTOM_WORRIED_EMOJI🔥',
       'stressed': '🔥CUSTOM_STRESSED_EMOJI🔥',
@@ -211,72 +211,14 @@ export default function MumsSpaceChat() {
 
   const handleSend = () => {
     if (newMessage.trim()) {
-      let messageWithEmojis = replaceWithEmojis(newMessage);
+      const messageWithEmojis = replaceWithEmojis(newMessage);
       
-      // Convert "love" to custom emoji placeholder
-      if (messageWithEmojis.includes('❤️')) {
-        messageWithEmojis = messageWithEmojis.replace(/❤️/g, '🔥CUSTOM_LOVE_EMOJI🔥');
-      }
-      // Convert "brb" to custom emoji placeholder  
-      if (messageWithEmojis.includes('🏃‍♀️')) {
-        messageWithEmojis = messageWithEmojis.replace(/🏃‍♀️/g, '🔥CUSTOM_BRB_EMOJI🔥');
-      }
-      // Convert additional emojis to custom placeholders
-      if (messageWithEmojis.includes('👏')) {
-        messageWithEmojis = messageWithEmojis.replace(/👏/g, '🔥CUSTOM_CLAP_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('🤗')) {
-        messageWithEmojis = messageWithEmojis.replace(/🤗/g, '🔥CUSTOM_HUGS_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('😱')) {
-        messageWithEmojis = messageWithEmojis.replace(/😱/g, '🔥CUSTOM_OMG_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('😊')) {
-        messageWithEmojis = messageWithEmojis.replace(/😊/g, '🔥CUSTOM_SMILE_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('🙏')) {
-        messageWithEmojis = messageWithEmojis.replace(/🙏/g, '🔥CUSTOM_THANKS_EMOJI🔥');
-      }
-      // Convert new transparent emoji placeholders
-      if (messageWithEmojis.includes('😂')) {
-        messageWithEmojis = messageWithEmojis.replace(/😂/g, '🔥CUSTOM_LOL_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('😤')) {
-        messageWithEmojis = messageWithEmojis.replace(/😤/g, '🔥CUSTOM_FRUSTRATED_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('😵')) {
-        messageWithEmojis = messageWithEmojis.replace(/😵/g, '🔥CUSTOM_EXHAUSTED_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('🎉')) {
-        messageWithEmojis = messageWithEmojis.replace(/🎉/g, '🔥CUSTOM_EXCITED_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('😡')) {
-        messageWithEmojis = messageWithEmojis.replace(/😡/g, '🔥CUSTOM_MAD_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('😒')) {
-        messageWithEmojis = messageWithEmojis.replace(/😒/g, '🔥CUSTOM_ANNOYED_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('😕')) {
-        messageWithEmojis = messageWithEmojis.replace(/😕/g, '🔥CUSTOM_CONFUSED_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('😠')) {
-        messageWithEmojis = messageWithEmojis.replace(/😠/g, '🔥CUSTOM_ANGRY_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('😭')) {
-        messageWithEmojis = messageWithEmojis.replace(/😭/g, '🔥CUSTOM_CRYING_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('😴')) {
-        messageWithEmojis = messageWithEmojis.replace(/😴/g, '🔥CUSTOM_TIRED_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('😰')) {
-        messageWithEmojis = messageWithEmojis.replace(/😰/g, '🔥CUSTOM_WORRIED_EMOJI🔥');
-      }
-      if (messageWithEmojis.includes('😲')) {
-        messageWithEmojis = messageWithEmojis.replace(/😲/g, '🔥CUSTOM_SHOCKED_EMOJI🔥');
-      }
-      // Note: sleepy emoji is handled by word conversion, not direct emoji replacement
-      
-      sendMessage.mutate(messageWithEmojis);
+      sendMessage.mutate({
+        roomId: parseInt(activeRoomId),
+        content: messageWithEmojis,
+        userId: 1
+      });
+      setNewMessage("");
       // Keep focus on input field after sending
       setTimeout(() => {
         inputRef.current?.focus();
