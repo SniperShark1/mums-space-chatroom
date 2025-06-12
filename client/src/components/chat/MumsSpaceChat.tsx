@@ -83,11 +83,18 @@ export default function MumsSpaceChat() {
       // Keep focus on input after clearing message
       setTimeout(() => {
         inputRef.current?.focus();
-        // Force scroll to bottom after sending message
+        // Force scroll to bottom after sending message - multiple attempts
         if (messagesContainerRef.current) {
-          messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+          const container = messagesContainerRef.current;
+          container.scrollTop = container.scrollHeight;
+          requestAnimationFrame(() => {
+            container.scrollTop = container.scrollHeight;
+            setTimeout(() => container.scrollTop = container.scrollHeight, 10);
+            setTimeout(() => container.scrollTop = container.scrollHeight, 50);
+            setTimeout(() => container.scrollTop = container.scrollHeight, 100);
+          });
         }
-      }, 100);
+      }, 50);
     },
     onError: () => {
       toast({
@@ -311,21 +318,23 @@ export default function MumsSpaceChat() {
   };
 
   useEffect(() => {
-    // Always scroll to bottom when messages change
-    const scrollToBottomWithDelay = () => {
-      if (messagesContainerRef.current) {
-        const container = messagesContainerRef.current;
-        // Force scroll to bottom immediately
+    // Always scroll to bottom when messages change - force it to stay at bottom
+    if (messagesContainerRef.current) {
+      const container = messagesContainerRef.current;
+      // Immediately scroll to bottom
+      container.scrollTop = container.scrollHeight;
+      
+      // Force multiple scroll attempts to ensure it sticks
+      requestAnimationFrame(() => {
         container.scrollTop = container.scrollHeight;
-        
-        // Also scroll after a short delay to handle DOM updates
         setTimeout(() => {
           container.scrollTop = container.scrollHeight;
-        }, 100);
-      }
-    };
-    
-    scrollToBottomWithDelay();
+        }, 10);
+        setTimeout(() => {
+          container.scrollTop = container.scrollHeight;
+        }, 50);
+      });
+    }
   }, [messages]);
 
   // Scroll to bottom on component mount
