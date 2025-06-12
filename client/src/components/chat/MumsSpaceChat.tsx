@@ -536,7 +536,7 @@ export default function MumsSpaceChat() {
           style={{ backgroundColor: '#fed1dc', width: `${sidebarWidth}px` }}
         >
           {/* Search and Controls */}
-        <div className="p-4 space-y-3 border-b-2 border-white">
+        <div className="p-4 space-y-3">
           {/* Search Users */}
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-400" size={16} />
@@ -548,24 +548,27 @@ export default function MumsSpaceChat() {
             />
           </div>
 
-          {/* Online Count */}
-          <div className="text-blue-800 px-3 py-1 rounded-full text-center font-medium text-sm border-4 border-white" style={{ backgroundColor: '#d5d8ed' }}>
-            {roomUsers.length} mums online
+          {/* Online Count and Create Group Button */}
+          <div className="flex items-center justify-between">
+            <div className="text-blue-800 px-3 py-1 rounded-full text-center font-medium text-sm border-4 border-white" style={{ backgroundColor: '#d5d8ed' }}>
+              {roomUsers.length} mums online
+            </div>
+            <Button
+              onClick={() => setIsCreateGroupOpen(true)}
+              className="hover:bg-blue-200 text-blue-800 rounded-full flex items-center gap-2 border-4 border-white px-3 py-1 text-sm"
+              style={{ backgroundColor: '#d5d8ed' }}
+            >
+              <Users size={14} />
+              Create Group
+            </Button>
           </div>
 
-          {/* Create Group Button */}
-          <Button
-            onClick={() => setIsCreateGroupOpen(true)}
-            className="w-full hover:bg-blue-200 text-blue-800 rounded-full flex items-center gap-2 border-4 border-white"
-            style={{ backgroundColor: '#d5d8ed' }}
-          >
-            <Users size={16} />
-            Create Group
-          </Button>
+          {/* Divider Line */}
+          <div className="border-t-2 border-white mt-2"></div>
         </div>
 
         {/* Users List */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3 user-list" style={{ maxHeight: 'calc(100vh - 300px)', overflowY: 'scroll' }}>
+        <div className="flex-1 overflow-y-auto px-4 pt-2 pb-4 space-y-3 user-list" style={{ maxHeight: 'calc(100vh - 300px)', overflowY: 'scroll' }}>
           {roomUsers.map((user, index) => (
             <div key={index} className="flex items-center justify-between p-2 hover:bg-pink-100/50 rounded-lg transition-colors group">
               <div className="flex items-center space-x-3">
