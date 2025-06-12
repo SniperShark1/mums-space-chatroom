@@ -84,8 +84,10 @@ export default function MumsSpaceChat() {
       setTimeout(() => {
         inputRef.current?.focus();
         // Force scroll to bottom after sending message
-        scrollToBottom();
-      }, 150);
+        if (messagesContainerRef.current) {
+          messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+        }
+      }, 100);
     },
     onError: () => {
       toast({
@@ -309,24 +311,28 @@ export default function MumsSpaceChat() {
   };
 
   useEffect(() => {
-    // Force scroll to bottom immediately and with delay
-    scrollToBottom();
-    const timer = setTimeout(() => {
-      scrollToBottom();
-    }, 50);
-    const timer2 = setTimeout(() => {
-      scrollToBottom();
-    }, 200);
-    
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(timer2);
+    // Always scroll to bottom when messages change
+    const scrollToBottomWithDelay = () => {
+      if (messagesContainerRef.current) {
+        const container = messagesContainerRef.current;
+        // Force scroll to bottom immediately
+        container.scrollTop = container.scrollHeight;
+        
+        // Also scroll after a short delay to handle DOM updates
+        setTimeout(() => {
+          container.scrollTop = container.scrollHeight;
+        }, 100);
+      }
     };
+    
+    scrollToBottomWithDelay();
   }, [messages]);
 
-  // Also scroll when component mounts
+  // Scroll to bottom on component mount
   useEffect(() => {
-    scrollToBottom();
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
   }, []);
 
   // Room change handler
@@ -729,32 +735,35 @@ export default function MumsSpaceChat() {
           }}
         >
           
-          <div className="flex items-center space-x-3 px-6 pt-6 pb-3 md:px-6 px-4">
-            <textarea
-              ref={inputRef}
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type a message..."
-              onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
-              disabled={sendMessage.isPending}
-              rows={1}
-              wrap="soft"
-              className="flex-1 rounded-full px-6 py-3 md:px-6 px-4 md:py-3 py-4 border-2 border-white outline-none focus:ring-2 focus:ring-pink-300 resize-none overflow-x-hidden md:text-lg text-base"
-              style={{ 
-                backgroundColor: '#d5d8ed',
-                color: '#000000',
-                fontSize: window.innerWidth < 768 ? '16px' : '18px',
-                fontWeight: '500',
-                minHeight: window.innerWidth < 768 ? '44px' : 'auto'
-              }}
-            />
-            <Button 
-              onClick={handleSend}
-              disabled={!newMessage.trim() || sendMessage.isPending}
-              className="bg-pink-300 hover:bg-pink-400 text-pink-800 rounded-full px-6 py-3 md:px-6 px-4 md:py-3 py-4 border-2 border-white md:min-h-0 min-h-[44px] md:min-w-0 min-w-[44px]"
-            >
-              <Send size={20} />
-            </Button>
+          <div className="flex items-center justify-center px-6 pt-6 pb-3">
+            <div className="flex items-center space-x-3 max-w-4xl w-full">
+              <textarea
+                ref={inputRef}
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder="Type a message..."
+                onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
+                disabled={sendMessage.isPending}
+                rows={1}
+                wrap="soft"
+                className="flex-1 rounded-full px-6 py-3 border-2 border-white outline-none focus:ring-2 focus:ring-pink-300 resize-none overflow-x-hidden text-lg"
+                style={{ 
+                  backgroundColor: '#d5d8ed',
+                  color: '#000000',
+                  fontSize: window.innerWidth < 768 ? '16px' : '18px',
+                  fontWeight: '500',
+                  minHeight: window.innerWidth < 768 ? '44px' : '50px',
+                  maxHeight: '50px'
+                }}
+              />
+              <Button 
+                onClick={handleSend}
+                disabled={!newMessage.trim() || sendMessage.isPending}
+                className="bg-pink-300 hover:bg-pink-400 text-pink-800 rounded-full px-6 py-3 border-2 border-white min-h-[50px] min-w-[50px]"
+              >
+                <Send size={20} />
+              </Button>
+            </div>
           </div>
           
           {/* Emoji Info Button */}
