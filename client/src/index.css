@@ -177,6 +177,25 @@
     background: #f472b6;
   }
 
+  /* Custom scrollbar styling for user list */
+  .user-list::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .user-list::-webkit-scrollbar-track {
+    background: #fed1dc;
+    border-radius: 4px;
+  }
+
+  .user-list::-webkit-scrollbar-thumb {
+    background: #f8bbd9;
+    border-radius: 4px;
+  }
+
+  .user-list::-webkit-scrollbar-thumb:hover {
+    background: #f472b6;
+  }
+
   /* Custom emoji styles */
   .custom-emoji {
     width: 1.2em;

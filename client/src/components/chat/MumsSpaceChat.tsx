@@ -46,7 +46,7 @@ export default function MumsSpaceChat() {
   const [sidebarWidth, setSidebarWidth] = useState(320);
   const [textSize, setTextSize] = useState("16");
   const [inputAreaHeight, setInputAreaHeight] = useState(120);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
@@ -560,7 +560,7 @@ export default function MumsSpaceChat() {
         </div>
 
         {/* Users List */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        <div className="flex-1 overflow-y-auto p-4 space-y-3 user-list" style={{ maxHeight: 'calc(100vh - 300px)', overflowY: 'scroll' }}>
           {roomUsers.map((user, index) => (
             <div key={index} className="flex items-center justify-between p-2 hover:bg-pink-100/50 rounded-lg transition-colors group">
               <div className="flex items-center space-x-3">
@@ -728,32 +728,31 @@ export default function MumsSpaceChat() {
 
         {/* Fixed Message Input - Always at bottom */}
         <div 
-          className="border-t border-pink-200 flex-shrink-0 fixed bottom-0 left-0 right-0 z-10" 
+          className="border-t border-pink-200 flex-shrink-0 fixed bottom-0 z-10" 
           style={{ 
             backgroundColor: '#fed1dc',
-            height: '120px'
+            height: '120px',
+            left: `${sidebarWidth}px`,
+            right: '0'
           }}
         >
           
-          <div className="flex items-center justify-center px-6 pt-6 pb-3">
-            <div className="flex items-center space-x-3 max-w-4xl w-full">
-              <textarea
+          <div className="flex items-center px-6 pt-6 pb-3">
+            <div className="flex items-center space-x-3 w-full">
+              <input
                 ref={inputRef}
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Type a message..."
                 onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
                 disabled={sendMessage.isPending}
-                rows={1}
-                wrap="soft"
-                className="flex-1 rounded-full px-6 py-3 border-2 border-white outline-none focus:ring-2 focus:ring-pink-300 resize-none overflow-x-hidden text-lg"
+                className="flex-1 rounded-full px-6 py-3 border-2 border-white outline-none focus:ring-2 focus:ring-pink-300 text-lg"
                 style={{ 
                   backgroundColor: '#d5d8ed',
                   color: '#000000',
                   fontSize: window.innerWidth < 768 ? '16px' : '18px',
                   fontWeight: '500',
-                  minHeight: window.innerWidth < 768 ? '44px' : '50px',
-                  maxHeight: '50px'
+                  height: '50px'
                 }}
               />
               <Button 
