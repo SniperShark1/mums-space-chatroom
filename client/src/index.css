@@ -156,4 +156,33 @@
   .bg-error {
     background-color: hsl(var(--error));
   }
+
+  /* Custom scrollbar styling for chat messages */
+  .chat-messages::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  .chat-messages::-webkit-scrollbar-track {
+    background: #fce7f3;
+    border-radius: 6px;
+  }
+
+  .chat-messages::-webkit-scrollbar-thumb {
+    background: #f8bbd9;
+    border-radius: 6px;
+    border: 2px solid #fce7f3;
+  }
+
+  .chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #f472b6;
+  }
+
+  /* Custom emoji styles */
+  .custom-emoji {
+    width: 1.2em;
+    height: 1.2em;
+    display: inline-block;
+    vertical-align: text-bottom;
+    margin: 0 0.1em;
+  }
 }

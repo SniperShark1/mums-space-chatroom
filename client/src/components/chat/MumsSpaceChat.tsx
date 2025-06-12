@@ -671,10 +671,14 @@ export default function MumsSpaceChat() {
         {/* Messages Area */}
         <div 
           ref={messagesContainerRef}
-          className="flex-1 overflow-y-auto px-6 py-4 space-y-4"
+          className="flex-1 overflow-y-scroll px-6 py-4 space-y-4 chat-messages"
           onScroll={handleScroll}
           style={{ 
-            height: 'calc(100vh - 280px)'
+            height: 'calc(100vh - 200px)',
+            paddingBottom: '140px',
+            overflowY: 'scroll',
+            scrollbarWidth: 'thin',
+            scrollbarColor: '#f8bbd9 #fce7f3'
           }}
         >
           {!messages || messages.length === 0 ? (
@@ -716,9 +720,9 @@ export default function MumsSpaceChat() {
           <div ref={messagesEndRef} style={{ height: '1px' }} />
         </div>
 
-        {/* Fixed Message Input */}
+        {/* Fixed Message Input - Always at bottom */}
         <div 
-          className="border-t border-pink-200 flex-shrink-0" 
+          className="border-t border-pink-200 flex-shrink-0 fixed bottom-0 left-0 right-0 z-10" 
           style={{ 
             backgroundColor: '#fed1dc',
             height: '120px'
