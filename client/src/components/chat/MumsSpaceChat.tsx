@@ -318,22 +318,18 @@ export default function MumsSpaceChat() {
   };
 
   useEffect(() => {
-    // Always scroll to bottom when messages change - force it to stay at bottom
+    // Force scroll to bottom to show latest message
     if (messagesContainerRef.current) {
       const container = messagesContainerRef.current;
-      // Immediately scroll to bottom
       container.scrollTop = container.scrollHeight;
       
-      // Force multiple scroll attempts to ensure it sticks
-      requestAnimationFrame(() => {
+      // Additional attempts with delays
+      setTimeout(() => {
         container.scrollTop = container.scrollHeight;
-        setTimeout(() => {
-          container.scrollTop = container.scrollHeight;
-        }, 10);
-        setTimeout(() => {
-          container.scrollTop = container.scrollHeight;
-        }, 50);
-      });
+      }, 50);
+      setTimeout(() => {
+        container.scrollTop = container.scrollHeight;
+      }, 200);
     }
   }, [messages]);
 
@@ -686,14 +682,12 @@ export default function MumsSpaceChat() {
         {/* Messages Area */}
         <div 
           ref={messagesContainerRef}
-          className="flex-1 overflow-y-scroll px-6 py-4 space-y-4 chat-messages"
+          className="px-6 py-4 space-y-4 chat-messages"
           onScroll={handleScroll}
           style={{ 
-            height: 'calc(100vh - 200px)',
-            paddingBottom: '140px',
+            height: 'calc(100vh - 320px)',
             overflowY: 'scroll',
-            scrollbarWidth: 'thin',
-            scrollbarColor: '#f8bbd9 #fce7f3'
+            paddingBottom: '20px'
           }}
         >
           {!messages || messages.length === 0 ? (
@@ -731,8 +725,8 @@ export default function MumsSpaceChat() {
               </div>
             ))
           )}
-          {/* Invisible element to scroll to */}
-          <div ref={messagesEndRef} style={{ height: '1px' }} />
+          {/* Scroll anchor */}
+          <div ref={messagesEndRef} style={{ height: '20px', clear: 'both' }} />
         </div>
 
         {/* Fixed Message Input - Always at bottom */}
