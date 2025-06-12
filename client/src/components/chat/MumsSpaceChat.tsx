@@ -685,9 +685,9 @@ export default function MumsSpaceChat() {
           className="px-6 py-4 space-y-4 chat-messages"
           onScroll={handleScroll}
           style={{ 
-            height: 'calc(100vh - 320px)',
+            height: 'calc(100vh - 160px)',
             overflowY: 'scroll',
-            paddingBottom: '20px'
+            paddingBottom: '90px'
           }}
         >
           {!messages || messages.length === 0 ? (
@@ -734,13 +734,13 @@ export default function MumsSpaceChat() {
           className="border-t border-pink-200 flex-shrink-0 fixed bottom-0 z-10" 
           style={{ 
             backgroundColor: '#fed1dc',
-            height: '120px',
+            height: '80px',
             left: `${sidebarWidth}px`,
             right: '0'
           }}
         >
           
-          <div className="flex items-center px-6 pt-6 pb-3">
+          <div className="flex items-center px-6 py-4">
             <div className="flex items-center space-x-3 w-full">
               <input
                 ref={inputRef}
@@ -769,7 +769,7 @@ export default function MumsSpaceChat() {
           </div>
           
           {/* Emoji Info Button */}
-          <div className="flex justify-center px-6 pb-3">
+          <div className="flex justify-center px-6 pb-2">
             <Popover>
               <PopoverTrigger asChild>
                 <Button 
