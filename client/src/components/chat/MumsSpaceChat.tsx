@@ -298,7 +298,8 @@ export default function MumsSpaceChat() {
   // Auto-scroll to bottom when new messages arrive
   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      const container = messagesContainerRef.current;
+      container.scrollTop = container.scrollHeight;
     }
   };
 
@@ -308,11 +309,25 @@ export default function MumsSpaceChat() {
   };
 
   useEffect(() => {
-    // Always scroll to bottom when messages change
-    setTimeout(() => {
+    // Force scroll to bottom immediately and with delay
+    scrollToBottom();
+    const timer = setTimeout(() => {
       scrollToBottom();
-    }, 100);
+    }, 50);
+    const timer2 = setTimeout(() => {
+      scrollToBottom();
+    }, 200);
+    
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(timer2);
+    };
   }, [messages]);
+
+  // Also scroll when component mounts
+  useEffect(() => {
+    scrollToBottom();
+  }, []);
 
   // Room change handler
   const handleRoomChange = (roomId: string) => {
@@ -698,7 +713,7 @@ export default function MumsSpaceChat() {
             ))
           )}
           {/* Invisible element to scroll to */}
-          <div ref={messagesEndRef} />
+          <div ref={messagesEndRef} style={{ height: '1px' }} />
         </div>
 
         {/* Fixed Message Input */}
