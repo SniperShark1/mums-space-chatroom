@@ -83,7 +83,9 @@ export default function MumsSpaceChat() {
       // Keep focus on input after clearing message
       setTimeout(() => {
         inputRef.current?.focus();
-      }, 50);
+        // Force scroll to bottom after sending message
+        scrollToBottom();
+      }, 150);
     },
     onError: () => {
       toast({
@@ -293,10 +295,10 @@ export default function MumsSpaceChat() {
     return scrollTop + clientHeight >= scrollHeight - 50; // 50px threshold
   };
 
-  // Auto-scroll to bottom when new messages arrive (only if user is at bottom)
+  // Auto-scroll to bottom when new messages arrive
   const scrollToBottom = () => {
-    if (shouldAutoScroll) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
   };
 
@@ -306,8 +308,11 @@ export default function MumsSpaceChat() {
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, shouldAutoScroll]);
+    // Always scroll to bottom when messages change
+    setTimeout(() => {
+      scrollToBottom();
+    }, 100);
+  }, [messages]);
 
   // Room change handler
   const handleRoomChange = (roomId: string) => {
