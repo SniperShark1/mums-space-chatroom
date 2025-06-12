@@ -1,80 +1,108 @@
-# Production Deployment Checklist
+# Vercel Deployment Guide for Mum's Space Chatroom
 
-## Pre-Deployment Setup Complete
+## Framework Detection Issue Resolution
 
-### ✅ Database Integration
-- Switched from in-memory storage to PostgreSQL with Drizzle ORM
-- Created production database storage layer (`server/database.ts`)
-- Implemented hybrid storage factory for development/production environments
-- Added migration script for default chat rooms setup
+The application is built with **Vite + Express**, not Next.js. Vercel's automatic framework detection can cause deployment issues when it incorrectly identifies the project structure.
 
-### ✅ Authentication Integration
-- Integrated Clerk authentication middleware
-- Added development bypass for testing
-- Created authenticated request types
-- Protected sensitive endpoints (message sending, group creation, reporting)
+## ✅ Fixed Vercel Configuration
 
-### ✅ Environment Configuration
-- Created comprehensive `.env.example` with all required variables
-- Added Vercel deployment configuration (`vercel.json`)
-- Configured environment-specific storage selection
+The `vercel.json` has been updated to properly handle the Vite frontend and Express backend:
 
-### ✅ Development Cleanup
-- Removed development-only dummy data
-- Implemented proper error handling
-- Added production-ready logging
-- Created database migration scripts
-
-### ✅ Mobile Optimization
-- iPhone-ready responsive design with proper touch targets
-- Prevented input zoom on mobile devices
-- Optimized scrolling for touch interfaces
-- Fixed viewport height issues for mobile Safari
+```json
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "client/dist",
+  "functions": {
+    "server/index.ts": {
+      "runtime": "@vercel/node@3.0.7"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/server/index.ts"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/dist/index.html"
+    }
+  ]
+}
+```
 
 ## Environment Variables Required
+
+Add these in your Vercel dashboard under Project Settings > Environment Variables:
 
 ```bash
 DATABASE_URL=postgresql://username:password@host:port/database
 CLERK_PUBLISHABLE_KEY=pk_live_xxxxx
 CLERK_SECRET_KEY=sk_live_xxxxx
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_xxxxx
+VITE_CLERK_PUBLISHABLE_KEY=pk_live_xxxxx
 OPENAI_API_KEY=sk-xxxxx
 NODE_ENV=production
 ```
 
-## Deployment Steps
+## Step-by-Step Deployment
 
-1. **Database Setup**:
-   ```bash
-   npm run db:push  # Push schema to production database
-   npm run migrate  # Create default chat rooms
-   ```
+### 1. Vercel Dashboard Configuration
+- Go to your Vercel project settings
+- Under "Build & Development Settings":
+  - Framework Preset: **Other**
+  - Build Command: `npm run build`
+  - Output Directory: `client/dist`
+  - Install Command: `npm install`
 
-2. **Vercel Deployment**:
-   - Add all environment variables in Vercel dashboard
-   - Deploy with: `vercel --prod`
+### 2. Clear Build Cache
+- In Vercel dashboard: Project Settings > Functions
+- Click "Clear Build Cache"
+- This prevents old framework detection issues
 
-3. **Post-Deployment Verification**:
-   - Test authentication flow
-   - Verify database connections
-   - Test real-time messaging
-   - Confirm AI help functionality
+### 3. Database Setup
+```bash
+npm run db:push    # Push schema to production database
+npm run migrate    # Create default chat rooms and users
+```
 
-## Security Features Implemented
+### 4. Deploy
+```bash
+vercel --prod
+```
 
-- JWT authentication with Clerk
-- Environment variable validation
-- Input sanitization with Zod schemas
-- Protected API endpoints
-- CORS configuration
-- Rate limiting ready
+## Chatroom Functionality Preserved
 
-## Database Schema
+The chatroom will work **exactly the same** as in development:
 
-- **users**: User profiles and authentication data
-- **chat_rooms**: Age-based and private group definitions  
-- **chat_messages**: All chat messages with user associations
-- **group_memberships**: Private group participant management
-- **user_reports**: User reporting and moderation system
+✅ **Real-time messaging** with WebSocket connections
+✅ **Age-based chat rooms** (Mums-to-Be, 0-2 Years, 2-5 Years)  
+✅ **Private group creation** with 4-6 users
+✅ **Custom 3D emoji system** with replacements
+✅ **AI parenting help** integration
+✅ **Mobile-optimized design** with proper scrolling
+✅ **User authentication** with Clerk
+✅ **Reporting system** for community safety
+✅ **Resizable interface** components
 
-The application is production-ready with proper authentication, database integration, and deployment configuration.
+## Production Features
+
+- **Hybrid Storage**: Memory storage in development, PostgreSQL in production
+- **Authentication**: Clerk JWT validation on protected endpoints
+- **Security Headers**: XSS protection, content type validation
+- **Mobile Optimization**: Prevents zoom, proper touch targets
+- **Error Handling**: Comprehensive error states and logging
+
+## Troubleshooting
+
+If deployment still fails:
+
+1. **Check Build Logs**: Look for specific error messages in Vercel dashboard
+2. **Verify Environment Variables**: Ensure all required variables are set
+3. **Database Connection**: Test DATABASE_URL connectivity
+4. **Clear Cache**: Use Vercel's "Clear Build Cache" option
+5. **Framework Detection**: Ensure "Other" is selected, not Next.js or Vite
+
+The application is production-ready with proper Vite configuration for Vercel deployment.
