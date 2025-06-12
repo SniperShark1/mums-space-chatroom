@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./database";
+import { storage } from "./storage-factory";
 import { requireAuth, optionalAuth, type AuthenticatedRequest } from "./auth";
 import { insertChatMessageSchema, insertUserSchema, insertChatRoomSchema, insertGroupMembershipSchema, insertUserReportSchema } from "@shared/schema";
 import { getParentingHelp } from "./ai";
