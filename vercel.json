@@ -1,15 +1,14 @@
 {
   "version": 2,
-  "buildCommand": "node build-fix.js",
-  "outputDirectory": "client/dist",
+  "outputDirectory": "dist/public",
   "functions": {
-    "api/index.ts": {
+    "server/index.ts": {
       "runtime": "@vercel/node@3.0.7"
     }
   },
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/index.ts" },
+    { "src": "/api/(.*)", "dest": "/server/index.ts" },
     { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/client/dist/index.html" }
+    { "src": "/(.*)", "dest": "/dist/public/index.html" }
   ]
 }
