@@ -1,7 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "node build-fix.js",
-  "outputDirectory": "client/dist",
+  "buildCommand": "npm run build",
   "functions": {
     "server/index.ts": {
       "runtime": "@vercel/node@3.0.7"
@@ -17,7 +16,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/client/dist/index.html"
+      "dest": "/index.html"
     }
   ],
   "headers": [
