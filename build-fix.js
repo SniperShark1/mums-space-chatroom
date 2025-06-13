@@ -29,6 +29,17 @@ try {
     }
     execSync('cp -r dist/public client/dist');
     console.log('✅ Copied build output to client/dist');
+    
+    // Fix asset paths in HTML to be relative
+    const htmlPath = 'client/dist/index.html';
+    let htmlContent = fs.readFileSync(htmlPath, 'utf8');
+    
+    // Convert absolute asset paths to relative
+    htmlContent = htmlContent.replace(/src="\/assets\//g, 'src="./assets/');
+    htmlContent = htmlContent.replace(/href="\/assets\//g, 'href="./assets/');
+    
+    fs.writeFileSync(htmlPath, htmlContent);
+    console.log('✅ Fixed asset paths to use relative URLs');
   } else {
     throw new Error('Build output not found in dist/public');
   }
