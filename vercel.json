@@ -2,13 +2,12 @@
   "version": 2,
   "outputDirectory": "dist/public",
   "functions": {
-    "server/index.ts": {
-      "runtime": "@vercel/node@3.0.7"
+    "api/index.js": {
+      "runtime": "@vercel/node"
     }
   },
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/server/index.ts" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/dist/public/index.html" }
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index.js" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
