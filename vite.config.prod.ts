@@ -4,18 +4,16 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react()],
+  root: "./client",
+  build: {
+    outDir: "../dist/public",
+    emptyOutDir: true
+  },
   resolve: {
     alias: {
-      "@": path.resolve(import.meta.dirname, "client", "src"),
-      "@shared": path.resolve(import.meta.dirname, "shared"),
-      "@assets": path.resolve(import.meta.dirname, "attached_assets"),
-    },
-  },
-  root: path.resolve(import.meta.dirname, "client"),
-  base: "./", // Use relative paths for assets
-  build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
-    emptyOutDir: true,
-    assetsDir: "assets",
-  },
+      "@": path.resolve("./client/src"),
+      "@shared": path.resolve("./shared"),
+      "@assets": path.resolve("./attached_assets")
+    }
+  }
 });
