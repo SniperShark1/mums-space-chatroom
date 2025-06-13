@@ -10,47 +10,52 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 console.log('🔧 Running custom build process...');
 
 try {
-  // Build with Vite first
-  console.log('📦 Building frontend with Vite...');
-  execSync('vite build', { stdio: 'inherit', cwd: process.cwd() });
-  
-  // Copy from dist/public to client/dist for deployment
-  if (fs.existsSync('dist/public') && fs.existsSync('dist/public/index.html')) {
-    console.log('✅ Found build output in: dist/public');
-    
-    // Ensure client directory exists
-    if (!fs.existsSync('client')) {
-      fs.mkdirSync('client');
+  // Step 1: Install dependencies
+  console.log('📦 Installing dependencies...');
+  execSync('npm ci --production=false', { stdio: 'inherit', cwd: __dirname });
+
+  // Step 2: Build frontend using Vite
+  console.log('🚀 Building frontend with Vite...');
+  execSync('npx vite build', { stdio: 'inherit', cwd: __dirname });
+
+  // Step 3: Copy from dist/public to client/dist for deployment
+  const sourcePath = path.join(__dirname, 'dist/public');
+  const destPath = path.join(__dirname, 'client/dist');
+
+  if (fs.existsSync(sourcePath) && fs.existsSync(path.join(sourcePath, 'index.html'))) {
+    console.log(`✅ Found build output in: ${sourcePath}`);
+
+    // Ensure client folder exists
+    if (!fs.existsSync(path.join(__dirname, 'client'))) {
+      fs.mkdirSync(path.join(__dirname, 'client'));
     }
-    
-    // Remove existing client/dist and copy new build
-    if (fs.existsSync('client/dist')) {
-      execSync('rm -rf client/dist');
+
+    // Remove old dist if it exists
+    if (fs.existsSync(destPath)) {
+      fs.rmSync(destPath, { recursive: true, force: true });
     }
-    execSync('cp -r dist/public client/dist');
+
+    execSync(`cp -r "${sourcePath}" "${destPath}"`);
     console.log('✅ Copied build output to client/dist');
-    
-    // Fix asset paths in HTML to be relative
-    const htmlPath = 'client/dist/index.html';
-    let htmlContent = fs.readFileSync(htmlPath, 'utf8');
-    
-    // Convert absolute asset paths to relative
-    htmlContent = htmlContent.replace(/src="\/assets\//g, 'src="./assets/');
-    htmlContent = htmlContent.replace(/href="\/assets\//g, 'href="./assets/');
-    
-    fs.writeFileSync(htmlPath, htmlContent);
+
+    // Fix asset paths
+    const htmlFile = path.join(destPath, 'index.html');
+    let html = fs.readFileSync(htmlFile, 'utf8');
+    html = html.replace(/src="\/assets\//g, 'src="./assets/');
+    html = html.replace(/href="\/assets\//g, 'href="./assets/');
+    fs.writeFileSync(htmlFile, html);
     console.log('✅ Fixed asset paths to use relative URLs');
   } else {
     throw new Error('Build output not found in dist/public');
   }
-  
-  // Verify the build
-  if (fs.existsSync('client/dist/index.html')) {
+
+  // Step 4: Confirm success
+  if (fs.existsSync(path.join(destPath, 'index.html'))) {
     console.log('✅ Build successful - index.html found in client/dist');
   } else {
     throw new Error('Build verification failed - no index.html in client/dist');
   }
-  
+
 } catch (error) {
   console.error('❌ Build failed:', error.message);
   process.exit(1);
