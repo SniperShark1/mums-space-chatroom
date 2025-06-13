@@ -3,12 +3,12 @@
   "buildCommand": "node build-fix.js",
   "outputDirectory": "client/dist",
   "functions": {
-    "server/index.ts": {
+    "api/index.ts": {
       "runtime": "@vercel/node@3.0.7"
     }
   },
   "routes": [
-    { "src": "/api/(.*)", "dest": "/server/index.ts" },
+    { "src": "/api/(.*)", "dest": "/api/index.ts" },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/client/dist/index.html" }
   ]
