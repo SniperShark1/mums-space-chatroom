@@ -1,18 +1,15 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
+  "buildCommand": "node build-fix.js",
   "outputDirectory": "client/dist",
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/server/index.ts"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/client/dist/index.html"
+  "functions": {
+    "server/index.ts": {
+      "runtime": "@vercel/node@3.0.7"
     }
+  },
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/server/index.ts" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/client/dist/index.html" }
   ]
 }
