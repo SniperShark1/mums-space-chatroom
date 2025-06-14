@@ -1,3 +1,4 @@
+import RoomSelector from "./components/RoomSelector";
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
