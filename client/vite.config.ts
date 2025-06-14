@@ -5,7 +5,7 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  root: './client',
+  root: '.',
   build: {
     outDir: '../dist/public', // ✅ THIS IS THE FIX
     emptyOutDir: true,
