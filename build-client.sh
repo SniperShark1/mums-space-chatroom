@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
+set -e
 cd client
-npm install
+npm ci
 npm run build
