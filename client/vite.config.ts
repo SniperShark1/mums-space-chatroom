@@ -1,18 +1,17 @@
-// vite.config.ts
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
-  root: '.',
+  root: '.', // <-- THIS FIXES YOUR DEPLOY
   build: {
-    outDir: '../dist/public', // ✅ THIS IS THE FIX
-    emptyOutDir: true,
+    outDir: 'dist',
+    emptyOutDir: true
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'client/src'), // ✅ FIXED PATH
-    },
-  },
-});
+      '@': path.resolve(__dirname, 'src')
+    }
+  }
+})
