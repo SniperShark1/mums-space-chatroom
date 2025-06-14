@@ -1,70 +1,51 @@
-import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
-import { setupVite, serveStatic, log } from "./vite";
+import express, { type Request, Response } from "express";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use((req, res, next) => {
-  const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
-
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
-
-  res.on("finish", () => {
-    const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      log(logLine);
-    }
-  });
-
-  next();
+// Simple test endpoint
+app.get("/api/test", (req, res) => {
+  res.json({ message: "API is working" });
 });
 
-(async () => {
-  const server = await registerRoutes(app);
+// Basic chat rooms endpoint
+app.get("/api/chat/rooms", (req, res) => {
+  const defaultRooms = [
+    { id: 1, name: "Mums-to-Be", ageGroup: "pregnancy", isPrivate: false, memberCount: 25 },
+    { id: 2, name: "0-2 Years", ageGroup: "0-2", isPrivate: false, memberCount: 18 },
+    { id: 3, name: "2-5 Years", ageGroup: "2-5", isPrivate: false, memberCount: 22 }
+  ];
+  res.json(defaultRooms);
+});
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+// Basic messages endpoint
+app.get("/api/chat/rooms/:roomId/messages", (req, res) => {
+  const roomId = req.params.roomId;
+  const messages = [
+    {
+      id: 1,
+      content: "Welcome to the chat!",
+      user: { username: "Mom123", ageGroup: "0-2", initials: "M1", avatarColor: "#ff69b4" },
+      timestamp: new Date().toISOString()
+    }
+  ];
+  res.json(messages);
+});
 
-    res.status(status).json({ message });
-    throw err;
-  });
+// Basic users endpoint
+app.get("/api/users", (req, res) => {
+  const users = [
+    { id: 1, username: "Mom123", ageGroup: "0-2", initials: "M1", avatarColor: "#ff69b4" },
+    { id: 2, username: "NewMom", ageGroup: "pregnancy", initials: "NM", avatarColor: "#9d4edd" }
+  ];
+  res.json(users);
+});
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
+// Error handler
+app.use((err: any, req: Request, res: Response, next: any) => {
+  res.status(500).json({ error: "Internal server error" });
+});
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
-  });
-})();
+// Export for Vercel
+export default app;
