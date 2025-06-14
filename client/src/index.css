@@ -103,7 +103,7 @@
   }
 
   body {
-    @apply font-serif antialiased bg-background text-foreground;
+    @apply font-serif antialiased bg-white text-black;
     font-family: 'Bodoni Moda', 'Playfair Display', Georgia, serif;
   }
 }
