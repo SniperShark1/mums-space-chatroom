@@ -1,5 +1,5 @@
-import { users, chatRooms, chatMessages, groupMemberships, type User, type InsertUser, type ChatRoom, type InsertChatRoom, type ChatMessage, type InsertChatMessage, type MessageWithUser, type GroupMembership, type InsertGroupMembership } from "@shared/schema";
-
+// import types and tables from '@shared/schema' – disabled for now
+// import { users, chatRooms, chatMessages, groupMemberships, userReports, type User, type InsertUser, type ChatRoom, type InsertChatRoom, type ChatMessage, type InsertChatMessage, type MessageWithUser, type GroupMembership, type InsertGroupMembership, type UserReport, type InsertUserReport } from "@shared/schema";
 export interface IStorage {
   // User operations
   getUser(id: number): Promise<User | undefined>;
