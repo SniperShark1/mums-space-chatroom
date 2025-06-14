@@ -1,16 +1,22 @@
 {
   "version": 2,
-  "buildCommand": "vite build --config vite.config.prod.js && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
-  "outputDirectory": "dist/public",
-  "functions": {
-    "server/index.ts": {
-      "runtime": "@vercel/node@3.0.7"
+  "builds": [
+    {
+      "src": "vite.config.prod.js",
+      "use": "@vercel/static-build",
+      "config": {
+        "buildCommand": "vite build --config vite.config.prod.js"
+      }
+    },
+    {
+      "src": "api/index.ts",
+      "use": "@vercel/node@3.0.7"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "server/index.ts"
+      "dest": "api/index.ts"
     },
     {
       "handle": "filesystem"
