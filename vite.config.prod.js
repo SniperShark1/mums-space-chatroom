@@ -4,16 +4,19 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react()],
-  root: "./client",
+  root: ".",
   build: {
     outDir: "../dist/public",
     emptyOutDir: true,
+    rollupOptions: {
+      input: "./index.html"
+    }
   },
   resolve: {
     alias: {
-      "@": path.resolve("./client/src"),
-      "@shared": path.resolve("./shared"),
-      "@assets": path.resolve("./attached_assets"),
+      "@": path.resolve("./src"),
+      "@shared": path.resolve("../shared"),
+      "@assets": path.resolve("../attached_assets"),
     },
   },
 });

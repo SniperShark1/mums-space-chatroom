@@ -5,7 +5,7 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "buildCommand": "vite build --config vite.config.prod.js",
+        "buildCommand": "cd client && vite build --config ../vite.config.prod.js",
         "outputDirectory": "dist/public"
       }
     },
