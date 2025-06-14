@@ -25,18 +25,16 @@
   --radius: 0.5rem;
   
   /* Custom chat colors */
-  --text-primary: 210 11% 13%; /* #212121 */
-  --text-secondary: 210 3% 46%; /* #757575 */
-  --surface: 0 0% 100%; /* #FFFFFF */
-  --background: 210 11% 98%; /* #FAFAFA */
-  --success: 120 39% 54%; /* #4CAF50 */
-  --warning: 36 100% 50%; /* #FF9800 */
-  --error: 4 90% 58%; /* #F44336 */
+  --text-primary: 210 11% 13%;
+  --text-secondary: 210 3% 46%;
+  --surface: 0 0% 100%;
+  --background: 210 11% 98%;
+  --success: 120 39% 54%;
+  --warning: 36 100% 50%;
+  --error: 4 90% 58%;
 }
 
-/* Mobile optimizations for iPhone */
 @media (max-width: 768px) {
-  /* Prevent zoom on input focus */
   input[type="text"],
   input[type="email"],
   input[type="password"],
@@ -46,12 +44,10 @@
     transform: translateZ(0);
   }
   
-  /* Smooth scrolling for touch */
   * {
     -webkit-overflow-scrolling: touch;
   }
   
-  /* Prevent text selection on buttons */
   button {
     -webkit-user-select: none;
     user-select: none;
@@ -59,13 +55,11 @@
     -webkit-tap-highlight-color: transparent;
   }
   
-  /* Fix viewport height issues on mobile Safari */
   .h-screen {
     height: 100vh;
     height: -webkit-fill-available;
   }
   
-  /* Touch targets minimum size */
   button, 
   [role="button"],
   input[type="submit"],
@@ -97,7 +91,6 @@
   --ring: 240 4.9% 83.9%;
   --radius: 0.5rem;
   
-  /* Custom chat colors for dark mode */
   --text-primary: 0 0% 95%;
   --text-secondary: 0 0% 70%;
   --surface: 240 10% 3.9%;
@@ -115,7 +108,6 @@
   }
 }
 
-/* Custom utilities for chat colors */
 @layer utilities {
   .text-text-primary {
     color: hsl(var(--text-primary));
@@ -157,7 +149,6 @@
     background-color: hsl(var(--error));
   }
 
-  /* Custom scrollbar styling for chat messages */
   .chat-messages::-webkit-scrollbar {
     width: 12px;
   }
@@ -177,7 +168,6 @@
     background: #f472b6;
   }
 
-  /* Custom scrollbar styling for user list */
   .user-list::-webkit-scrollbar {
     width: 8px;
   }
@@ -196,7 +186,6 @@
     background: #f472b6;
   }
 
-  /* Custom emoji styles */
   .custom-emoji {
     width: 1.2em;
     height: 1.2em;
