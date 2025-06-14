@@ -7,13 +7,13 @@ export default defineConfig({
   root: "./client",
   build: {
     outDir: "../dist/public",
-    emptyOutDir: true
+    emptyOutDir: true,
   },
   resolve: {
     alias: {
       "@": path.resolve("./client/src"),
       "@shared": path.resolve("./shared"),
-      "@assets": path.resolve("./attached_assets")
-    }
-  }
+      "@assets": path.resolve("./attached_assets"),
+    },
+  },
 });
