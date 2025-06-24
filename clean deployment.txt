@@ -1,0 +1,43 @@
+No, you don’t need to delete the entire Vercel project to start fresh.
+What you do instead:
+
+    Clean your codebase locally (delete unwanted files/folders like client/, vite.config.ts, and index.html outside Next.js structure)
+
+    Push the clean code to GitHub
+
+    In Vercel, clear the build cache and redeploy
+
+This effectively gives you a fresh start without losing your project settings, domain links, or analytics.
+
+If you want a truly clean slate with zero risk, you can create a new Vercel project and deploy there — but usually it’s not necessary.
+
+clean deployment tomorrow
+
+Here’s what we’ll do, based on your points:
+
+    Confirm all Vite files/folders are deleted locally and pushed:
+
+        Delete vite.config.ts (done)
+
+        Delete client/ folder (if still exists)
+
+        Delete any index.html files outside Next.js structure
+
+    Confirm your package.json scripts are Next.js only (you have this correct).
+
+    Double-check there is no vercel.json file.
+
+    In Vercel:
+
+        Set Framework to Next.js
+
+        Root Directory blank
+
+        No build/output overrides
+
+        Clear build cache if possible
+
+    Force clean redeploy:
+
+git commit --allow-empty -m "Force clean deploy"
+git push
